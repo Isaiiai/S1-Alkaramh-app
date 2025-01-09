@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "18460469919",
+    "project_id": "alkaramh-847d4",
+    "storage_bucket": "alkaramh-847d4.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18460469919:android:0699c5b308ebeabc3c50aa",
+        "android_client_info": {
+          "package_name": "com.example.alkaramh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARrgqPJv5XSKtDA8icB5NiSmJOj1cqVNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
