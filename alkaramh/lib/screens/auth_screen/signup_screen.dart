@@ -1,7 +1,11 @@
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
+import 'package:alkaramh/screens/auth_screen/forgot_password_screen.dart';
+import 'package:alkaramh/screens/bottom_navigation/bottom_navigation.dart';
+import 'package:alkaramh/services/google_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignUpScreen extends StatelessWidget {
   const SignUpScreen({super.key});
@@ -144,7 +148,10 @@ class SignUpScreen extends StatelessWidget {
                   alignment: Alignment.center,
                   child: TextButton(
                     onPressed: () {
-                      // Handle forgot password
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPasswordScreen()));
                     },
                     child: Text(
                       "Forgot password?",
@@ -159,7 +166,11 @@ class SignUpScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: () {
-                    // Handle sign-in logic
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => BottomNavScreen()),
+                          (Route<dynamic> route) => false, // Remove all previous routes from the stack
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
@@ -197,8 +208,17 @@ class SignUpScreen extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 ElevatedButton.icon(
-                  onPressed: () {
+                  onPressed: () async {
                     // Handle Google Sign-In
+                    try {
+                      final userCredential =
+                          await GoogleServices.signupWithGoogle();
+                      // Handle successful sign in
+                      print('Signed in: ${userCredential.user?.email}');
+                    } catch (e) {
+                      // Handle errors
+                      print('Error signing in with Google: $e');
+                    }
                   },
                   icon: Image.asset(
                     googleSignInImage, // Replace with your asset path
@@ -249,7 +269,6 @@ class SignUpScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                
               ],
             ),
           ),

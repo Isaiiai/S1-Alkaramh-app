@@ -1,3 +1,4 @@
+
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/screens/auth_screen/signin_screen.dart';
@@ -19,7 +20,6 @@ class MainScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(height: 90),
-                // Image
                 Center(
                   child: Image.asset(
                     mainScreenImage, // Replace with your image path

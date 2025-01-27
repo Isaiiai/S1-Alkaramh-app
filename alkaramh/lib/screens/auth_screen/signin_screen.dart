@@ -1,5 +1,9 @@
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
+import 'package:alkaramh/screens/auth_screen/forgot_password_screen.dart';
+import 'package:alkaramh/screens/auth_screen/signup_screen.dart';
+import 'package:alkaramh/screens/bottom_navigation/bottom_navigation.dart';
+import 'package:alkaramh/widget/snakbar_all/snakbar_all.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -31,15 +35,14 @@ class SignInScreen extends StatelessWidget {
                         color: Colors.green, // Green arrow color
                       ),
                       onPressed: () {
-                        // Handle back navigation
                         Navigator.pop(context);
                       },
                     ),
                   ),
                 ),
-          
+
                 const SizedBox(height: 20),
-          
+
                 Text(
                   "Let’s Sign you in.",
                   style: MyTextTheme.headline.copyWith(
@@ -81,18 +84,18 @@ class SignInScreen extends StatelessWidget {
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
-                     suffixIcon: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: SizedBox(
-                          width: 18.0,
-                          height: 18.0,
-                          child: SvgPicture.asset(
-                            lockSvgIcon,
-                            width: 18,
-                            height: 18,
-                          ),
+                    suffixIcon: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: SizedBox(
+                        width: 18.0,
+                        height: 18.0,
+                        child: SvgPicture.asset(
+                          lockSvgIcon,
+                          width: 18,
+                          height: 18,
                         ),
                       ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 8),
@@ -101,7 +104,10 @@ class SignInScreen extends StatelessWidget {
                   alignment: Alignment.center,
                   child: TextButton(
                     onPressed: () {
-                      // Handle forgot password
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ForgotPasswordScreen()));
                     },
                     child: Text(
                       "Forgot password?",
@@ -116,7 +122,13 @@ class SignInScreen extends StatelessWidget {
                 // Sign In Button
                 ElevatedButton(
                   onPressed: () {
-                    // Handle sign-in logic
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => BottomNavScreen()),
+                      (Route<dynamic> route) =>
+                          false, // Remove all previous routes from the stack
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.green,
@@ -187,7 +199,8 @@ class SignInScreen extends StatelessWidget {
                 // Continue with Apple
                 ElevatedButton.icon(
                   onPressed: () {
-                    // Handle Apple Sign-In
+                    ErrorDialogbox().showErrorDialog(
+                        context, "This is Under Implementation");
                   },
                   icon: Row(
                     children: [
@@ -221,9 +234,12 @@ class SignInScreen extends StatelessWidget {
                 Center(
                   child: TextButton(
                     onPressed: () {
-                      // Handle navigation to register screen
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => SignUpScreen()));
                     },
-                    child:  Text.rich(
+                    child: Text.rich(
                       TextSpan(
                         text: "Don’t have an account? ",
                         style: MyTextTheme.normal.copyWith(
