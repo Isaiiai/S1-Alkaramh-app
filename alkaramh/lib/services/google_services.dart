@@ -17,5 +17,35 @@ class GoogleServices {
     
     return await _firebaseAuth.signInWithCredential(credential);
   }
+
+  //info: Sign out from Google
+  static Future<void> signOutGoogle() async {
+    await GoogleSignIn().signOut();
+    await _firebaseAuth.signOut();
+  }
+
+  
+
+  static Future<bool> isUserLoggedIn() async {
+    final currentUser = _firebaseAuth.currentUser;
+    return currentUser != null;
+  }
+  
+  // Get current user details
+  static Future<User?> getCurrentUser() async {
+    return _firebaseAuth.currentUser;
+  }
+
+  //info: login with google 
+  static Future<UserCredential> loginWithGoogle() async {
+    final GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+    return await _firebaseAuth.signInWithCredential(credential);
+  }
+ 
 }
 

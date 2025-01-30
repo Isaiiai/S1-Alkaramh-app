@@ -24,3 +24,4 @@ final class ProductFetchErrorState extends ProductFetchState {
 
   const ProductFetchErrorState({required this.message});
 }
+

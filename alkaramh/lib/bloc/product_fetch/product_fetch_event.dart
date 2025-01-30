@@ -19,11 +19,3 @@ class ProductDetailsFetchEvent extends ProductFetchEvent {
   List<Object> get props => [productId];
 }
 
-class ProductVariantFetchEvent extends ProductFetchEvent {
-  final String productId;
-
-  ProductVariantFetchEvent({required this.productId});
-
-  @override
-  List<Object> get props => [productId];
-}

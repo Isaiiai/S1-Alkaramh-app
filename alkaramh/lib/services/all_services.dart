@@ -30,7 +30,6 @@ class CategoryService {
 
 class ProductsFetchService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<List<Product>> fetchProducts() async {
     try {
@@ -78,7 +77,7 @@ class ProductsFetchService {
   }
 
   Future<List<ProductVariant>> fetchProductVariants(String productId) async {
-    print('Fetching product variants for product ID: $productId');
+  
     try {
       final int productIdInt = int.parse(productId); // Convert to integer
       final QuerySnapshot querySnapshot = await _firestore
@@ -98,3 +97,5 @@ class ProductsFetchService {
     }
   }
 }
+
+

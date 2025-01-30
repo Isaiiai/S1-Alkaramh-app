@@ -16,8 +16,7 @@ class ProductFetchBloc extends Bloc<ProductFetchEvent, ProductFetchState> {
     on<ProductFetchInitialEvent>(_onProductFetchInitialEvent);
     //info: Fetch Details
     on<ProductDetailsFetchEvent>(_onProductDetailsFetchEvent);
-    //product Varient Fetch
-    on<ProductVariantFetchEvent>(_onProductVariantFetchEvent);
+    
   }
 
   FutureOr<void> _onProductFetchInitialEvent(
@@ -44,16 +43,5 @@ class ProductFetchBloc extends Bloc<ProductFetchEvent, ProductFetchState> {
     }
   }
 
-  FutureOr<void> _onProductVariantFetchEvent(
-      ProductVariantFetchEvent event, Emitter<ProductFetchState> emit) async {
-    emit(ProductFetchLoadingState());
-    try {
-      final productVarient =
-          await ProductsFetchService().fetchProductVariants(event.productId);
-      print(productVarient.first.name);
-    } catch (e) {
-      print(e.toString());
-      emit(ProductFetchErrorState(message: e.toString()));
-    }
-  }
+  
 }

@@ -1,22 +1,44 @@
 import 'package:alkaramh/screens/auth_screen/main_screen.dart';
+import 'package:alkaramh/screens/auth_screen/signup_screen.dart';
 import 'package:alkaramh/screens/bottom_navigation/bottom_navigation.dart';
 import 'package:alkaramh/screens/home_screen/home_screen.dart';
+import 'package:alkaramh/services/google_services.dart';
 import 'package:flutter/material.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    // Navigate to HomeScreen after a delay
-    Future.delayed(const Duration(seconds: 3), () {
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    checkAuthState();
+  }
+
+  Future<void> checkAuthState() async {
+    bool isLoggedIn = await GoogleServices.isUserLoggedIn();
+
+    if (isLoggedIn) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => BottomNavScreen()), // Replace with your HomeScreen widget
+        MaterialPageRoute(builder: (context) => BottomNavScreen()),
       );
-    });
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => SignUpScreen()),
+      );
+    }
+  }
 
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -29,10 +51,6 @@ class SplashScreen extends StatelessWidget {
                 width: 200,
                 height: 200,
               ),
-            ),
-            const SizedBox(height: 90),
-            const CircularProgressIndicator(
-              color: Color.fromARGB(255, 33, 226, 243),
             ),
           ],
         ),

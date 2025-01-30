@@ -1,9 +1,11 @@
+import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/screens/auth_screen/forgot_password_screen.dart';
 import 'package:alkaramh/screens/bottom_navigation/bottom_navigation.dart';
 import 'package:alkaramh/services/google_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -12,266 +14,325 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    UserAuthBloc _userAuthBloc = UserAuthBloc();
+    TextEditingController emailController = TextEditingController();
+    TextEditingController passwordController = TextEditingController();
+    TextEditingController confirmPasswordController = TextEditingController();
+    TextEditingController nameController = TextEditingController();
+
     return Scaffold(
       body: SingleChildScrollView(
-        child: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.green
-                        .withOpacity(0.1), // Light green background color
-                    borderRadius: BorderRadius.circular(20), // Rounded corners
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.green, // Green arrow color
-                      ),
-                      onPressed: () {
-                        // Handle back navigation
-                        Navigator.pop(context);
-                      },
-                    ),
+        child: BlocConsumer<UserAuthBloc, UserAuthState>(
+          bloc: _userAuthBloc,
+          listener: (context, state) {
+            if (state is UserRegisterFailure || state is GoogleSignInFailure) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    state is UserRegisterFailure
+                        ? state.message
+                        : state is GoogleSignInFailure
+                            ? state.message
+                            : "An error occurred",
                   ),
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  "Create New Account",
-                  style: MyTextTheme.headline.copyWith(
-                    fontSize: 36,
-                    fontWeight: FontWeight.w600,
-                  ),
+              );
+            } else if (state is UserRegisterSuccess ||
+                state is GoogleSignInSuccess) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BottomNavScreen(),
                 ),
-                const SizedBox(height: 8),
-                Row(
+              );
+            }
+          },
+          builder: (context, state) {
+            if (state is UserRegisterLoading || state is GoogleSignInLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            return SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.green
+                            .withOpacity(0.1), // Light green background color
+                        borderRadius:
+                            BorderRadius.circular(20), // Rounded corners
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.arrow_back,
+                            color: Colors.green, // Green arrow color
+                          ),
+                          onPressed: () {
+                            // Handle back navigation
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
                     Text(
-                      "Sign Up to Shopping",
-                      style: MyTextTheme.normal.copyWith(
-                        fontSize: 18,
+                      "Create New Account",
+                      style: MyTextTheme.headline.copyWith(
+                        fontSize: 36,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    SvgPicture.asset(
-                      shopingSvgIcon,
-                      width: 16,
-                      height: 16,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 30),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: "Enter Name",
-                    hintStyle: MyTextTheme.normal.copyWith(
-                      color: Colors.grey,
-                      fontSize: 18,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: "Enter Email or Phone",
-                    hintStyle: MyTextTheme.normal.copyWith(
-                      color: Colors.grey,
-                      fontSize: 18,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 18),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: "Enter Password",
-                    hintStyle: MyTextTheme.normal.copyWith(
-                      color: Colors.grey,
-                      fontSize: 18,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: SizedBox(
-                        width: 18.0,
-                        height: 18.0,
-                        child: SvgPicture.asset(
-                          lockSvgIcon,
-                          width: 18,
-                          height: 18,
+                    const SizedBox(height: 8),
+                    Row(
+                      children: [
+                        Text(
+                          "Sign Up to Shopping",
+                          style: MyTextTheme.normal.copyWith(
+                            fontSize: 18,
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 18),
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: "Confirm Password",
-                    hintStyle: MyTextTheme.normal.copyWith(
-                      color: Colors.grey,
-                      fontSize: 18,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: SizedBox(
-                        width: 18.0,
-                        height: 18.0,
-                        child: SvgPicture.asset(
-                          lockSvgIcon,
-                          width: 18,
-                          height: 18,
+                        const SizedBox(width: 8),
+                        SvgPicture.asset(
+                          shopingSvgIcon,
+                          width: 16,
+                          height: 16,
                         ),
-                      ),
+                      ],
                     ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Align(
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ForgotPasswordScreen()));
-                    },
-                    child: Text(
-                      "Forgot password?",
-                      style: MyTextTheme.normal.copyWith(
-                        fontSize: 18,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.black,
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(builder: (context) => BottomNavScreen()),
-                          (Route<dynamic> route) => false, // Remove all previous routes from the stack
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Text(
-                    "Sign In",
-                    style: MyTextTheme.normal.copyWith(
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 20),
-                Row(
-                  children: [
-                    const Expanded(child: Divider(thickness: 1)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        "OR",
-                        style: MyTextTheme.normal.copyWith(
+                    const SizedBox(height: 30),
+                    TextField(
+                      controller: nameController,
+                      decoration: InputDecoration(
+                        hintText: "Enter Name",
+                        hintStyle: MyTextTheme.normal.copyWith(
                           color: Colors.grey,
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
+                          fontSize: 18,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
                         ),
                       ),
                     ),
-                    const Expanded(child: Divider(thickness: 1)),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: emailController,
+                      decoration: InputDecoration(
+                        hintText: "Enter Email or Phone",
+                        hintStyle: MyTextTheme.normal.copyWith(
+                          color: Colors.grey,
+                          fontSize: 18,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    TextField(
+                      obscureText: true,
+                      controller: passwordController,
+                      decoration: InputDecoration(
+                        hintText: "Enter Password",
+                        hintStyle: MyTextTheme.normal.copyWith(
+                          color: Colors.grey,
+                          fontSize: 18,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: SizedBox(
+                            width: 18.0,
+                            height: 18.0,
+                            child: SvgPicture.asset(
+                              lockSvgIcon,
+                              width: 18,
+                              height: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 18),
+                    TextField(
+                      obscureText: true,
+                      controller: confirmPasswordController,
+                      decoration: InputDecoration(
+                        hintText: "Confirm Password",
+                        hintStyle: MyTextTheme.normal.copyWith(
+                          color: Colors.grey,
+                          fontSize: 18,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        suffixIcon: Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: SizedBox(
+                            width: 18.0,
+                            height: 18.0,
+                            child: SvgPicture.asset(
+                              lockSvgIcon,
+                              width: 18,
+                              height: 18,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Align(
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      ForgotPasswordScreen()));
+                        },
+                        child: Text(
+                          "Forgot password?",
+                          style: MyTextTheme.normal.copyWith(
+                            fontSize: 18,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.black,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton(
+                      onPressed: () {
+                        if (passwordController.text.length < 6) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Password must be at least 6 characters long",
+                              ),
+                            ),
+                          );
+                          return;
+                        } else if (passwordController.text !=
+                            confirmPasswordController.text) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text(
+                                "Passwords do not match",
+                              ),
+                            ),
+                          );
+                          return;
+                        }
+                        _userAuthBloc.add(
+                          UserAuthRegisterEvent(
+                            email: emailController.text,
+                            password: passwordController.text,
+                            name: nameController.text,
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.green,
+                        foregroundColor: Colors.white,
+                        minimumSize: const Size(double.infinity, 50),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      child: Text(
+                        "Sign In",
+                        style: MyTextTheme.normal.copyWith(
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      children: [
+                        const Expanded(child: Divider(thickness: 1)),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "OR",
+                            style: MyTextTheme.normal.copyWith(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        const Expanded(child: Divider(thickness: 1)),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        _userAuthBloc.add(SignupGoogleEvent());
+                      },
+                      icon: Image.asset(
+                        googleSignInImage, // Replace with your asset path
+                        height: 24,
+                      ),
+                      label: Text(
+                        "Continue with Google",
+                        style: MyTextTheme.normal.copyWith(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        minimumSize: const Size(double.infinity, 50),
+                        side: const BorderSide(color: Colors.grey),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    ElevatedButton.icon(
+                      onPressed: () {
+                        // Handle Apple Sign-In
+                      },
+                      icon: Image.asset(
+                        appleSignInImage, // Replace with your asset path
+                        height: 24,
+                      ),
+                      label: Text(
+                        "Continue with Apple",
+                        style: MyTextTheme.normal.copyWith(
+                          color: Colors.black,
+                          fontSize: 18,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Colors.black,
+                        minimumSize: const Size(double.infinity, 50),
+                        side: const BorderSide(color: Colors.grey),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  onPressed: () async {
-                    // Handle Google Sign-In
-                    try {
-                      final userCredential =
-                          await GoogleServices.signupWithGoogle();
-                      // Handle successful sign in
-                      print('Signed in: ${userCredential.user?.email}');
-                    } catch (e) {
-                      // Handle errors
-                      print('Error signing in with Google: $e');
-                    }
-                  },
-                  icon: Image.asset(
-                    googleSignInImage, // Replace with your asset path
-                    height: 24,
-                  ),
-                  label: Text(
-                    "Continue with Google",
-                    style: MyTextTheme.normal.copyWith(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    minimumSize: const Size(double.infinity, 50),
-                    side: const BorderSide(color: Colors.grey),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                ElevatedButton.icon(
-                  onPressed: () {
-                    // Handle Apple Sign-In
-                  },
-                  icon: Image.asset(
-                    appleSignInImage, // Replace with your asset path
-                    height: 24,
-                  ),
-                  label: Text(
-                    "Continue with Apple",
-                    style: MyTextTheme.normal.copyWith(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    minimumSize: const Size(double.infinity, 50),
-                    side: const BorderSide(color: Colors.grey),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
