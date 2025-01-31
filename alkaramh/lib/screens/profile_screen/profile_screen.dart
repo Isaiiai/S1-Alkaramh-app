@@ -1,7 +1,10 @@
 import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
+import 'package:alkaramh/screens/auth_screen/main_screen.dart';
 import 'package:alkaramh/screens/auth_screen/signup_screen.dart';
+import 'package:alkaramh/screens/order_screen/order_details_get_screen.dart';
+import 'package:alkaramh/screens/wish_list/wish_list.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -81,8 +84,7 @@ class AccountScreen extends StatelessWidget {
                 if (state is UserAuthInitial) {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(
-                        builder: (context) => const SignUpScreen()),
+                    MaterialPageRoute(builder: (context) => const MainScreen()),
                   );
                 } else if (state is UserRegisterFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -160,12 +162,22 @@ class AccountScreen extends StatelessWidget {
                   _buildListTile(
                     title: 'Your Orders',
                     icon: Icons.shopping_bag_outlined,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => OrderDetailsGetScreen()));
+                    },
                   ),
                   _buildListTile(
                     title: 'Favourite',
                     icon: Icons.favorite_outline,
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const WishList()));
+                    },
                   ),
                   _buildListTile(
                     title: 'FAQ',

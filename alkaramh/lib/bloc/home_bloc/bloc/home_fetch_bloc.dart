@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:alkaramh/models/product_model.dart';
-import 'package:alkaramh/services/all_services.dart';
+import 'package:alkaramh/services/product_services.dart';
+import 'package:alkaramh/services/category_services.dart';
 import 'package:alkaramh/test_json_data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -16,11 +17,11 @@ class HomeFetchBloc extends Bloc<HomeFetchEvent, HomeFetchState> {
       // TODO: implement event handler
     });
     on<CategoryFetchEvent>(_onCategoryFetchEvent);
-   
   }
 
   FutureOr<void> _onCategoryFetchEvent(
       CategoryFetchEvent event, Emitter<HomeFetchState> emit) async {
+    print("This Event is called from the category fetch event ");
     emit(CategoryFetchLoadingState());
     try {
       final category = await _categoryService.fetchCategories();
@@ -29,6 +30,4 @@ class HomeFetchBloc extends Bloc<HomeFetchEvent, HomeFetchState> {
       emit(CategoryFetchErrorState(message: e.toString()));
     }
   }
-
-
 }

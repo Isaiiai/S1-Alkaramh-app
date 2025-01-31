@@ -17,7 +17,8 @@ class ErrorDialogContent extends StatefulWidget {
   final String message;
   final VoidCallback? retry;
 
-  const ErrorDialogContent({Key? key, required this.message, this.retry}) : super(key: key);
+  const ErrorDialogContent({Key? key, required this.message, this.retry})
+      : super(key: key);
 
   @override
   State<ErrorDialogContent> createState() => _ErrorDialogContentState();
@@ -83,7 +84,7 @@ class _ErrorDialogContentState extends State<ErrorDialogContent>
                   // Top Section
                   Container(
                     width: double.infinity,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(20),
@@ -92,8 +93,8 @@ class _ErrorDialogContentState extends State<ErrorDialogContent>
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: Column(
                       children: [
-                        Icon(Icons.person, size: 80, color: Colors.white),
-                        SizedBox(height: 10),
+                        const Icon(Icons.person, size: 80, color: Colors.white),
+                        const SizedBox(height: 10),
                         Text(
                           'Sorry! Error occurred',
                           style: MyTextTheme.body.copyWith(color: Colors.white),
@@ -104,11 +105,8 @@ class _ErrorDialogContentState extends State<ErrorDialogContent>
                   // Middle Section
                   Padding(
                     padding: const EdgeInsets.all(20.0),
-                    child: Text(
-                        widget.message,
-                        textAlign: TextAlign.center,
-                        style: MyTextTheme.normal
-                    ),
+                    child: Text(widget.message,
+                        textAlign: TextAlign.center, style: MyTextTheme.normal),
                   ),
                   // Retry Button
                   Padding(
@@ -126,7 +124,8 @@ class _ErrorDialogContentState extends State<ErrorDialogContent>
                         if (widget.retry != null) {
                           widget.retry!();
                         } else {
-                          Navigator.of(context).pop(); // Close dialog by default
+                          Navigator.of(context)
+                              .pop(); // Close dialog by default
                         }
                       },
                       child: Text(

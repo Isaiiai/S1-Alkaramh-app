@@ -1,3 +1,4 @@
+import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/screens/auth_screen/forgot_password_screen.dart';
@@ -5,6 +6,7 @@ import 'package:alkaramh/screens/auth_screen/signup_screen.dart';
 import 'package:alkaramh/screens/bottom_navigation/bottom_navigation.dart';
 import 'package:alkaramh/widget/snakbar_all/snakbar_all.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class SignInScreen extends StatelessWidget {
@@ -12,254 +14,286 @@ class SignInScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController _emailController = TextEditingController();
+    TextEditingController _passwordController = TextEditingController();
+    UserAuthBloc userAuthBloc = BlocProvider.of<UserAuthBloc>(context);
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    color: Colors.green
-                        .withOpacity(0.1), // Light green background color
-                    borderRadius: BorderRadius.circular(20), // Rounded corners
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.only(left: 8.0, right: 8.0),
-                    child: IconButton(
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.green, // Green arrow color
-                      ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
+            child: BlocListener<UserAuthBloc, UserAuthState>(
+              bloc: userAuthBloc,
+              listener: (context, state) {
+                if (state is UserRegisterFailure) {
+                  ErrorDialogbox().showErrorDialog(context, state.message);
+                } else if (state is UserRegisterSuccess) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => BottomNavScreen()),
+                    (Route<dynamic> route) =>
+                        false, // Remove all previous routes from the stack
+                  );
+                } else if (state is GoogleSignInFailure) {
+                  ErrorDialogbox().showErrorDialog(context, state.message);
+                } else if (state is GoogleSignInSuccess) {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (context) => BottomNavScreen()),
+                    (Route<dynamic> route) =>
+                        false, // Remove all previous routes from the stack
+                  );
+                }
+              },
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.green
+                          .withOpacity(0.1), // Light green background color
+                      borderRadius:
+                          BorderRadius.circular(20), // Rounded corners
                     ),
-                  ),
-                ),
-
-                const SizedBox(height: 20),
-
-                Text(
-                  "Let’s Sign you in.",
-                  style: MyTextTheme.headline.copyWith(
-                    fontSize: 40,
-                  ),
-                ),
-                const SizedBox(height: 8),
-                // Subtitle
-                Text(
-                  "Welcome back\nYou’ve been missed!",
-                  style: MyTextTheme.normal.copyWith(
-                    fontSize: 30,
-                  ),
-                ),
-                const SizedBox(height: 40),
-                // Email or Phone Field
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: "Enter Email or Phone",
-                    hintStyle: MyTextTheme.normal.copyWith(
-                      color: Colors.grey,
-                      fontSize: 18,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // Password Field
-                TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    hintText: "Enter Password",
-                    hintStyle: MyTextTheme.normal.copyWith(
-                      color: Colors.grey,
-                      fontSize: 18,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    suffixIcon: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: SizedBox(
-                        width: 18.0,
-                        height: 18.0,
-                        child: SvgPicture.asset(
-                          lockSvgIcon,
-                          width: 18,
-                          height: 18,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.arrow_back,
+                          color: Colors.green, // Green arrow color
                         ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 8),
-                // Forgot Password
-                Align(
-                  alignment: Alignment.center,
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => ForgotPasswordScreen()));
-                    },
-                    child: Text(
-                      "Forgot password?",
-                      style: MyTextTheme.normal.copyWith(
-                          fontSize: 18,
-                          decoration: TextDecoration.underline,
-                          decorationColor: Colors.black),
+
+                  const SizedBox(height: 20),
+
+                  Text(
+                    "Let’s Sign you in.",
+                    style: MyTextTheme.headline.copyWith(
+                      fontSize: 40,
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                // Sign In Button
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => BottomNavScreen()),
-                      (Route<dynamic> route) =>
-                          false, // Remove all previous routes from the stack
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.green,
-                    foregroundColor: Colors.white,
-                    minimumSize: const Size(double.infinity, 50),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: Text("Sign In",
-                      style: MyTextTheme.normal.copyWith(
-                        color: Colors.white,
-                        fontSize: 20,
-                      )),
-                ),
-                const SizedBox(height: 20),
-                // OR Divider
-                Row(
-                  children: [
-                    const Expanded(child: Divider(thickness: 1)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                      child: Text(
-                        "OR",
-                        style: MyTextTheme.normal.copyWith(
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16),
-                      ),
-                    ),
-                    const Expanded(child: Divider(thickness: 1)),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                // Continue with Google
-                ElevatedButton.icon(
-                  onPressed: () {
-                    // Handle Google Sign-In
-                  },
-                  icon: Row(
-                    children: [
-                      Image.asset(
-                        googleSignInImage, // Replace with your asset path
-                        height: 24,
-                      ),
-                      const SizedBox(width: 16),
-                    ],
-                  ),
-                  label: Text(
-                    "Continue with Google",
+                  const SizedBox(height: 8),
+                  Text(
+                    "Welcome back\nYou’ve been missed!",
                     style: MyTextTheme.normal.copyWith(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 30,
                     ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    minimumSize: const Size(double.infinity, 50),
-                    side: const BorderSide(color: Colors.grey),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 16),
-                // Continue with Apple
-                ElevatedButton.icon(
-                  onPressed: () {
-                    ErrorDialogbox().showErrorDialog(
-                        context, "This is Under Implementation");
-                  },
-                  icon: Row(
-                    children: [
-                      Image.asset(
-                        appleSignInImage, // Replace with your asset path
-                        height: 24,
+                  const SizedBox(height: 40),
+                  TextField(
+                    controller: _emailController,
+                    decoration: InputDecoration(
+                      hintText: "Enter Email or Phone",
+                      hintStyle: MyTextTheme.normal.copyWith(
+                        color: Colors.grey,
+                        fontSize: 18,
                       ),
-                      const SizedBox(width: 16),
-                    ],
-                  ),
-                  label: Text(
-                    "Continue with Apple",
-                    style: MyTextTheme.normal.copyWith(
-                      color: Colors.black,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
                   ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.white,
-                    foregroundColor: Colors.black,
-                    minimumSize: const Size(double.infinity, 50),
-                    side: const BorderSide(color: Colors.grey),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 30),
-                // Register Link
-                Center(
-                  child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => SignUpScreen()));
-                    },
-                    child: Text.rich(
-                      TextSpan(
-                        text: "Don’t have an account? ",
-                        style: MyTextTheme.normal.copyWith(
-                          fontSize: 18,
-                        ),
-                        children: [
-                          TextSpan(
-                            text: "Register",
-                            style: MyTextTheme.headline.copyWith(
-                              color: Colors.green,
-                              fontSize: 18,
-                            ),
+                  const SizedBox(height: 16),
+                  TextField(
+                    obscureText: true,
+                    controller: _passwordController,
+                    decoration: InputDecoration(
+                      hintText: "Enter Password",
+                      hintStyle: MyTextTheme.normal.copyWith(
+                        color: Colors.grey,
+                        fontSize: 18,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      suffixIcon: Padding(
+                        padding: const EdgeInsets.all(16.0),
+                        child: SizedBox(
+                          width: 18.0,
+                          height: 18.0,
+                          child: SvgPicture.asset(
+                            lockSvgIcon,
+                            width: 18,
+                            height: 18,
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 20),
-              ],
+                  const SizedBox(height: 8),
+                  Align(
+                    alignment: Alignment.center,
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ForgotPasswordScreen()));
+                      },
+                      child: Text(
+                        "Forgot password?",
+                        style: MyTextTheme.normal.copyWith(
+                            fontSize: 18,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.black),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  // Sign In Button
+                  BlocBuilder<UserAuthBloc, UserAuthState>(
+                    bloc: userAuthBloc,
+                    builder: (context, state) {
+                      if (state is UserRegisterLoading ||
+                          state is GoogleSignInLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+                      return ElevatedButton(
+                        onPressed: () {
+                          userAuthBloc.add(SignInEvent(
+                              email: _emailController.text,
+                              password: _passwordController.text));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.green,
+                          foregroundColor: Colors.white,
+                          minimumSize: const Size(double.infinity, 50),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                        child: Text("Sign In",
+                            style: MyTextTheme.normal.copyWith(
+                              color: Colors.white,
+                              fontSize: 20,
+                            )),
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                  // OR Divider
+                  Row(
+                    children: [
+                      const Expanded(child: Divider(thickness: 1)),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: Text(
+                          "OR",
+                          style: MyTextTheme.normal.copyWith(
+                              color: Colors.grey,
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16),
+                        ),
+                      ),
+                      const Expanded(child: Divider(thickness: 1)),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  // Continue with Google
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      userAuthBloc.add(SignInGoogleEvent());
+                    },
+                    icon: Row(
+                      children: [
+                        Image.asset(
+                          googleSignInImage, // Replace with your asset path
+                          height: 24,
+                        ),
+                        const SizedBox(width: 16),
+                      ],
+                    ),
+                    label: Text(
+                      "Continue with Google",
+                      style: MyTextTheme.normal.copyWith(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      minimumSize: const Size(double.infinity, 50),
+                      side: const BorderSide(color: Colors.grey),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  // Continue with Apple
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      ErrorDialogbox().showErrorDialog(
+                          context, "This is Under Implementation");
+                    },
+                    icon: Row(
+                      children: [
+                        Image.asset(
+                          appleSignInImage, // Replace with your asset path
+                          height: 24,
+                        ),
+                        const SizedBox(width: 16),
+                      ],
+                    ),
+                    label: Text(
+                      "Continue with Apple",
+                      style: MyTextTheme.normal.copyWith(
+                        color: Colors.black,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.white,
+                      foregroundColor: Colors.black,
+                      minimumSize: const Size(double.infinity, 50),
+                      side: const BorderSide(color: Colors.grey),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  // Register Link
+                  Center(
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SignUpScreen()));
+                      },
+                      child: Text.rich(
+                        TextSpan(
+                          text: "Don’t have an account? ",
+                          style: MyTextTheme.normal.copyWith(
+                            fontSize: 18,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: "Register",
+                              style: MyTextTheme.headline.copyWith(
+                                color: Colors.green,
+                                fontSize: 18,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              ),
             ),
           ),
         ),

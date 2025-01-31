@@ -9,12 +9,25 @@ class GoogleServices {
   static Future<UserCredential> signupWithGoogle() async {
     final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
     final GoogleSignInAuthentication gauth = await gUser!.authentication;
-    
+
     final credential = GoogleAuthProvider.credential(
       accessToken: gauth.accessToken,
       idToken: gauth.idToken,
     );
-    
+
+    return await _firebaseAuth.signInWithCredential(credential);
+  }
+
+  //info: Sign in with google
+  static Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount? googleSignInAccount =
+        await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount!.authentication;
+    final AuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
     return await _firebaseAuth.signInWithCredential(credential);
   }
 
@@ -24,28 +37,26 @@ class GoogleServices {
     await _firebaseAuth.signOut();
   }
 
-  
-
   static Future<bool> isUserLoggedIn() async {
     final currentUser = _firebaseAuth.currentUser;
     return currentUser != null;
   }
-  
+
   // Get current user details
   static Future<User?> getCurrentUser() async {
     return _firebaseAuth.currentUser;
   }
 
-  //info: login with google 
+  //info: login with google
   static Future<UserCredential> loginWithGoogle() async {
-    final GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
+    final GoogleSignInAccount? googleSignInAccount =
+        await GoogleSignIn().signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount!.authentication;
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
     return await _firebaseAuth.signInWithCredential(credential);
   }
- 
 }
-

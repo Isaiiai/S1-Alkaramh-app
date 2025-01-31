@@ -13,6 +13,8 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
     });
     on<UserAuthRegisterEvent>(userAuthRegisterEvent);
     on<SignupGoogleEvent>(signupGoogleEvent);
+    on<SignInEvent>(signInEvent);
+    on<SignInGoogleEvent>(signInGoogleEvent);
     on<LogoutEvent>(logoutEvent);
   }
 
@@ -52,6 +54,42 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
       emit(GoogleSignInFailure(message: e.toString()));
     }
   }
+
+  void signInEvent(SignInEvent event, Emitter<UserAuthState> emit) async {
+    emit(UserRegisterLoading());
+    try {
+      AuthServices authServices = AuthServices();
+      final result = await authServices.login(
+        event.email,
+        event.password,
+      );
+
+      if (result.success) {
+        emit(UserRegisterSuccess());
+      } else {
+        emit(UserRegisterFailure(
+            message: result.errorMessage ?? 'Login failed'));
+      }
+    } catch (e) {
+      emit(UserRegisterFailure(message: e.toString()));
+    }
+  }
+
+  void signInGoogleEvent(
+      SignInGoogleEvent event, Emitter<UserAuthState> emit) async {
+    emit(GoogleSignInLoading());
+    try {
+      final userCredential = await GoogleServices.signInWithGoogle();
+      if (userCredential.user != null) {
+        emit(GoogleSignInSuccess());
+      } else {
+        emit(GoogleSignInFailure(message: 'Google sign in failed'));
+      }
+    } catch (e) {
+      emit(GoogleSignInFailure(message: e.toString()));
+    }
+  }
+
 
   void logoutEvent(LogoutEvent event, Emitter<UserAuthState> emit) async {
     AuthServices authServices = AuthServices();

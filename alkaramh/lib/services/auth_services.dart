@@ -48,9 +48,36 @@ class AuthServices {
     }
   }
 
-  Future<bool> login(String email, String password) async {
-    await Future.delayed(Duration(seconds: 2));
-    return true;
+  Future<AuthResult> login(String email, String password) async {
+    try {
+      final userCredential = await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      if (userCredential.user != null) {
+        return AuthResult(success: true);
+      }
+      return AuthResult(success: false, errorMessage: 'Login failed');
+    } on FirebaseAuthException catch (e) {
+      String message;
+      switch (e.code) {
+        case 'user-not-found':
+          message = 'No user found with this email';
+          break;
+        case 'wrong-password':
+          message = 'Wrong password provided';
+          break;
+        case 'invalid-email':
+          message = 'Invalid email address';
+          break;
+        default:
+          message = e.message ?? 'An error occurred';
+      }
+      return AuthResult(success: false, errorMessage: message);
+    } catch (e) {
+      return AuthResult(success: false, errorMessage: e.toString());
+    }
   }
 
   Future<bool> logout() async {

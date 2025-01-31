@@ -21,5 +21,16 @@ class UserAuthRegisterEvent extends UserAuthEvent {
 
 class SignupGoogleEvent extends UserAuthEvent {}
 
+class SignInEvent extends UserAuthEvent {
+  final String email;
+  final String password;
+
+  SignInEvent({required this.email, required this.password});
+
+  @override
+  List<Object> get props => [email, password];
+}
+
+class SignInGoogleEvent extends UserAuthEvent {}
 
 class LogoutEvent extends UserAuthEvent {}
