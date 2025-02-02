@@ -1,8 +1,9 @@
-import 'dart:convert';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class CartServices {
-  static const String cartKey = 'cartItems';
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   Future<void> addToCart({
     required String productName,
@@ -14,15 +15,10 @@ class CartServices {
     required String quantity,
   }) async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final cartItems = prefs.getStringList(cartKey) ?? [];
-      print('Porduct Id : $productName');
-      print('Variant Id : $variantId');
-      print('Variant Name : $variantName');
-      print('Variant Price : $variantPrice');
-      print('Quantity : $quantity');
+      final String? userId = _auth.currentUser?.uid;
+      if (userId == null) throw Exception('User not authenticated');
 
-      final newItem = {
+      final cartItem = {
         'productName': productName,
         'categoryId': categoryId,
         'discription': discription,
@@ -30,13 +26,15 @@ class CartServices {
         'variantName': variantName,
         'variantPrice': variantPrice,
         'quantity': quantity,
+        'createdAt': FieldValue.serverTimestamp(),
       };
 
-      cartItems.add(jsonEncode(newItem));
-      await prefs.setStringList(cartKey, cartItems);
-      print("Cart Items : $cartItems");
+      await _firestore
+          .collection('cartItems')
+          .doc(userId)
+          .collection('cart')
+          .add(cartItem);
 
-      return;
     } catch (e) {
       throw Exception('Failed to add item to cart: $e');
     }
@@ -44,26 +42,37 @@ class CartServices {
 
   Future<List<Map<String, dynamic>>> getCartItems() async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final cartItems = prefs.getStringList(cartKey) ?? [];
+      final String? userId = _auth.currentUser?.uid;
+      if (userId == null) throw Exception('User not authenticated');
 
-      return cartItems
-          .map((item) => jsonDecode(item) as Map<String, dynamic>)
+      final querySnapshot = await _firestore
+          .collection('cartItems')
+          .doc(userId)
+          .collection('cart')
+          .orderBy('createdAt', descending: true)
+          .get();
+
+      return querySnapshot.docs
+          .map((doc) => {'id': doc.id, ...doc.data()})
           .toList();
+
     } catch (e) {
       throw Exception('Failed to get cart items: $e');
     }
   }
 
-  Future<void> removeFromCart(int index) async {
+  Future<void> removeFromCart(String itemId) async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final cartItems = prefs.getStringList(cartKey) ?? [];
+      final String? userId = _auth.currentUser?.uid;
+      if (userId == null) throw Exception('User not authenticated');
 
-      if (index >= 0 && index < cartItems.length) {
-        cartItems.removeAt(index);
-        await prefs.setStringList(cartKey, cartItems);
-      }
+      await _firestore
+          .collection('cartItems')
+          .doc(userId)
+          .collection('cart')
+          .doc(itemId)
+          .delete();
+
     } catch (e) {
       throw Exception('Failed to remove item from cart: $e');
     }
@@ -71,10 +80,39 @@ class CartServices {
 
   Future<void> clearCart() async {
     try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.remove(cartKey);
+      final String? userId = _auth.currentUser?.uid;
+      if (userId == null) throw Exception('User not authenticated');
+
+      final cartRef = _firestore
+          .collection('cartItems')
+          .doc(userId)
+          .collection('cart');
+      
+      final cartItems = await cartRef.get();
+      
+      for (var doc in cartItems.docs) {
+        await doc.reference.delete();
+      }
+
     } catch (e) {
       throw Exception('Failed to clear cart: $e');
+    }
+  }
+  
+  Future<void> updateQuantity(String itemId, String newQuantity) async {
+    try {
+      final String? userId = _auth.currentUser?.uid;
+      if (userId == null) throw Exception('User not authenticated');
+
+      await _firestore
+          .collection('cartItems')
+          .doc(userId)
+          .collection('cart')
+          .doc(itemId)
+          .update({'quantity': newQuantity});
+
+    } catch (e) {
+      throw Exception('Failed to update quantity: $e');
     }
   }
 }

@@ -2,11 +2,13 @@ import 'package:alkaramh/services/auth_services.dart';
 import 'package:alkaramh/services/google_services.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 part 'user_auth_event.dart';
 part 'user_auth_state.dart';
 
 class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   UserAuthBloc() : super(UserAuthInitial()) {
     on<UserAuthEvent>((event, emit) {
       // TODO: implement event handler
@@ -16,6 +18,7 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
     on<SignInEvent>(signInEvent);
     on<SignInGoogleEvent>(signInGoogleEvent);
     on<LogoutEvent>(logoutEvent);
+    on<GetCurrentUserEvent>(_getCurrentUser);
   }
 
   void userAuthRegisterEvent(
@@ -90,6 +93,17 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
     }
   }
 
+  void _getCurrentUser(
+      GetCurrentUserEvent event, Emitter<UserAuthState> emit) async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        emit(UserAuthSuccess(user: user));
+      }
+    } catch (e) {
+      emit(UserAuthFailure(message: e.toString()));
+    }
+  }
 
   void logoutEvent(LogoutEvent event, Emitter<UserAuthState> emit) async {
     AuthServices authServices = AuthServices();

@@ -1,3 +1,4 @@
+import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
@@ -83,7 +84,8 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      "Create New Account",
+                      AppLocalizations.of(context)!
+                          .translate('create_new_account'),
                       style: MyTextTheme.headline.copyWith(
                         fontSize: 36,
                         fontWeight: FontWeight.w600,
@@ -93,7 +95,8 @@ class SignUpScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          "Sign Up to Shopping",
+                          AppLocalizations.of(context)!
+                              .translate('signup_to_shopping'),
                           style: MyTextTheme.normal.copyWith(
                             fontSize: 18,
                           ),
@@ -110,7 +113,8 @@ class SignUpScreen extends StatelessWidget {
                     TextField(
                       controller: nameController,
                       decoration: InputDecoration(
-                        hintText: "Enter Name",
+                        hintText: AppLocalizations.of(context)!
+                            .translate('enter_name'),
                         hintStyle: MyTextTheme.normal.copyWith(
                           color: Colors.grey,
                           fontSize: 18,
@@ -124,7 +128,8 @@ class SignUpScreen extends StatelessWidget {
                     TextField(
                       controller: emailController,
                       decoration: InputDecoration(
-                        hintText: "Enter Email or Phone",
+                        hintText: AppLocalizations.of(context)!
+                            .translate('enter_email'),
                         hintStyle: MyTextTheme.normal.copyWith(
                           color: Colors.grey,
                           fontSize: 18,
@@ -139,7 +144,8 @@ class SignUpScreen extends StatelessWidget {
                       obscureText: true,
                       controller: passwordController,
                       decoration: InputDecoration(
-                        hintText: "Enter Password",
+                        hintText: AppLocalizations.of(context)!
+                            .translate('enter_password'),
                         hintStyle: MyTextTheme.normal.copyWith(
                           color: Colors.grey,
                           fontSize: 18,
@@ -166,7 +172,8 @@ class SignUpScreen extends StatelessWidget {
                       obscureText: true,
                       controller: confirmPasswordController,
                       decoration: InputDecoration(
-                        hintText: "Confirm Password",
+                        hintText: AppLocalizations.of(context)!
+                            .translate('confirm_password'),
                         hintStyle: MyTextTheme.normal.copyWith(
                           color: Colors.grey,
                           fontSize: 18,
@@ -200,7 +207,8 @@ class SignUpScreen extends StatelessWidget {
                                       ForgotPasswordScreen()));
                         },
                         child: Text(
-                          "Forgot password?",
+                          AppLocalizations.of(context)!
+                              .translate('forgot_password'),
                           style: MyTextTheme.normal.copyWith(
                             fontSize: 18,
                             decoration: TextDecoration.underline,
@@ -214,9 +222,10 @@ class SignUpScreen extends StatelessWidget {
                       onPressed: () {
                         if (passwordController.text.length < 6) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
+                            SnackBar(
                               content: Text(
-                                "Password must be at least 6 characters long",
+                                AppLocalizations.of(context)!.translate(
+                                    'password_must_be_at_least_characters_long'),
                               ),
                             ),
                           );
@@ -224,9 +233,10 @@ class SignUpScreen extends StatelessWidget {
                         } else if (passwordController.text !=
                             confirmPasswordController.text) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
+                            SnackBar(
                               content: Text(
-                                "Passwords do not match",
+                                AppLocalizations.of(context)!
+                                    .translate('password_does_not_match'),
                               ),
                             ),
                           );
@@ -249,7 +259,7 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        "Sign In",
+                        AppLocalizations.of(context)!.translate('sign_in'),
                         style: MyTextTheme.normal.copyWith(
                           color: Colors.white,
                           fontSize: 20,
@@ -284,7 +294,8 @@ class SignUpScreen extends StatelessWidget {
                         height: 24,
                       ),
                       label: Text(
-                        "Continue with Google",
+                        AppLocalizations.of(context)!
+                            .translate('continue_with_google'),
                         style: MyTextTheme.normal.copyWith(
                           color: Colors.black,
                           fontSize: 18,
@@ -311,7 +322,8 @@ class SignUpScreen extends StatelessWidget {
                         height: 24,
                       ),
                       label: Text(
-                        "Continue with Apple",
+                        AppLocalizations.of(context)!
+                            .translate('continue_with_apple'),
                         style: MyTextTheme.normal.copyWith(
                           color: Colors.black,
                           fontSize: 18,

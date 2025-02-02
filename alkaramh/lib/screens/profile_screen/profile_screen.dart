@@ -1,15 +1,32 @@
+import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
+import 'package:alkaramh/main.dart';
 import 'package:alkaramh/screens/auth_screen/main_screen.dart';
 import 'package:alkaramh/screens/auth_screen/signup_screen.dart';
 import 'package:alkaramh/screens/order_screen/order_details_get_screen.dart';
 import 'package:alkaramh/screens/wish_list/wish_list.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AccountScreen extends StatelessWidget {
+class AccountScreen extends StatefulWidget {
   const AccountScreen({Key? key}) : super(key: key);
+
+  @override
+  State<AccountScreen> createState() => _AccountScreenState();
+}
+
+class _AccountScreenState extends State<AccountScreen> {
+  UserAuthBloc userAuthBloc = UserAuthBloc();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  User? user = FirebaseAuth.instance.currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   Widget _buildListTile({
     required String title,
@@ -30,6 +47,23 @@ class AccountScreen extends StatelessWidget {
       ),
       trailing: Icon(Icons.chevron_right, color: Colors.grey[400], size: 20),
       onTap: onTap,
+    );
+  }
+
+  Widget _buildAvatarText() {
+    final String letter = (user?.displayName?.isNotEmpty ?? false)
+        ? user!.displayName![0].toUpperCase()
+        : '?';
+
+    return Center(
+      child: Text(
+        letter,
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.bold,
+          color: Colors.black54,
+        ),
+      ),
     );
   }
 
@@ -61,7 +95,7 @@ class AccountScreen extends StatelessWidget {
                     children: [
                       Center(
                         child: Text(
-                          'Account',
+                          AppLocalizations.of(context)!.translate('account'),
                           style: MyTextTheme.body.copyWith(
                             color: Colors.black,
                             fontSize: 22,
@@ -89,7 +123,8 @@ class AccountScreen extends StatelessWidget {
                 } else if (state is UserRegisterFailure) {
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text(state.message),
+                      content: Text(AppLocalizations.of(context)!
+                          .translate('something_went_wrong')),
                     ),
                   );
                 }
@@ -107,31 +142,35 @@ class AccountScreen extends StatelessWidget {
                       CircleAvatar(
                         radius: 30,
                         backgroundColor: Colors.grey[300],
-                        child: Image.asset(profilePicImage),
+                        child: user!.photoURL != null
+                            ? ClipOval(
+                                child: Image.network(
+                                  user!.photoURL!,
+                                  width: 60,
+                                  height: 60,
+                                  fit: BoxFit.cover,
+                                  errorBuilder: (context, error, stackTrace) =>
+                                      _buildAvatarText(),
+                                  loadingBuilder:
+                                      (context, child, loadingProgress) {
+                                    if (loadingProgress == null) return child;
+                                    return const Center(
+                                      child: CircularProgressIndicator(),
+                                    );
+                                  },
+                                ),
+                              )
+                            : _buildAvatarText(),
                       ),
                       const SizedBox(width: 16),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
-                            'Siva',
-                            style: TextStyle(
+                          Text(
+                            user!.displayName ?? 'User',
+                            style: const TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          TextButton(
-                            onPressed: () {},
-                            style: TextButton.styleFrom(
-                              padding: EdgeInsets.zero,
-                              minimumSize: const Size(0, 0),
-                            ),
-                            child: Text(
-                              'Edit Account',
-                              style: TextStyle(
-                                color: Colors.blue[400],
-                                fontSize: 14,
-                              ),
                             ),
                           ),
                         ],
@@ -149,28 +188,31 @@ class AccountScreen extends StatelessWidget {
               child: Column(
                 children: [
                   _buildListTile(
-                    title: 'You are in current version',
+                    title: AppLocalizations.of(context)!
+                        .translate('you_are_in_current_version'),
                     icon: Icons.system_update_outlined,
                     onTap: () {},
                   ),
+                  // _buildListTile(
+                  //   title: AppLocalizations.of(context)!.translate('your_profile'),
+                  //   icon: Icons.person_outline,
+                  //   textColor: Colors.green,
+                  //   onTap: () {},
+                  // ),
                   _buildListTile(
-                    title: 'Your profile',
-                    icon: Icons.person_outline,
-                    textColor: Colors.green,
-                    onTap: () {},
-                  ),
-                  _buildListTile(
-                    title: 'Your Orders',
+                    title:
+                        AppLocalizations.of(context)!.translate('your_orders'),
                     icon: Icons.shopping_bag_outlined,
                     onTap: () {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => OrderDetailsGetScreen()));
+                              builder: (context) => OrderScreen()));
                     },
                   ),
                   _buildListTile(
-                    title: 'Favourite',
+                    title:
+                        AppLocalizations.of(context)!.translate('faviroutes'),
                     icon: Icons.favorite_outline,
                     onTap: () {
                       Navigator.push(
@@ -180,17 +222,20 @@ class AccountScreen extends StatelessWidget {
                     },
                   ),
                   _buildListTile(
-                    title: 'FAQ',
-                    icon: Icons.help_outline,
-                    onTap: () {},
+                    title: AppLocalizations.of(context)!.translate('language'),
+                    icon: Icons.language_outlined,
+                    onTap: () {
+                      _showLanguageDialog(context); // Open Language Dialog
+                    },
                   ),
                   _buildListTile(
-                    title: 'Contact Us',
+                    title:
+                        AppLocalizations.of(context)!.translate('contact_us'),
                     icon: Icons.mail_outline,
                     onTap: () {},
                   ),
                   _buildListTile(
-                    title: 'Logout',
+                    title: AppLocalizations.of(context)!.translate('logout'),
                     icon: Icons.logout,
                     onTap: () {
                       _showLogoutDialog(context);
@@ -205,20 +250,54 @@ class AccountScreen extends StatelessWidget {
     );
   }
 
+  void _showLanguageDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title:
+              Text(AppLocalizations.of(context)!.translate('change_language')),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text("English"),
+                onTap: () {
+                  MyApp.setLocale(context, const Locale('en', 'US'));
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.language),
+                title: const Text("العربية"),
+                onTap: () {
+                  MyApp.setLocale(context, const Locale('ar', 'AE'));
+                  Navigator.of(context).pop(); // Close the dialog
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   void _showLogoutDialog(BuildContext context) {
     UserAuthBloc userAuthBloc = BlocProvider.of<UserAuthBloc>(context);
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Logout'),
-          content: Text('Are you sure you want to logout?'),
+          title: Text(AppLocalizations.of(context)!.translate('logout')),
+          content:
+              Text(AppLocalizations.of(context)!.translate('logout_confirm')),
           actions: [
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop(); // Close dialog
               },
-              child: Text('Cancel'),
+              child: Text(AppLocalizations.of(context)!.translate('cancel')),
             ),
             TextButton(
               onPressed: () {
@@ -228,7 +307,7 @@ class AccountScreen extends StatelessWidget {
               style: TextButton.styleFrom(
                 foregroundColor: Colors.red,
               ),
-              child: Text('Logout'),
+              child: Text(AppLocalizations.of(context)!.translate('logout')),
             ),
           ],
         );

@@ -1,3 +1,4 @@
+import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/bloc/cart/cart_bloc.dart';
 import 'package:alkaramh/bloc/order/order_bloc.dart';
 import 'package:alkaramh/config/color/colors_file.dart';
@@ -71,7 +72,7 @@ class _CartScreenState extends State<CartScreen> {
                           children: [
                             Expanded(
                               child: Text(
-                                "Cart",
+                                AppLocalizations.of(context)!.translate('cart'),
                                 textAlign: TextAlign.center,
                                 style: MyTextTheme.body.copyWith(
                                   fontSize: 22,
@@ -90,7 +91,8 @@ class _CartScreenState extends State<CartScreen> {
                             const SizedBox(width: 8),
                             Expanded(
                               child: Text(
-                                "Your Location",
+                                AppLocalizations.of(context)!
+                                    .translate('your_location'),
                                 style: TextStyle(color: Colors.grey[700]),
                               ),
                             ),
@@ -118,7 +120,8 @@ class _CartScreenState extends State<CartScreen> {
                             });
                           },
                         ),
-                        const Text('Select All'),
+                        Text(
+                            AppLocalizations.of(context)!.translate('see_all')),
                       ],
                     ),
                   ),
@@ -171,14 +174,31 @@ class _CartScreenState extends State<CartScreen> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      item['productName'],
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            item['productName'],
+                                            style: const TextStyle(
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                        ),
+                                        IconButton(
+                                          icon: const Icon(Icons.delete_outline,
+                                              color: Colors.red),
+                                          onPressed: () {
+                                            context.read<CartBloc>().add(
+                                                  RemoveFromCartEvent(
+                                                      itemId: item['id']),
+                                                );
+                                          },
+                                        ),
+                                      ],
                                     ),
-                                    const SizedBox(height: 4),
                                     Text(
                                       item['variantName'],
                                       style: TextStyle(
@@ -192,12 +212,59 @@ class _CartScreenState extends State<CartScreen> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          'QAR ${item['variantPrice']}',
+                                          '${AppLocalizations.of(context)!.translate('qar')} ${item['variantPrice']}',
                                           style: const TextStyle(
                                             fontSize: 16,
                                             fontWeight: FontWeight.w600,
                                             color: AppColors.primaryColor,
                                           ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            IconButton(
+                                              icon: const Icon(
+                                                  Icons.remove_circle_outline),
+                                              onPressed: () {
+                                                int currentQuantity =
+                                                    int.parse(item['quantity']);
+                                                if (currentQuantity > 1) {
+                                                  context.read<CartBloc>().add(
+                                                        UpdateQuantityEvent(
+                                                          itemId: item['id'],
+                                                          quantity:
+                                                              (currentQuantity -
+                                                                      1)
+                                                                  .toString(),
+                                                        ),
+                                                      );
+                                                }
+                                              },
+                                            ),
+                                            Text(
+                                              item['quantity'],
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(
+                                                  Icons.add_circle_outline),
+                                              onPressed: () {
+                                                int currentQuantity =
+                                                    int.parse(item['quantity']);
+                                                context.read<CartBloc>().add(
+                                                      UpdateQuantityEvent(
+                                                        itemId: item['id'],
+                                                        quantity:
+                                                            (currentQuantity +
+                                                                    1)
+                                                                .toString(),
+                                                      ),
+                                                    );
+                                              },
+                                            ),
+                                          ],
                                         ),
                                       ],
                                     ),
@@ -229,9 +296,13 @@ class _CartScreenState extends State<CartScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            const Text('Total Amount:'),
                             Text(
-                              'QAR ${totalAmount.toStringAsFixed(2)}',
+                              AppLocalizations.of(context)!
+                                  .translate('total_amount'),
+                              style: MyTextTheme.body,
+                            ),
+                            Text(
+                              '${AppLocalizations.of(context)!.translate('qar')} ${totalAmount.toStringAsFixed(2)}',
                               style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -253,7 +324,6 @@ class _CartScreenState extends State<CartScreen> {
                                         selectedProducts.add(cartItems[i]);
                                       }
                                     }
-
                                     final orderBloc = context.read<OrderBloc>();
                                     orderBloc.selectedProducts =
                                         selectedProducts;
@@ -274,7 +344,7 @@ class _CartScreenState extends State<CartScreen> {
                               padding: const EdgeInsets.symmetric(vertical: 16),
                             ),
                             child: Text(
-                              'Checkout (${selectedItems.values.where((v) => v).length} items)',
+                              '${AppLocalizations.of(context)!.translate('checkout')} (${selectedItems.values.where((v) => v).length} ${AppLocalizations.of(context)!.translate('items')})',
                               style: const TextStyle(color: Colors.white),
                             ),
                           ),

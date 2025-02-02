@@ -5,6 +5,8 @@ class OrderModel {
   final List<Map<String, dynamic>> cartItems;
   final AddressModel address;
   final String totalAmount;
+  final Timestamp? createdAt = Timestamp.now();
+  final String status = 'pending';
 
   OrderModel({
     required this.userId,

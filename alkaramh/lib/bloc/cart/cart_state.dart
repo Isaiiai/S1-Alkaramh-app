@@ -28,3 +28,18 @@ final class CartError extends CartState {
   @override
   List<Object> get props => [message];
 }
+
+//info: Cart Items State 
+final class CartItemLoadedState extends CartState {
+  final String message;
+
+  CartItemLoadedState({required this.message});
+
+}
+
+final class CartItemErrorState extends CartState {
+  final String message;
+
+  CartItemErrorState({required this.message});
+
+}

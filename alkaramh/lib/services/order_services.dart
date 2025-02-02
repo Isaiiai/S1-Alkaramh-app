@@ -1,21 +1,21 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../models/order_model.dart';
+
 class OrderServices {
-  // Future<List<Order>> getOrders() async {
-  //   // Fetch orders from the server
-  // }
-  
-  // Future<Order> getOrderById(int id) async {
-  //   // Fetch order by id from the server
-  // }
-  
-  // Future<Order> createOrder(Order order) async {
-  //   // Create order on the server
-  // }
-  
-  // Future<Order> updateOrder(Order order) async {
-  //   // Update order on the server
-  // }
-  
-  // Future<void> deleteOrder(int id) async {
-  //   // Delete order on the server
-  // }
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<List<OrderModel>> getOrdersByUserId(String userId) async {
+    try {
+      QuerySnapshot querySnapshot = await _firestore
+          .collection('orders')
+          .where('userId', isEqualTo: userId)
+          .get();
+
+      return querySnapshot.docs.map((doc) {
+        return OrderModel.fromJson(doc.data() as Map<String, dynamic>);
+      }).toList();
+    } catch (e) {
+      throw Exception('Failed to fetch orders: $e');
+    }
+  }
 }

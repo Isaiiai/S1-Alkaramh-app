@@ -1,11 +1,12 @@
 import 'dart:ffi';
 
+import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/screens/home_screen/product_details_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreenWidget {
-  buildOfferCart(int offer, String offerProductImage) {
+  buildOfferCart(int offer, String offerProductImage, context) {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -19,7 +20,9 @@ class HomeScreenWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Get your special \n offer up to $offer%",
+                  AppLocalizations.of(context)!
+                      .translate('special_offer')
+                      .replaceFirst('%s', offer.toString()),
                   style: MyTextTheme.body.copyWith(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
@@ -37,7 +40,7 @@ class HomeScreenWidget {
                     ),
                   ),
                   child: Text(
-                    "Shop Now",
+                    AppLocalizations.of(context)!.translate('shop_now'),
                     style: MyTextTheme.body.copyWith(
                         fontWeight: FontWeight.w300,
                         fontSize: 14,
@@ -96,6 +99,7 @@ class HomeScreenWidget {
       onTap: onTap,
       child: Container(
         width: 190,
+        height: 190,
         margin: EdgeInsets.all(8),
         decoration: BoxDecoration(
           color: Colors.grey[200], // Background color of the container
@@ -167,7 +171,7 @@ class HomeScreenWidget {
               ),
               const SizedBox(height: 10),
               Row(
-                // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
@@ -175,7 +179,7 @@ class HomeScreenWidget {
                       productName,
                       style: MyTextTheme.body.copyWith(
                         fontSize: 16,
-                        fontWeight: FontWeight.w400,
+                        fontWeight: FontWeight.bold,
                         color: Colors.grey[800],
                       ),
                       maxLines: 2,
@@ -185,28 +189,27 @@ class HomeScreenWidget {
                   SizedBox(height: 5),
 
                   // Star Rating
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      children: [
-                        const Icon(Icons.star, color: Colors.orange, size: 16),
-                        SizedBox(width: 5),
-                        Text(
-                          starRating.toStringAsFixed(1),
-                          style: MyTextTheme.headline.copyWith(
-                            fontSize: 14,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                  //   child: Row(
+                  //     children: [
+                  //       const Icon(Icons.star, color: Colors.orange, size: 16),
+                  //       SizedBox(width: 5),
+                  //       Text(
+                  //         starRating.toStringAsFixed(1),
+                  //         style: MyTextTheme.headline.copyWith(
+                  //           fontSize: 14,
+                  //           color: Colors.black,
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
               // Product Name
 
-              const SizedBox(height: 5),
               // Padding(
               //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
               //   child: Text(

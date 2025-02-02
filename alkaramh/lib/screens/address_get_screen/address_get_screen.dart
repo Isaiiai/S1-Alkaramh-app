@@ -194,7 +194,6 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
               child: BlocConsumer<OrderBloc, OrderState>(
                 bloc: orderBloc,
                 listener: (context, state) {
-                  // TODO: implement listener
                   if ( state is OrderSuccessState) {
                     Navigator.of(context).popUntil((route) => route.isFirst);
                   }

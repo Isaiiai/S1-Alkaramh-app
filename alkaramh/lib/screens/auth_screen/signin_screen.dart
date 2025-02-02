@@ -1,3 +1,4 @@
+import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
@@ -74,14 +75,20 @@ class SignInScreen extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   Text(
-                    "Let’s Sign you in.",
+                   AppLocalizations.of(context)!.translate('lets_sign_in_you'),
                     style: MyTextTheme.headline.copyWith(
                       fontSize: 40,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    "Welcome back\nYou’ve been missed!",
+                    AppLocalizations.of(context)!.translate('welcome_back'),
+                    style: MyTextTheme.normal.copyWith(
+                      fontSize: 30,
+                    ),
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.translate('you_ve_been_missed'),
                     style: MyTextTheme.normal.copyWith(
                       fontSize: 30,
                     ),
@@ -90,7 +97,7 @@ class SignInScreen extends StatelessWidget {
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      hintText: "Enter Email or Phone",
+                      hintText: AppLocalizations.of(context)!.translate('enter_your_email_or_phone'),
                       hintStyle: MyTextTheme.normal.copyWith(
                         color: Colors.grey,
                         fontSize: 18,
@@ -105,7 +112,7 @@ class SignInScreen extends StatelessWidget {
                     obscureText: true,
                     controller: _passwordController,
                     decoration: InputDecoration(
-                      hintText: "Enter Password",
+                      hintText: AppLocalizations.of(context)!.translate('enter_your_password'),
                       hintStyle: MyTextTheme.normal.copyWith(
                         color: Colors.grey,
                         fontSize: 18,
@@ -138,7 +145,7 @@ class SignInScreen extends StatelessWidget {
                                 builder: (context) => ForgotPasswordScreen()));
                       },
                       child: Text(
-                        "Forgot password?",
+                        AppLocalizations.of(context)!.translate('forgot_password'),
                         style: MyTextTheme.normal.copyWith(
                             fontSize: 18,
                             decoration: TextDecoration.underline,
@@ -169,7 +176,7 @@ class SignInScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: Text("Sign In",
+                        child: Text(AppLocalizations.of(context)!.translate('sign_in'),
                             style: MyTextTheme.normal.copyWith(
                               color: Colors.white,
                               fontSize: 20,
@@ -211,7 +218,7 @@ class SignInScreen extends StatelessWidget {
                       ],
                     ),
                     label: Text(
-                      "Continue with Google",
+                      AppLocalizations.of(context)!.translate('continue_with_google'),
                       style: MyTextTheme.normal.copyWith(
                         color: Colors.black,
                         fontSize: 18,
@@ -233,7 +240,7 @@ class SignInScreen extends StatelessWidget {
                   ElevatedButton.icon(
                     onPressed: () {
                       ErrorDialogbox().showErrorDialog(
-                          context, "This is Under Implementation");
+                          context,   AppLocalizations.of(context)!.translate('this_is_under_development'),);
                     },
                     icon: Row(
                       children: [
@@ -245,7 +252,7 @@ class SignInScreen extends StatelessWidget {
                       ],
                     ),
                     label: Text(
-                      "Continue with Apple",
+                      AppLocalizations.of(context)!.translate('continue_with_apple'),
                       style: MyTextTheme.normal.copyWith(
                         color: Colors.black,
                         fontSize: 18,
@@ -274,13 +281,13 @@ class SignInScreen extends StatelessWidget {
                       },
                       child: Text.rich(
                         TextSpan(
-                          text: "Don’t have an account? ",
+                          text: AppLocalizations.of(context)!.translate('dont_have_an_account'),
                           style: MyTextTheme.normal.copyWith(
                             fontSize: 18,
                           ),
                           children: [
                             TextSpan(
-                              text: "Register",
+                              text: AppLocalizations.of(context)!.translate('register'),
                               style: MyTextTheme.headline.copyWith(
                                 color: Colors.green,
                                 fontSize: 18,

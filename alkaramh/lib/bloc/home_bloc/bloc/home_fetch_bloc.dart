@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:alkaramh/models/product_model.dart';
 import 'package:alkaramh/services/product_services.dart';
 import 'package:alkaramh/services/category_services.dart';
-import 'package:alkaramh/test_json_data.dart';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 

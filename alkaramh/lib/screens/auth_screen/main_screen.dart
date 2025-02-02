@@ -1,4 +1,4 @@
-
+import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/screens/auth_screen/signin_screen.dart';
@@ -30,7 +30,8 @@ class MainScreen extends StatelessWidget {
                 const SizedBox(height: 60),
                 // Title
                 Text(
-                  "Let's Buy the products with\njust a tap",
+                  AppLocalizations.of(context)!
+                      .translate('lets_buy_the_products'),
                   textAlign: TextAlign.center,
                   style: MyTextTheme.headline.copyWith(
                     fontSize: 22,
@@ -39,7 +40,8 @@ class MainScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 // Subtitle
                 Text(
-                  "Explore the app to find the animal feeds & other products with a tap.",
+                  AppLocalizations.of(context)!
+                      .translate('explore_our_app_to_see'),
                   textAlign: TextAlign.center,
                   style: MyTextTheme.subheading
                       .copyWith(color: Colors.grey, fontSize: 16),
@@ -64,7 +66,7 @@ class MainScreen extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    "Sign In",
+                    AppLocalizations.of(context)!.translate('sign_in'),
                     style: MyTextTheme.headline
                         .copyWith(color: Colors.green, fontSize: 20),
                   ),
@@ -87,7 +89,7 @@ class MainScreen extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    "Register",
+                    AppLocalizations.of(context)!.translate('register'),
                     style: MyTextTheme.headline
                         .copyWith(color: Colors.white, fontSize: 20),
                   ),

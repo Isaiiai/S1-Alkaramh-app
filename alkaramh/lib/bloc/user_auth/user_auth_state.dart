@@ -32,3 +32,13 @@ class GoogleSignInFailure extends UserAuthState {
   final String message;
   GoogleSignInFailure({required this.message});
 }
+
+class UserAuthSuccess extends UserAuthState {
+  final User user;
+  UserAuthSuccess({required this.user});
+}
+
+class UserAuthFailure extends UserAuthState {
+  final String message;
+  UserAuthFailure({required this.message});
+}

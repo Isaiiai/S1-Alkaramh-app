@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:alkaramh/bloc/cart/cart_bloc.dart';
 import 'package:alkaramh/bloc/order/order_bloc.dart';
 import 'package:alkaramh/bloc/product_varient/product_varient_bloc.dart';
 import 'package:alkaramh/config/color/colors_file.dart';
@@ -30,6 +31,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   ProductVariant? selectedVariant;
   final ProductFetchBloc productFetchBloc = ProductFetchBloc();
   final ProductVarientBloc productVarientBloc = ProductVarientBloc();
+  CartBloc _cartBloc = CartBloc();
 
   List<Product> products = [];
 
@@ -145,7 +147,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text(state.message)),
                                 );
-                              } 
+                              }
                             },
                             builder: (context, state) {
                               if (state is ProductVarientLoadingState) {
@@ -240,38 +242,65 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (selectedVariant == null) {
+                        child: BlocConsumer<CartBloc, CartState>(
+                          bloc: _cartBloc,
+                          listener: (context, state) {
+                            if (state is CartItemErrorState) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                  content: Text("Please select a variant"),
+                                SnackBar(
+                                  content: Text(state.message),
                                 ),
                               );
-                              return;
                             }
-                            CartServices().addToCart(
-                              productName: product.name,
-                              categoryId: product.categoryId.toString(),
-                              discription: product.description,
-                              variantId: selectedVariant!.id.toString(),
-                              variantName: selectedVariant!.name,
-                              variantPrice: selectedVariant!.price.toString(),
-                              quantity: "1",
+                            else if (state is CartItemLoadedState) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(state.message),
+                                ),
+                              );
+                            }
+                          },
+                          builder: (context, state) {
+                            if (state is CartLoading) {
+                              return const Center(
+                                child: CircularProgressIndicator(),
+                              );
+                            }
+                            return ElevatedButton(
+                              onPressed: () {
+                                if (selectedVariant == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text("Please select a variant"),
+                                    ),
+                                  );
+                                  return;
+                                }
+                                _cartBloc.add(AddToCartEvent(
+                                  productName: product.name,
+                                  categoryId: product.categoryId,
+                                  discription: product.description,
+                                  variantId: selectedVariant!.id.toString(),
+                                  variantName: selectedVariant!.name,
+                                  variantPrice: selectedVariant!.price.toString(),
+                                  quantity: "1",
+                                ));
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  side:
+                                      BorderSide(color: AppColors.primaryColor),
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              child: Text(
+                                "Add Cart",
+                                style: MyTextTheme.body
+                                    .copyWith(color: AppColors.primaryColor),
+                              ),
                             );
                           },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.white,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(color: AppColors.primaryColor),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: Text(
-                            "Add Cart",
-                            style: MyTextTheme.body
-                                .copyWith(color: AppColors.primaryColor),
-                          ),
                         ),
                       ),
                       const SizedBox(width: 16),

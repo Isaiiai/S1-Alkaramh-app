@@ -1,3 +1,4 @@
+import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:flutter/material.dart';
@@ -23,10 +24,10 @@ class NotificationScreen extends StatelessWidget {
                     ),
                     onPressed: () => Navigator.pop(context),
                   ),
-                    const Spacer(),
+                  const Spacer(),
                   Container(
                     child: Text(
-                      'Notification',
+                      AppLocalizations.of(context)!.translate('notifications'),
                       style: MyTextTheme.body.copyWith(
                         color: Colors.black,
                         fontSize: 22,
@@ -84,7 +85,8 @@ class NotificationScreen extends StatelessWidget {
 
                     // Title
                     Text(
-                      "Don't miss a beat",
+                      AppLocalizations.of(context)!
+                          .translate('dont_miss_a_beat'),
                       style: MyTextTheme.body.copyWith(
                         fontSize: 34,
                         fontWeight: FontWeight.w700,
@@ -96,7 +98,8 @@ class NotificationScreen extends StatelessWidget {
 
                     // Subtitle
                     Text(
-                      'Get notified about Due date, discounts and deals',
+                      AppLocalizations.of(context)!.translate(
+                          'get_notification_about_due_date_discounts_and_deals'),
                       textAlign: TextAlign.center,
                       style: MyTextTheme.body.copyWith(
                         color: Colors.grey,
@@ -112,7 +115,12 @@ class NotificationScreen extends StatelessWidget {
                       width: 186,
                       child: ElevatedButton(
                         onPressed: () {
-                          print("Notification Enabled Clicked ");
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(AppLocalizations.of(context)!
+                                  .translate('this_is_under_development')),
+                            ),
+                          );
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Color(0xFF193219),
@@ -123,7 +131,7 @@ class NotificationScreen extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Enable Notification',
+                          AppLocalizations.of(context)!.translate('enable_notification'),
                           style: MyTextTheme.body.copyWith(
                             fontSize: 16,
                             color: Colors.white,
@@ -139,7 +147,8 @@ class NotificationScreen extends StatelessWidget {
                     TextButton(
                       onPressed: () {},
                       child: Text(
-                        'remind me later',
+                        AppLocalizations.of(context)!
+                            .translate('remaind_me_later'),
                         style: MyTextTheme.body.copyWith(
                           color: Colors.grey,
                           fontSize: 15,
