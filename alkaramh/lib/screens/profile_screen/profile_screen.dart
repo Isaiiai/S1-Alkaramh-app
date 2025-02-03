@@ -1,4 +1,5 @@
 import 'package:alkaramh/app_localizations.dart';
+import 'package:alkaramh/bloc/language_handler_bloc/language_bloc.dart';
 import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
@@ -39,9 +40,9 @@ class _AccountScreenState extends State<AccountScreen> {
       leading: Icon(icon, color: iconColor ?? Colors.grey[600], size: 22),
       title: Text(
         title,
-        style: TextStyle(
+        style: MyTextTheme.body.copyWith(
           color: textColor ?? Colors.black87,
-          fontSize: 16,
+          fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
       ),
@@ -168,7 +169,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         children: [
                           Text(
                             user!.displayName ?? 'User',
-                            style: const TextStyle(
+                            style: MyTextTheme.body.copyWith(
                               fontSize: 20,
                               fontWeight: FontWeight.w500,
                             ),
@@ -225,7 +226,36 @@ class _AccountScreenState extends State<AccountScreen> {
                     title: AppLocalizations.of(context)!.translate('language'),
                     icon: Icons.language_outlined,
                     onTap: () {
-                      _showLanguageDialog(context); // Open Language Dialog
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: Text(AppLocalizations.of(context)!
+                              .translate('select_language')),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ListTile(
+                                title: const Text('English'),
+                                onTap: () {
+                                  context
+                                      .read<LanguageBloc>()
+                                      .add(ChangeLanguageEvent('en'));
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              ListTile(
+                                title: const Text('العربية'),
+                                onTap: () {
+                                  context
+                                      .read<LanguageBloc>()
+                                      .add(ChangeLanguageEvent('ar'));
+                                  Navigator.pop(context);
+                                },
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
                     },
                   ),
                   _buildListTile(
@@ -247,39 +277,6 @@ class _AccountScreenState extends State<AccountScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  void _showLanguageDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title:
-              Text(AppLocalizations.of(context)!.translate('change_language')),
-          content: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text("English"),
-                onTap: () {
-                  MyApp.setLocale(context, const Locale('en', 'US'));
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.language),
-                title: const Text("العربية"),
-                onTap: () {
-                  MyApp.setLocale(context, const Locale('ar', 'AE'));
-                  Navigator.of(context).pop(); // Close the dialog
-                },
-              ),
-            ],
-          ),
-        );
-      },
     );
   }
 
