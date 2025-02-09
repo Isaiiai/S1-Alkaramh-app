@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/bloc/cart/cart_bloc.dart';
 import 'package:alkaramh/bloc/order/order_bloc.dart';
 import 'package:alkaramh/bloc/product_varient/product_varient_bloc.dart';
@@ -9,10 +8,9 @@ import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/models/product_model.dart';
 import 'package:alkaramh/bloc/product_fetch/product_fetch_bloc.dart';
 import 'package:alkaramh/screens/address_get_screen/address_get_screen.dart';
-import 'package:alkaramh/services/cart_services.dart';
+import 'package:alkaramh/services/context_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   final String productId;
@@ -47,9 +45,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          "Select Size",
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        Text(
+          AppLocalizations.of(context)!.translate('select_quantity'),
+          style: MyTextTheme.body
+              .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
         SingleChildScrollView(
@@ -71,7 +70,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     });
                   },
                   selectedColor: Colors.green.shade100,
-                  labelStyle: TextStyle(
+                  labelStyle: MyTextTheme.body.copyWith(
                     color: isSelected ? Colors.green.shade900 : Colors.black,
                     fontWeight:
                         isSelected ? FontWeight.bold : FontWeight.normal,
@@ -97,9 +96,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          "Product Details",
-          style: TextStyle(color: Colors.black),
+        title: Text(
+          AppLocalizations.of(context)!.translate('product_details'),
+          style: MyTextTheme.body.copyWith(color: Colors.black),
         ),
         centerTitle: true,
       ),
@@ -133,8 +132,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Center(
-                              child: Image.asset(
-                                brownweetImage,
+                              child: Image.network(
+                                product.imageUrl ?? '',
                                 height: 200,
                                 fit: BoxFit.cover,
                               ),
@@ -181,23 +180,13 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
-                                            product.name,
-                                            style: const TextStyle(
+                                            context.isArabic
+                                                ? product.arabicName
+                                                : product.name,
+                                            style: MyTextTheme.body.copyWith(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                          ),
-                                          Row(
-                                            children: [
-                                              const Icon(Icons.star,
-                                                  color: Colors.orange,
-                                                  size: 20),
-                                              Text(
-                                                product.rating.toString(),
-                                                style: const TextStyle(
-                                                    fontSize: 16),
-                                              ),
-                                            ],
                                           ),
                                         ],
                                       ),
@@ -207,8 +196,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             state.productVarient),
                                       const SizedBox(height: 16),
                                       Text(
-                                        product.description,
-                                        style: TextStyle(
+                                        context.isArabic
+                                            ? product.arabicDescription
+                                            : product.description,
+                                        style: MyTextTheme.body.copyWith(
                                             fontSize: 14,
                                             color: Colors.grey[700]),
                                       ),
@@ -216,8 +207,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   ),
                                 );
                               }
-                              return const Center(
-                                child: Text("Something went wrong"),
+                              return Center(
+                                child: Text(AppLocalizations.of(context)!
+                                    .translate('something_went_wrong')),
                               );
                             },
                           ),
@@ -251,11 +243,17 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   content: Text(state.message),
                                 ),
                               );
-                            }
-                            else if (state is CartItemLoadedState) {
+                            } else if (state is CartItemLoadedState) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
-                                  content: Text(state.message),
+                                  backgroundColor: Colors.green,
+                                  content: Text(
+                                    AppLocalizations.of(context)!
+                                        .translate('success'),
+                                    style: MyTextTheme.body.copyWith(
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               );
                             }
@@ -270,20 +268,27 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               onPressed: () {
                                 if (selectedVariant == null) {
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                    const SnackBar(
-                                      content: Text("Please select a variant"),
+                                    SnackBar(
+                                      content: Text(
+                                        AppLocalizations.of(context)!.translate(
+                                            'please_select_a_variant'),
+                                      ),
                                     ),
                                   );
                                   return;
                                 }
                                 _cartBloc.add(AddToCartEvent(
                                   productName: product.name,
+                                  productarabicName: product.arabicName,
                                   categoryId: product.categoryId,
                                   discription: product.description,
+                                  arabicDiscription: product.arabicDescription,
                                   variantId: selectedVariant!.id.toString(),
                                   variantName: selectedVariant!.name,
-                                  variantPrice: selectedVariant!.price.toString(),
+                                  variantPrice:
+                                      selectedVariant!.price.toString(),
                                   quantity: "1",
+                                  productImageUrl: product.imageUrl ?? '',
                                 ));
                               },
                               style: ElevatedButton.styleFrom(
@@ -295,7 +300,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 ),
                               ),
                               child: Text(
-                                "Add Cart",
+                                AppLocalizations.of(context)!
+                                    .translate('add_to_cart'),
                                 style: MyTextTheme.body
                                     .copyWith(color: AppColors.primaryColor),
                               ),
@@ -311,8 +317,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               : () {
                                   final orderProduct = {
                                     'productName': product.name,
+                                    'productarabicName': product.arabicName,
+                                    'productImageUrl': product.imageUrl,
                                     'categoryId': product.categoryId,
                                     'description': product.description,
+                                    'arabicDescription':
+                                        product.arabicDescription,
                                     'variantId': selectedVariant!.id.toString(),
                                     'variantName': selectedVariant!.name,
                                     'variantPrice':
@@ -322,6 +332,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   orderBloc.selectedProducts = [orderProduct];
                                   orderBloc.totalAmount =
                                       selectedVariant!.price.toString();
+
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
@@ -338,7 +349,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ),
                           ),
                           child: Text(
-                            "Buy Now",
+                            AppLocalizations.of(context)!.translate('buy_now'),
                             style:
                                 MyTextTheme.body.copyWith(color: Colors.white),
                           ),
@@ -351,8 +362,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             );
           }
 
-          return const Center(
-            child: Text("Something went wrong"),
+          return Center(
+            child: Text(AppLocalizations.of(context)!
+                .translate('something_went_wrong')),
           );
         },
       ),

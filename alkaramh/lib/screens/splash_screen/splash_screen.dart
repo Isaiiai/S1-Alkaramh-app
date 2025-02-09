@@ -22,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> checkAuthState() async {
+   await Future.delayed(const Duration(seconds: 3));
     bool isLoggedIn = await GoogleServices.isUserLoggedIn();
 
     if (isLoggedIn) {
@@ -43,7 +44,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center ,
           children: [
             Center(
               child: Image.asset(
@@ -52,6 +53,8 @@ class _SplashScreenState extends State<SplashScreen> {
                 height: 200,
               ),
             ),
+            const SizedBox(height: 80),
+            const CircularProgressIndicator(),
           ],
         ),
       ),

@@ -20,7 +20,6 @@ class HomeFetchBloc extends Bloc<HomeFetchEvent, HomeFetchState> {
 
   FutureOr<void> _onCategoryFetchEvent(
       CategoryFetchEvent event, Emitter<HomeFetchState> emit) async {
-    print("This Event is called from the category fetch event ");
     emit(CategoryFetchLoadingState());
     try {
       final category = await _categoryService.fetchCategories();

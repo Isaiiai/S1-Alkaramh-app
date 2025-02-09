@@ -12,15 +12,15 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<AddToCartEvent>(_onAddToCartEvent);
     on<RemoveFromCartEvent>(_onRemoveFromCart);
     on<UpdateQuantityEvent>(_onUpdateQuantity);
+    on<ClearCartEvent>(_onClearCart);
   }
 
   Future<void> _onFetchCartItems(
       FetchCartItems event, Emitter<CartState> emit) async {
+    emit(CartLoading());
     try {
-      emit(CartLoading());
       final items = await _cartServices.getCartItems();
       emit(CartLoaded(cartItems: items));
-      print(items.length);
     } catch (e) {
       emit(CartError(message: e.toString()));
     }
@@ -28,16 +28,19 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _onAddToCartEvent(
       AddToCartEvent event, Emitter<CartState> emit) async {
+    emit(CartLoading());
     try {
-      emit(CartLoading());
       await _cartServices.addToCart(
         productName: event.productName,
+        productarabicName: event.productarabicName,
         categoryId: event.categoryId,
         discription: event.discription,
+        arabicDiscription: event.arabicDiscription,
         variantId: event.variantId,
         variantName: event.variantName,
         variantPrice: event.variantPrice,
         quantity: event.quantity,
+        productImageUrl: event.productImageUrl ?? '',
       );
       emit(CartItemLoadedState(message: "Item added to cart"));
     } catch (e) {
@@ -47,8 +50,8 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _onRemoveFromCart(
       RemoveFromCartEvent event, Emitter<CartState> emit) async {
+    emit(CartLoading());
     try {
-      emit(CartLoading());
       await _cartServices.removeFromCart(event.itemId);
       final items = await _cartServices.getCartItems();
       emit(CartLoaded(cartItems: items));
@@ -59,11 +62,22 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _onUpdateQuantity(
       UpdateQuantityEvent event, Emitter<CartState> emit) async {
+    
     try {
-      emit(CartLoading());
       await _cartServices.updateQuantity(event.itemId, event.quantity);
       final items = await _cartServices.getCartItems();
       emit(CartLoaded(cartItems: items));
+    } catch (e) {
+      emit(CartError(message: e.toString()));
+    }
+  }
+
+  Future<void> _onClearCart(
+      ClearCartEvent event, Emitter<CartState> emit) async {
+    emit(CartLoading());
+    try {
+      await _cartServices.clearCart();
+      emit(CartItemLoadedState(message: "Cart cleared"));
     } catch (e) {
       emit(CartError(message: e.toString()));
     }

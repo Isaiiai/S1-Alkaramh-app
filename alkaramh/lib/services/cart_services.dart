@@ -7,12 +7,16 @@ class CartServices {
 
   Future<void> addToCart({
     required String productName,
+    required String productarabicName,
     required String categoryId,
     required String discription,
+    required String arabicDiscription,
     required String variantId,
     required String variantName,
     required String variantPrice,
     required String quantity,
+    required String productImageUrl,
+    
   }) async {
     try {
       final String? userId = _auth.currentUser?.uid;
@@ -20,8 +24,11 @@ class CartServices {
 
       final cartItem = {
         'productName': productName,
+        'productarabicName': productarabicName,
+        'productImageUrl': productImageUrl,
         'categoryId': categoryId,
         'discription': discription,
+        'arabicDiscription': arabicDiscription,
         'variantId': variantId,
         'variantName': variantName,
         'variantPrice': variantPrice,

@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/screens/home_screen/product_details_screen.dart';
+import 'package:alkaramh/services/wish_list_services.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreenWidget {
@@ -32,6 +33,14 @@ class HomeScreenWidget {
                 ElevatedButton(
                   onPressed: () {
                     print("Offer Page Clicked");
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          AppLocalizations.of(context)!.translate('offer_page'),
+                        ),
+                        backgroundColor: Colors.green,
+                      ),
+                    );
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.black,
@@ -63,46 +72,83 @@ class HomeScreenWidget {
   }
 
   buildSelectByCatagoryCircle(String productImage, String title) {
-    return Column(
-      children: [
-        Container(
-          width: 80,
-          height: 80,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(50),
-            border: Border.all(color: Colors.grey[300]!),
-          ),
-          child: Center(
-            child: Image.asset(
-              productImage, // Replace with your image URL
-              fit: BoxFit.fill,
+    return Container(
+      height: 140, // Fixed height for the entire widget
+      child: Column(
+        children: [
+          Container(
+            width: 80,
+            height: 80,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(50),
+              border: Border.all(color: Colors.grey[300]!),
+            ),
+            child: Center(
+              child: Image.network(
+                productImage,
+                fit: BoxFit.fill,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.network(
+                    productImage,
+                    fit: BoxFit.cover,
+                  );
+                },
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return Center(
+                    child: CircularProgressIndicator(
+                      value: loadingProgress.expectedTotalBytes != null
+                          ? loadingProgress.cumulativeBytesLoaded /
+                              loadingProgress.expectedTotalBytes!
+                          : null,
+                      strokeWidth: 2.0,
+                    ),
+                  );
+                },
+              ),
             ),
           ),
-        ),
-        SizedBox(height: 10),
-        Text(
-          title,
-          style: MyTextTheme.headline.copyWith(
-            fontSize: 16,
-            fontWeight: FontWeight.w400,
+          const SizedBox(height: 10),
+          Expanded(
+            child: Container(
+              width: 80, // Match width with image container
+              child: Text(
+                title,
+                style: MyTextTheme.headline.copyWith(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w400,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  buildOrderProductsList(
-      String productImage, String productName, double starRating,
-      {VoidCallback? onTap}) {
+  buildOrderProductsList({
+    required String productId,
+    required String productImage,
+    required String productName,
+    required String productarabicName,
+    required String description,
+    required String arabicDescription,
+    required double starRating,
+    required VoidCallback? onTap,
+    required BuildContext context,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         width: 190,
         height: 190,
-        margin: EdgeInsets.all(8),
+        margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.grey[200], // Background color of the container
+          color: Colors.grey[200],
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
@@ -130,12 +176,29 @@ class HomeScreenWidget {
                       padding: const EdgeInsets.all(16.0),
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        // Ensure the image matches the container's border
-                        child: Image.asset(
+                        child: Image.network(
                           productImage,
                           height: 97,
                           width: 108,
                           fit: BoxFit.fill,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.network(
+                              productImage,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return Center(
+                              child: CircularProgressIndicator(
+                                value: loadingProgress.expectedTotalBytes !=
+                                        null
+                                    ? loadingProgress.cumulativeBytesLoaded /
+                                        loadingProgress.expectedTotalBytes!
+                                    : null,
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),
@@ -143,33 +206,85 @@ class HomeScreenWidget {
                   Positioned(
                     top: 8,
                     right: 8,
-                    child: Container(
-                      width: 30, // Adjust size as needed
-                      height: 30,
-                      decoration: BoxDecoration(
-                        color: Colors.grey[300], // Background color
-                        shape: BoxShape.circle, // Makes it circular
-                        boxShadow: [
-                          BoxShadow(
-                            color:
-                                Colors.black.withOpacity(0.1), // Subtle shadow
-                            blurRadius: 4,
-                            offset: const Offset(2, 2),
-                          ),
-                        ],
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.favorite_border,
-                          color: Colors.grey,
-                          size: 18, // Adjust icon size as needed
-                        ),
-                      ),
+                    child: StatefulBuilder(
+                      builder: (BuildContext context, StateSetter setState) {
+                        return FutureBuilder<bool>(
+                          future: WishListServices().isInWishList(productId),
+                          builder: (context, snapshot) {
+                            final isInWishlist = snapshot.data ?? false;
+                            return GestureDetector(
+                              onTap: () async {
+                                try {
+                                  if (isInWishlist) {
+                                    await WishListServices()
+                                        .removeFromWishList(productId);
+                                  } else {
+                                    await WishListServices().addToWishList(
+                                      productId: productId,
+                                      productName: productName,
+                                      productarabicName: productarabicName,
+                                      description: description,
+                                      arabicDescription: arabicDescription,
+                                    );
+                                  }
+                                  setState(() {}); // Refresh icon state
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        isInWishlist
+                                            ? AppLocalizations.of(context)!
+                                                .translate(
+                                                    'remove_from_wishlist')
+                                            : AppLocalizations.of(context)!
+                                                .translate('add_to_wishlist'),
+                                      ),
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  );
+                                } catch (e) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(e.toString()),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              },
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[300],
+                                  shape: BoxShape.circle,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withOpacity(0.1),
+                                      blurRadius: 4,
+                                      offset: const Offset(2, 2),
+                                    ),
+                                  ],
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    isInWishlist
+                                        ? Icons.favorite
+                                        : Icons.favorite_border,
+                                    color:
+                                        isInWishlist ? Colors.red : Colors.grey,
+                                    size: 18,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 14),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -178,7 +293,7 @@ class HomeScreenWidget {
                     child: Text(
                       productName,
                       style: MyTextTheme.body.copyWith(
-                        fontSize: 16,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey[800],
                       ),
@@ -186,40 +301,23 @@ class HomeScreenWidget {
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                  SizedBox(height: 5),
-
-                  // Star Rating
-                  // Padding(
-                  //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  //   child: Row(
-                  //     children: [
-                  //       const Icon(Icons.star, color: Colors.orange, size: 16),
-                  //       SizedBox(width: 5),
-                  //       Text(
-                  //         starRating.toStringAsFixed(1),
-                  //         style: MyTextTheme.headline.copyWith(
-                  //           fontSize: 14,
-                  //           color: Colors.black,
-                  //           fontWeight: FontWeight.w500,
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
                 ],
               ),
-              // Product Name
-
-              // Padding(
-              //   padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              //   child: Text(
-              //     "QAR ${price}", // Price can be dynamic
-              //     style: MyTextTheme.headline.copyWith(
-              //       fontSize: 14,
-              //       fontWeight: FontWeight.w700,
-              //     ),
-              //   ),
-              // ),
+              const SizedBox(height: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!
+                        .translate('rating')
+                        .replaceFirst('%s', starRating.toString()),
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
             ],
           ),
         ),

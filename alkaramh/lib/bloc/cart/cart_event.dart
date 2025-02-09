@@ -10,21 +10,27 @@ class FetchCartItems extends CartEvent {}
 
 class AddToCartEvent extends CartEvent {
   final String productName;
+  final String productarabicName;
   final String categoryId;
   final String discription;
+  final String arabicDiscription;
   final String variantId;
   final String variantName;
   final String variantPrice;
   final String quantity;
+  final String? productImageUrl;
 
   AddToCartEvent({
     required this.productName,
+    required this.productarabicName,
     required this.categoryId,
     required this.discription,
+    required this.arabicDiscription,
     required this.variantId,
     required this.variantName,
     required this.variantPrice,
     required this.quantity,
+    this.productImageUrl,
   });
 }
 
@@ -43,6 +49,7 @@ class UpdateQuantityEvent extends CartEvent {
 }
 
 
+class ClearCartEvent extends CartEvent {}
 
 
 

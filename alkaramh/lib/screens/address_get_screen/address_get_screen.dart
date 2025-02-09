@@ -1,11 +1,16 @@
+import 'package:alkaramh/app_localizations.dart';
+import 'package:alkaramh/bloc/cart/cart_bloc.dart';
 import 'package:alkaramh/bloc/order/order_bloc.dart';
 import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/models/order_model.dart';
+import 'package:alkaramh/screens/address_get_screen/payment_methord.dart';
+import 'package:alkaramh/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddressGetScreen extends StatefulWidget {
   const AddressGetScreen({super.key});
@@ -23,6 +28,13 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
   final _landmarkController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _getSharedPreferance();
+  }
+
+  @override
   void dispose() {
     _nameController.dispose();
     _phoneController.dispose();
@@ -30,6 +42,24 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
     _districtController.dispose();
     _landmarkController.dispose();
     super.dispose();
+  }
+
+  Future<void> _getSharedPreferance() async {
+    final prefs = await SharedPreferences.getInstance();
+    _nameController.text = prefs.getString('user_name') ?? '';
+    _phoneController.text = prefs.getString('phone_number') ?? '';
+    _addressController.text = prefs.getString('address') ?? '';
+    _districtController.text = prefs.getString('district') ?? '';
+    _landmarkController.text = prefs.getString('landmark') ?? '';
+  }
+
+  Future<void> _saveAddressDetails() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('user_name', _nameController.text);
+    await prefs.setString('phone_number', _phoneController.text);
+    await prefs.setString('address', _addressController.text);
+    await prefs.setString('district', _districtController.text);
+    await prefs.setString('landmark', _landmarkController.text);
   }
 
   @override
@@ -40,7 +70,6 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
       body: SafeArea(
         child: Column(
           children: [
-            // Header
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -53,7 +82,7 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                   ),
                   Expanded(
                     child: Text(
-                      "Cart",
+                      AppLocalizations.of(context)!.translate('address'),
                       textAlign: TextAlign.center,
                       style: MyTextTheme.body.copyWith(
                         fontSize: 22,
@@ -77,19 +106,21 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                       children: [
                         TextFormField(
                           controller: _nameController,
-                          decoration: const InputDecoration(
-                            labelText: 'Full Name',
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!
+                                .translate('full_name'),
                             labelStyle: MyTextTheme.normal,
                             hintStyle: MyTextTheme.body,
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
+                            border: const OutlineInputBorder(),
+                            contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16,
                               vertical: 12,
                             ),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your full name';
+                              return AppLocalizations.of(context)!
+                                  .translate('please_enter');
                             }
                             return null;
                           },
@@ -97,12 +128,13 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                         const SizedBox(height: 16),
                         TextFormField(
                           controller: _phoneController,
-                          decoration: const InputDecoration(
-                            labelText: 'Phone Number',
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!
+                                .translate('phone_number'),
                             labelStyle: MyTextTheme.normal,
                             hintStyle: MyTextTheme.body,
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
+                            border: const OutlineInputBorder(),
+                            contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16,
                               vertical: 12,
                             ),
@@ -110,7 +142,8 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                           keyboardType: TextInputType.phone,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your phone number';
+                              return AppLocalizations.of(context)!
+                                  .translate('please_enter');
                             }
                             return null;
                           },
@@ -118,19 +151,22 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                         const SizedBox(height: 16),
                         TextFormField(
                           controller: _addressController,
-                          decoration: const InputDecoration(
-                            labelText: 'Address',
+                          maxLines: 3,
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!
+                                .translate('address'),
                             labelStyle: MyTextTheme.normal,
                             hintStyle: MyTextTheme.body,
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
+                            border: const OutlineInputBorder(),
+                            contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16,
                               vertical: 12,
                             ),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your address';
+                              return AppLocalizations.of(context)!
+                                  .translate('please_enter');
                             }
                             return null;
                           },
@@ -138,19 +174,21 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                         const SizedBox(height: 16),
                         TextFormField(
                           controller: _districtController,
-                          decoration: const InputDecoration(
-                            labelText: 'District',
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!
+                                .translate('district'),
                             labelStyle: MyTextTheme.normal,
                             hintStyle: MyTextTheme.body,
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
+                            border: const OutlineInputBorder(),
+                            contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16,
                               vertical: 12,
                             ),
                           ),
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter your district';
+                              return AppLocalizations.of(context)!
+                                  .translate('please_enter');
                             }
                             return null;
                           },
@@ -158,12 +196,13 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                         const SizedBox(height: 16),
                         TextFormField(
                           controller: _landmarkController,
-                          decoration: const InputDecoration(
-                            labelText: 'Landmark (optional)',
+                          decoration: InputDecoration(
+                            labelText: AppLocalizations.of(context)!
+                                .translate('landmark'),
                             labelStyle: MyTextTheme.normal,
                             hintStyle: MyTextTheme.body,
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
+                            border: const OutlineInputBorder(),
+                            contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16,
                               vertical: 12,
                             ),
@@ -194,26 +233,47 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
               child: BlocConsumer<OrderBloc, OrderState>(
                 bloc: orderBloc,
                 listener: (context, state) {
-                  if ( state is OrderSuccessState) {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
+                  if (state is OrderSuccessState) {
+                    Navigator.pop(context, true);
+                    CartBloc cartBloc = BlocProvider.of<CartBloc>(context);
+                    cartBloc.add(ClearCartEvent());
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text(
+                          AppLocalizations.of(context)!.translate('success'),
+                          style: MyTextTheme.body.copyWith(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    );
                   }
-                  
                 },
                 builder: (context, state) {
                   if (state is OrderLoadingState) {
                     return const Center(child: CircularProgressIndicator());
                   }
                   return ElevatedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (_formKey.currentState!.validate()) {
-                        orderBloc.add(
-                          OrderPostEvent(
-                              address: AddressModel(
-                                  name: _nameController.text,
-                                  phoneNumber: _phoneController.text,
-                                  address: _addressController.text,
-                                  district: _districtController.text,
-                                  landMark: _landmarkController.text)),
+                        await _saveAddressDetails();
+                        final address = AddressModel(
+                          name: _nameController.text,
+                          phoneNumber: _phoneController.text,
+                          address: _addressController.text,
+                          district: _districtController.text,
+                          landMark: _landmarkController.text,
+                        );
+
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaymentMethodScreen(
+                              totalAmount: orderBloc.totalAmount,
+                              address: address,
+                            ),
+                          ),
                         );
                       }
                     },
@@ -225,7 +285,7 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                       ),
                     ),
                     child: Text(
-                      'Submit',
+                      AppLocalizations.of(context)!.translate('submit'),
                       style: MyTextTheme.headline.copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,

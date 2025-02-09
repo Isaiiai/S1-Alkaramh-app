@@ -201,10 +201,12 @@ class SignUpScreen extends StatelessWidget {
                       child: TextButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      ForgotPasswordScreen()));
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const ForgotPasswordScreen(),
+                            ),
+                          );
                         },
                         child: Text(
                           AppLocalizations.of(context)!
@@ -315,7 +317,7 @@ class SignUpScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     ElevatedButton.icon(
                       onPressed: () {
-                        // Handle Apple Sign-In
+                        _userAuthBloc.add(SignupAppleEvent());
                       },
                       icon: Image.asset(
                         appleSignInImage, // Replace with your asset path

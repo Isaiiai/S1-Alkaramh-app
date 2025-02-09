@@ -18,6 +18,7 @@ class CategoryService {
         return Category(
             id: data['id'] ?? '',
             categoryName: data['name'] ?? '',
+            categoryarabicName: data['arabic_name'] ?? '',
             imageUrl: data['imageUrl'],
             isActive: data['is_active'] ?? false);
       }).toList();

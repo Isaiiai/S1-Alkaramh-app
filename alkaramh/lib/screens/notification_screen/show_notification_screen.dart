@@ -18,12 +18,7 @@ class NotificationScreen extends StatelessWidget {
               // Header
               Row(
                 children: [
-                  IconButton(
-                    icon: const Icon(
-                      Icons.arrow_back,
-                    ),
-                    onPressed: () => Navigator.pop(context),
-                  ),
+                  
                   const Spacer(),
                   Container(
                     child: Text(
@@ -36,12 +31,7 @@ class NotificationScreen extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                  IconButton(
-                    icon: const Icon(
-                      Icons.settings,
-                    ),
-                    onPressed: () {},
-                  ),
+                
                 ],
               ),
 

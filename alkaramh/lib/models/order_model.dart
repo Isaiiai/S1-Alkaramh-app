@@ -6,6 +6,7 @@ class OrderModel {
   final AddressModel address;
   final String totalAmount;
   final Timestamp? createdAt = Timestamp.now();
+  final String paymentMethod;
   final String status = 'pending';
 
   OrderModel({
@@ -13,14 +14,17 @@ class OrderModel {
     required this.cartItems,
     required this.address,
     required this.totalAmount,
+    required this.paymentMethod,
   });
 
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
+
       userId: json['userId'] ?? '',
       cartItems: List<Map<String, dynamic>>.from(json['cartItems'] ?? []),
       address: AddressModel.fromJson(json['address']),
       totalAmount: json['totalAmount'] ?? '0',
+      paymentMethod: json['paymentMethod'] ?? '',
     );
   }
 
@@ -31,6 +35,7 @@ class OrderModel {
         'totalAmount': totalAmount,
         'createdAt': FieldValue.serverTimestamp(),
         'status': 'pending',
+        'paymentMethod': paymentMethod,
       };
 }
 

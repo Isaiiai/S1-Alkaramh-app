@@ -75,7 +75,7 @@ class SignInScreen extends StatelessWidget {
                   const SizedBox(height: 20),
 
                   Text(
-                   AppLocalizations.of(context)!.translate('lets_sign_in_you'),
+                    AppLocalizations.of(context)!.translate('lets_sign_in_you'),
                     style: MyTextTheme.headline.copyWith(
                       fontSize: 40,
                     ),
@@ -88,7 +88,8 @@ class SignInScreen extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    AppLocalizations.of(context)!.translate('you_ve_been_missed'),
+                    AppLocalizations.of(context)!
+                        .translate('you_ve_been_missed'),
                     style: MyTextTheme.normal.copyWith(
                       fontSize: 30,
                     ),
@@ -97,7 +98,8 @@ class SignInScreen extends StatelessWidget {
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.translate('enter_your_email_or_phone'),
+                      hintText: AppLocalizations.of(context)!
+                          .translate('enter_your_email_or_phone'),
                       hintStyle: MyTextTheme.normal.copyWith(
                         color: Colors.grey,
                         fontSize: 18,
@@ -112,7 +114,8 @@ class SignInScreen extends StatelessWidget {
                     obscureText: true,
                     controller: _passwordController,
                     decoration: InputDecoration(
-                      hintText: AppLocalizations.of(context)!.translate('enter_your_password'),
+                      hintText: AppLocalizations.of(context)!
+                          .translate('enter_your_password'),
                       hintStyle: MyTextTheme.normal.copyWith(
                         color: Colors.grey,
                         fontSize: 18,
@@ -140,12 +143,15 @@ class SignInScreen extends StatelessWidget {
                     child: TextButton(
                       onPressed: () {
                         Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => ForgotPasswordScreen()));
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordScreen(),
+                          ),
+                        );
                       },
                       child: Text(
-                        AppLocalizations.of(context)!.translate('forgot_password'),
+                        AppLocalizations.of(context)!
+                            .translate('forgot_password'),
                         style: MyTextTheme.normal.copyWith(
                             fontSize: 18,
                             decoration: TextDecoration.underline,
@@ -176,7 +182,8 @@ class SignInScreen extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                         ),
-                        child: Text(AppLocalizations.of(context)!.translate('sign_in'),
+                        child: Text(
+                            AppLocalizations.of(context)!.translate('sign_in'),
                             style: MyTextTheme.normal.copyWith(
                               color: Colors.white,
                               fontSize: 20,
@@ -211,14 +218,15 @@ class SignInScreen extends StatelessWidget {
                     icon: Row(
                       children: [
                         Image.asset(
-                          googleSignInImage, // Replace with your asset path
+                          googleSignInImage,
                           height: 24,
                         ),
                         const SizedBox(width: 16),
                       ],
                     ),
                     label: Text(
-                      AppLocalizations.of(context)!.translate('continue_with_google'),
+                      AppLocalizations.of(context)!
+                          .translate('continue_with_google'),
                       style: MyTextTheme.normal.copyWith(
                         color: Colors.black,
                         fontSize: 18,
@@ -236,23 +244,22 @@ class SignInScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  // Continue with Apple
                   ElevatedButton.icon(
                     onPressed: () {
-                      ErrorDialogbox().showErrorDialog(
-                          context,   AppLocalizations.of(context)!.translate('this_is_under_development'),);
+                       userAuthBloc.add(SignupAppleEvent());
                     },
                     icon: Row(
                       children: [
                         Image.asset(
-                          appleSignInImage, // Replace with your asset path
+                          appleSignInImage,
                           height: 24,
                         ),
                         const SizedBox(width: 16),
                       ],
                     ),
                     label: Text(
-                      AppLocalizations.of(context)!.translate('continue_with_apple'),
+                      AppLocalizations.of(context)!
+                          .translate('continue_with_apple'),
                       style: MyTextTheme.normal.copyWith(
                         color: Colors.black,
                         fontSize: 18,
@@ -281,13 +288,15 @@ class SignInScreen extends StatelessWidget {
                       },
                       child: Text.rich(
                         TextSpan(
-                          text: AppLocalizations.of(context)!.translate('dont_have_an_account'),
+                          text: AppLocalizations.of(context)!
+                              .translate('dont_have_an_account'),
                           style: MyTextTheme.normal.copyWith(
                             fontSize: 18,
                           ),
                           children: [
                             TextSpan(
-                              text: AppLocalizations.of(context)!.translate('register'),
+                              text: AppLocalizations.of(context)!
+                                  .translate('register'),
                               style: MyTextTheme.headline.copyWith(
                                 color: Colors.green,
                                 fontSize: 18,

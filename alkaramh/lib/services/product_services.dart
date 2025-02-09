@@ -13,14 +13,8 @@ class ProductsFetchService {
       return querySnapshot.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;
         data['document_id'] = doc.id;
-        return Product(
-          id: data['id'],
-          name: data['name'],
-          description: data['description'],
-          categoryId: data['category_id'],
-          isActive: data['is_active'],
-          rating: data['rating'],
-        );
+
+        return Product.fromJson(data);
       }).toList();
     } catch (e) {
       print('Error mapping products: ${e.toString()}');
@@ -39,10 +33,13 @@ class ProductsFetchService {
       return Product(
         id: data['id'],
         name: data['name'],
+        arabicName: data['arabic_name'],
         description: data['description'],
+        arabicDescription: data['arabic_description'],
         categoryId: data['category_id'],
         isActive: data['is_active'],
         rating: data['rating'],
+        imageUrl: data['imageUrl'],
       );
     } catch (e) {
       print('Error mapping product details: ${e.toString()}');
@@ -51,12 +48,11 @@ class ProductsFetchService {
   }
 
   Future<List<ProductVariant>> fetchProductVariants(String productId) async {
-  
     try {
-      final int productIdInt = int.parse(productId); // Convert to integer
+      final int productIdInt = int.parse(productId);
       final QuerySnapshot querySnapshot = await _firestore
           .collection('PRODUCT_VARIANT')
-          .where('product_id', isEqualTo: productIdInt) // Use integer
+          .where('product_id', isEqualTo: productIdInt)
           .get();
 
       print("Product Variants: ${querySnapshot.docs.length}");
@@ -70,8 +66,4 @@ class ProductsFetchService {
       throw Exception('Failed to fetch product variants: ${e.toString()}');
     }
   }
-
-  
 }
-
-

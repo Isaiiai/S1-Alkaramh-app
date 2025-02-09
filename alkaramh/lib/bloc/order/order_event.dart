@@ -23,8 +23,11 @@ class MakeOrderEvent extends OrderEvent {
 class OrderPostEvent extends OrderEvent {
   final AddressModel address;
 
+  final String paymentMethod;
+
   OrderPostEvent({
     required this.address,
+    required this.paymentMethod,
   });
 
   @override

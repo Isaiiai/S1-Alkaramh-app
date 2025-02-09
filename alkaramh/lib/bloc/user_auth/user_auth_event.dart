@@ -37,3 +37,8 @@ class GetCurrentUserEvent extends UserAuthEvent {
 }
 
 class LogoutEvent extends UserAuthEvent {}
+
+//info: apple signup 
+
+class SignupAppleEvent extends UserAuthEvent {}
+

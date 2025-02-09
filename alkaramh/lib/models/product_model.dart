@@ -1,10 +1,14 @@
 import 'package:alkaramh/models/company_details.dart';
+import 'package:alkaramh/services/language_helper_function.dart';
+import 'package:flutter/material.dart';
 
 class Product {
   final int id;
   final String categoryId;
   final String name;
+  final String arabicName;
   final String description;
+  final String arabicDescription;
   final String? imageUrl;
   final bool isActive;
   final double rating;
@@ -12,7 +16,9 @@ class Product {
   Product({
     required this.id,
     required this.name,
+    required this.arabicName,
     required this.description,
+    required this.arabicDescription,
     this.imageUrl,
     required this.categoryId,
     required this.isActive,
@@ -23,10 +29,12 @@ class Product {
     return Product(
       id: json['id'],
       name: json['name'],
+      arabicName: json['arabic_name'],
       description: json['description'],
+      arabicDescription: json['arabic_description'],
       imageUrl: json['imageUrl'] ?? '',
       categoryId: json['category_id'],
-      isActive: json['isActive'],
+       isActive: json['isActive'] ?? false, 
       rating: json['rating'],
     );
   }
@@ -35,12 +43,30 @@ class Product {
     return {
       'id': id,
       'name': name,
+      'arabic_name': arabicName,
       'description': description,
+      'arabic_description': arabicDescription,
       'imageUrl': imageUrl,
       'category_id': categoryId,
       'isActive': isActive,
       'rating': rating,
     };
+  }
+
+  String getLocalizedName(BuildContext context) {
+    return LocalizationHelper.getLocalizedText(
+      context: context,
+      englishText: name,
+      arabicText: arabicName,
+    );
+  }
+
+  String getLocalizedDescription(BuildContext context) {
+    return LocalizationHelper.getLocalizedText(
+      context: context,
+      englishText: description,
+      arabicText: arabicDescription,
+    );
   }
 }
 
@@ -87,12 +113,14 @@ class ProductVariant {
 class Category {
   final String id;
   final String categoryName;
+  final String categoryarabicName;
   final String? imageUrl;
   final bool isActive;
 
   Category({
     required this.id,
     required this.categoryName,
+    required this.categoryarabicName,
     this.imageUrl,
     required this.isActive,
   });
@@ -101,6 +129,7 @@ class Category {
     return Category(
       id: json['id'] ?? '',
       categoryName: json['name'] ?? '',
+      categoryarabicName: json['arabic_name'] ?? '',
       imageUrl: json['imageUrl'],
       isActive: json['is_active'] ?? false,
     );

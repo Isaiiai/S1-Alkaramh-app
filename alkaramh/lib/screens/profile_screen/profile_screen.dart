@@ -2,10 +2,7 @@ import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/bloc/language_handler_bloc/language_bloc.dart';
 import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
-import 'package:alkaramh/constants/image_deceleration.dart';
-import 'package:alkaramh/main.dart';
 import 'package:alkaramh/screens/auth_screen/main_screen.dart';
-import 'package:alkaramh/screens/auth_screen/signup_screen.dart';
 import 'package:alkaramh/screens/order_screen/order_details_get_screen.dart';
 import 'package:alkaramh/screens/wish_list/wish_list.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -82,10 +79,7 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
             Row(
               children: [
-                IconButton(
-                  icon: const Icon(Icons.arrow_back, color: Colors.black),
-                  onPressed: () => Navigator.pop(context),
-                ),
+                
                 const Spacer(),
                 Container(
                   padding:
@@ -112,7 +106,6 @@ class _AccountScreenState extends State<AccountScreen> {
             ),
             const SizedBox(height: 16),
 
-            // Profile Section
             BlocListener<UserAuthBloc, UserAuthState>(
               bloc: userAuthBloc,
               listener: (context, state) {
@@ -213,7 +206,7 @@ class _AccountScreenState extends State<AccountScreen> {
                   ),
                   _buildListTile(
                     title:
-                        AppLocalizations.of(context)!.translate('faviroutes'),
+                        AppLocalizations.of(context)!.translate('wishlist'),
                     icon: Icons.favorite_outline,
                     onTap: () {
                       Navigator.push(

@@ -40,6 +40,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         cartItems: selectedProducts,
         address: event.address,
         totalAmount: totalAmount,
+        paymentMethod: event.paymentMethod,
+
       );
 
       await FirebaseFirestore.instance.collection('orders').add(order.toJson());
@@ -49,6 +51,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           cartItems: selectedProducts,
           address: event.address,
           totalAmount: totalAmount,
+          paymentMethod: event.paymentMethod,
         ),
       ));
     } catch (e) {

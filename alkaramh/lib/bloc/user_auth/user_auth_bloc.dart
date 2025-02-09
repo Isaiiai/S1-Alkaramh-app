@@ -1,3 +1,4 @@
+import 'package:alkaramh/services/apple_auth_services.dart';
 import 'package:alkaramh/services/auth_services.dart';
 import 'package:alkaramh/services/google_services.dart';
 import 'package:bloc/bloc.dart';
@@ -9,6 +10,7 @@ part 'user_auth_state.dart';
 
 class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final AppleServices _appleServices = AppleServices();
   UserAuthBloc() : super(UserAuthInitial()) {
     on<UserAuthEvent>((event, emit) {
       // TODO: implement event handler
@@ -19,6 +21,8 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
     on<SignInGoogleEvent>(signInGoogleEvent);
     on<LogoutEvent>(logoutEvent);
     on<GetCurrentUserEvent>(_getCurrentUser);
+    //info: apple signup
+    on<SignupAppleEvent>(_signupAppleEvent);
   }
 
   void userAuthRegisterEvent(
@@ -112,6 +116,22 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
       emit(UserAuthInitial());
     } else {
       emit(UserRegisterFailure(message: 'Logout failed'));
+    }
+  }
+
+  //info: apple signup
+  void _signupAppleEvent(
+      SignupAppleEvent event, Emitter<UserAuthState> emit) async {
+    emit(UserRegisterLoading());
+    try {
+      final userCredential = await _appleServices.signInWithApple();
+      if (userCredential.user != null) {
+        emit(UserRegisterSuccess());
+      } else {
+        emit(UserRegisterFailure(message: 'Apple sign-in failed'));
+      }
+    } catch (e) {
+      emit(UserRegisterFailure(message: e.toString()));
     }
   }
 }
