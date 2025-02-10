@@ -303,8 +303,6 @@ class _CartScreenState extends State<CartScreen> {
                       },
                     ),
                   ),
-
-                  // Checkout
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -424,7 +422,6 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                   ),
                 ),
-                // Disabled checkout button
                 SizedBox(
                   width: double.infinity,
                   child: ElevatedButton(

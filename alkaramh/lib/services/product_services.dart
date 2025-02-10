@@ -1,6 +1,5 @@
 import 'package:alkaramh/models/product_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 class ProductsFetchService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -54,15 +53,12 @@ class ProductsFetchService {
           .collection('PRODUCT_VARIANT')
           .where('product_id', isEqualTo: productIdInt)
           .get();
-
-      print("Product Variants: ${querySnapshot.docs.length}");
       return querySnapshot.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;
         data['document_id'] = doc.id;
         return ProductVariant.fromJson(data);
       }).toList();
     } catch (e) {
-      print('Error fetching product variants: ${e.toString()}');
       throw Exception('Failed to fetch product variants: ${e.toString()}');
     }
   }

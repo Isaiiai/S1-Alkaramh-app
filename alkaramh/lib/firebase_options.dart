@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyARrgqPJv5XSKtDA8icB5NiSmJOj1cqVNY',
-    appId: '1:18460469919:android:0699c5b308ebeabc3c50aa',
+    appId: '1:18460469919:android:a1b0a08d0573562c3c50aa',
     messagingSenderId: '18460469919',
     projectId: 'alkaramh-847d4',
     storageBucket: 'alkaramh-847d4.firebasestorage.app',
@@ -63,6 +63,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '18460469919',
     projectId: 'alkaramh-847d4',
     storageBucket: 'alkaramh-847d4.firebasestorage.app',
+    androidClientId: '18460469919-03qlhbfg2aidd5i62g3e4o8didcqqmrh.apps.googleusercontent.com',
+    iosClientId: '18460469919-f6p5qp0eo4atccqqguch649svrfpfmeu.apps.googleusercontent.com',
     iosBundleId: 'com.example.alkaramh',
   );
+
 }

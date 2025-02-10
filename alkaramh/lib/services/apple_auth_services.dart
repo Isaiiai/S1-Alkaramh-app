@@ -3,7 +3,6 @@ import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 class AppleServices {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
   Future<UserCredential> signInWithApple() async {
     try {
       final appleCredential = await SignInWithApple.getAppleIDCredential(
@@ -23,7 +22,4 @@ class AppleServices {
       throw Exception('Apple Sign-In failed: $e');
     }
   }
-
-
-  
 }

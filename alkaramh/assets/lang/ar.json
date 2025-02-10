@@ -104,5 +104,7 @@
     "delivery_charge": "رسوم التوصيل",
     "confirm_order": "تأكيد الطلب",
     "order_placed_successfully": "تم تقديم الطلب بنجاح",
-    "cart_on_delivery": "عربة التسوق عند الاستلام"
+    "cart_on_delivery": "عربة التسوق عند الاستلام",
+    "pay_with": "ادفع بواسطة" ,
+    "place_order": "أمر مكان"
 }

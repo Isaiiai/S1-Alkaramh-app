@@ -12,7 +12,20 @@
           "package_name": "com.example.alkaramh"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "18460469919-03qlhbfg2aidd5i62g3e4o8didcqqmrh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.alkaramh",
+            "certificate_hash": "f3295d571856e3feb85fa6ee0681a2bf0bd2f67e"
+          }
+        },
+        {
+          "client_id": "18460469919-cik5isravk2aht4oen27ev8sm614iamu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyARrgqPJv5XSKtDA8icB5NiSmJOj1cqVNY"
@@ -20,7 +33,63 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "18460469919-cik5isravk2aht4oen27ev8sm614iamu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "18460469919-f6p5qp0eo4atccqqguch649svrfpfmeu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.alkaramh"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:18460469919:android:a1b0a08d0573562c3c50aa",
+        "android_client_info": {
+          "package_name": "com.isaii.alkaramh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "18460469919-sk93g8niluvjkh97j47hauf93ijto6sa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.isaii.alkaramh",
+            "certificate_hash": "f3295d571856e3feb85fa6ee0681a2bf0bd2f67e"
+          }
+        },
+        {
+          "client_id": "18460469919-cik5isravk2aht4oen27ev8sm614iamu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyARrgqPJv5XSKtDA8icB5NiSmJOj1cqVNY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "18460469919-cik5isravk2aht4oen27ev8sm614iamu.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "18460469919-f6p5qp0eo4atccqqguch649svrfpfmeu.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.alkaramh"
+              }
+            }
+          ]
         }
       }
     }

@@ -73,7 +73,7 @@ class HomeScreenWidget {
 
   buildSelectByCatagoryCircle(String productImage, String title) {
     return Container(
-      height: 140, // Fixed height for the entire widget
+      height: 140, 
       child: Column(
         children: [
           Container(

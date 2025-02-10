@@ -31,92 +31,88 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
     final double totalWithDelivery = double.parse(widget.totalAmount);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        backgroundColor: Colors.blue,
         title: Text(
-          AppLocalizations.of(context)!.translate('payment_method'),
+          AppLocalizations.of(context)!.translate('checkout'),
           style: MyTextTheme.body.copyWith(
             fontSize: 22,
             fontWeight: FontWeight.w600,
+            color: Colors.white,
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
+          icon: const Icon(Icons.arrow_back , color: Colors.white,),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         child: Column(
           children: [
+            // Payment Method Section
             Container(
-              padding: const EdgeInsets.all(16.0),
+              width: double.infinity,
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8.0),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(10),
               ),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    AppLocalizations.of(context)!
-                        .translate('select_payment_method'),
+                    AppLocalizations.of(context)!.translate('pay_with'),
                     style: MyTextTheme.body.copyWith(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  ListTile(
-                    title: Text(AppLocalizations.of(context)!
-                        .translate('cash_on_delivery')),
-                    leading: Radio(
-                      value: 'cash_on_delivery',
-                      groupValue: selectedPaymentMethod,
-                      activeColor: AppColors.primaryColor,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedPaymentMethod = value.toString();
-                        });
-                      },
+                  const SizedBox(height: 8),
+                  Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.blue),
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                  ),
-                  ListTile(
-                    title: Text(AppLocalizations.of(context)!
-                        .translate('online_payment')),
-                    leading: Radio(
-                      value: 'online_payment',
-                      groupValue: selectedPaymentMethod,
-                      activeColor: AppColors.primaryColor,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedPaymentMethod = value.toString();
-                        });
-                      },
-                    ),
-                  ),
-                  ListTile(
-                    title: Text(AppLocalizations.of(context)!
-                        .translate('cart_on_delivery')),
-                    leading: Radio(
-                      value: 'cart_on_delivery',
-                      groupValue: selectedPaymentMethod,
-                      activeColor: AppColors.primaryColor,
-                      onChanged: (value) {
-                        setState(() {
-                          selectedPaymentMethod = value.toString();
-                        });
-                      },
+                    child: Column(
+                      children: [
+                        buildPaymentOption(
+                          context,
+                          'card_on_delivery',
+                          Icons.credit_card,
+                          AppLocalizations.of(context)!.translate('card_on_delivery'),
+                        ),
+                        buildPaymentOption(
+                          context,
+                          'cash_on_delivery',
+                          Icons.money,
+                          AppLocalizations.of(context)!.translate('cash_on_delivery'),
+                        ),
+                        buildPaymentOption(
+                          context,
+                          'farhan_on_delivery',
+                          Icons.payment,
+                          'Farhan on delivery',
+                        ),
+                      ],
                     ),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 20),
+
+            
             Container(
-              padding: const EdgeInsets.all(16.0),
               decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey),
-                borderRadius: BorderRadius.circular(8.0),
+                color: Colors.white,
+                border: Border.all(color: Colors.blue),
+                borderRadius: BorderRadius.circular(10),
+                
               ),
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -128,39 +124,11 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(AppLocalizations.of(context)!
-                          .translate('products_total')),
-                      Text(
-                          '${AppLocalizations.of(context)!.translate('qar')} ${widget.totalAmount}'),
-                    ],
-                  ),
-                  const SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(AppLocalizations.of(context)!
-                          .translate('delivery_charge')),
-                    ],
-                  ),
+                  buildPriceRow('Basket Total', widget.totalAmount),
+                  buildPriceRow('Delivery Fee', 'Free Delivery'),
                   const Divider(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.translate('total_amount'),
-                        style: MyTextTheme.body
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        '${AppLocalizations.of(context)!.translate('qar')} $totalWithDelivery',
-                        style: MyTextTheme.body
-                            .copyWith(fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
+                  buildPriceRow('Total amount', totalWithDelivery.toString(),
+                      isBold: true),
                 ],
               ),
             ),
@@ -194,7 +162,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                             cartBloc.add(ClearCartEvent());
                           },
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: AppColors.primaryColor,
+                      backgroundColor: Colors.blue,
                       padding: const EdgeInsets.symmetric(vertical: 15),
                       textStyle: const TextStyle(fontSize: 18),
                     ),
@@ -202,7 +170,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                         ? const CircularProgressIndicator(color: Colors.white)
                         : Text(
                             AppLocalizations.of(context)!
-                                .translate('confirm_order'),
+                                .translate('place_order'),
                             style:
                                 MyTextTheme.body.copyWith(color: Colors.white),
                           ),
@@ -212,6 +180,57 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  
+  Widget buildPaymentOption(
+      BuildContext context, String value, IconData icon, String title) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: value == 'farhan_on_delivery'
+              ? BorderSide.none
+              : BorderSide(color: Colors.blue.withOpacity(0.5)),
+        ),
+      ),
+      child: ListTile(
+        leading: Icon(icon, color: Colors.black),
+        title: Text(title),
+        trailing: Radio(
+          value: value,
+          groupValue: selectedPaymentMethod,
+          activeColor: AppColors.primaryColor,
+          onChanged: (newValue) {
+            setState(() {
+              selectedPaymentMethod = newValue.toString();
+            });
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget buildPriceRow(String label, String amount, {bool isBold = false}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.translate(label),
+            style: MyTextTheme.body.copyWith(
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+          Text(
+            'QAR $amount',
+            style: MyTextTheme.body.copyWith(
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+            ),
+          ),
+        ],
       ),
     );
   }

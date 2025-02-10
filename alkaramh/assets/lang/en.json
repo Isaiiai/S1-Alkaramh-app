@@ -105,6 +105,8 @@
     "delivery_charge": "Delivery Charge",
     "confirm_order": "Confirm Order",
     "order_placed_successfully": "Order placed successfully",
-    "cart_on_delivery": "Cart on Delivery"
+    "cart_on_delivery": "Cart on Delivery",
+    "pay_with": "Pay with",
+    "place_order" : "Place Order"
   }
   
