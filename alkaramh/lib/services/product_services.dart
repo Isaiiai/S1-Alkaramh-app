@@ -37,7 +37,6 @@ class ProductsFetchService {
         arabicDescription: data['arabic_description'],
         categoryId: data['category_id'],
         isActive: data['is_active'],
-        rating: data['rating'],
         imageUrl: data['imageUrl'],
       );
     } catch (e) {

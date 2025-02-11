@@ -1,4 +1,5 @@
 import 'package:alkaramh/app_localizations.dart';
+import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/models/product_model.dart';
@@ -59,9 +60,12 @@ class _HomeScreenState extends State<HomeScreen> {
       if (categoryId.isEmpty) {
         filteredProducts = products;
       } else {
+        print('Filtering products by category: $categoryId');
+
         filteredProducts = products
             .where((product) => product.categoryId == categoryId)
             .toList();
+        print('Filtered products: ${filteredProducts.length}');
       }
     });
   }
@@ -88,7 +92,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F7EC),
+      backgroundColor: AppColors.primaryBackGroundColor,
       body: isSeeMore
           ? _buildSeeMoreProducts(context, categories, products)
           : isSearching
@@ -100,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildSearchResults(BuildContext context) {
     List<Product> filteredProducts = _getFilteredProducts(products);
     return Scaffold(
+      backgroundColor: AppColors.primaryBackGroundColor,
       body: Padding(
         padding: const EdgeInsets.all(8),
         child: SafeArea(
@@ -149,16 +154,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             leading: Image.network(
                                 product.imageUrl ?? brownweetImage),
                             title: Text(product.name),
-                            subtitle: Text(
-                              AppLocalizations.of(context)!
-                                  .translate('rating')
-                                  .replaceFirst(
-                                      '%s', product.rating.toString()),
-                              style: TextStyle(
-                                color: Colors.grey[600],
-                                fontSize: 14,
-                              ),
-                            ),
                             onTap: () {
                               Navigator.push(
                                 context,
@@ -348,7 +343,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               productarabicName: product.arabicName,
                               description: product.description,
                               arabicDescription: product.arabicDescription,
-                              starRating: product.rating,
                               context: context,
                               onTap: () {
                                 Navigator.push(
@@ -426,7 +420,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildSeeMoreProducts(
       BuildContext context, List<Category> categories, List<Product> products) {
     if (filteredProducts.isEmpty) {
-      filteredProducts = products;
+      filteredProducts = [];
     }
 
     return WillPopScope(
@@ -437,6 +431,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return false;
       },
       child: Scaffold(
+        backgroundColor: AppColors.primaryBackGroundColor,
         appBar: AppBar(
           title: Text(selectedCategory.isEmpty
               ? AppLocalizations.of(context)!.translate('all_products')
@@ -468,7 +463,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     final category = categories[index];
                     final isSelected = selectedCategory == category.id;
                     return GestureDetector(
-                      onTap: () => filterProductsByCategory(category.id),
+                      onTap: () {
+                        filterProductsByCategory(category.id);
+                      },
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12, vertical: 8),
@@ -520,200 +517,213 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               );
                             },
-                            child: Card(
-                              elevation: 3,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                            child: Container(
+                              width: 200,
+                              margin: const EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              child: Stack(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.grey[500],
-                                          borderRadius:
-                                              BorderRadius.circular(20),
+                              child: Padding(
+                                padding: const EdgeInsets.all(4.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Stack(
+                                      children: [
+                                        Container(
+                                          width: double.infinity,
+                                          height: 150,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(12),
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey
+                                                    .withOpacity(0.5),
+                                                spreadRadius: 1,
+                                                blurRadius: 3,
+                                              ),
+                                            ],
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(16.0),
+                                            child: ClipRRect(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              child: Image.network(
+                                                product.imageUrl!,
+                                                fit: BoxFit.fill,
+                                                errorBuilder: (context, error,
+                                                    stackTrace) {
+                                                  return Image.asset(
+                                                    brownweetImage,
+                                                    fit: BoxFit.cover,
+                                                  );
+                                                },
+                                                loadingBuilder: (context, child,
+                                                    loadingProgress) {
+                                                  if (loadingProgress == null)
+                                                    return child;
+                                                  return Center(
+                                                    child:
+                                                        CircularProgressIndicator(
+                                                      value: loadingProgress
+                                                                  .expectedTotalBytes !=
+                                                              null
+                                                          ? loadingProgress
+                                                                  .cumulativeBytesLoaded /
+                                                              loadingProgress
+                                                                  .expectedTotalBytes!
+                                                          : null,
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
                                         ),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(16.0),
-                                          child: Image.network(
-                                            product.imageUrl!,
-                                            fit: BoxFit.cover,
-                                            errorBuilder:
-                                                (context, error, stackTrace) {
-                                              return Image.asset(
-                                                brownweetImage,
-                                                fit: BoxFit.cover,
-                                              );
-                                            },
-                                            loadingBuilder: (context, child,
-                                                loadingProgress) {
-                                              if (loadingProgress == null)
-                                                return child;
-                                              return Center(
-                                                child:
-                                                    CircularProgressIndicator(
-                                                  value: loadingProgress
-                                                              .expectedTotalBytes !=
-                                                          null
-                                                      ? loadingProgress
-                                                              .cumulativeBytesLoaded /
-                                                          loadingProgress
-                                                              .expectedTotalBytes!
-                                                      : null,
-                                                ),
+                                        Positioned(
+                                          top: 8,
+                                          right: 8,
+                                          child: StatefulBuilder(
+                                            builder: (BuildContext context,
+                                                StateSetter setState) {
+                                              return FutureBuilder<bool>(
+                                                future: wishListServices
+                                                    .isInWishList(
+                                                        product.id.toString()),
+                                                builder: (context, snapshot) {
+                                                  final isInWishlist =
+                                                      snapshot.data ?? false;
+                                                  return GestureDetector(
+                                                    onTap: () async {
+                                                      try {
+                                                        if (isInWishlist) {
+                                                          await wishListServices
+                                                              .removeFromWishList(
+                                                                  product.id
+                                                                      .toString());
+                                                        } else {
+                                                          await wishListServices
+                                                              .addToWishList(
+                                                            productId: product
+                                                                .id
+                                                                .toString(),
+                                                            productName:
+                                                                product.name,
+                                                            productarabicName:
+                                                                product
+                                                                    .arabicName,
+                                                            description: product
+                                                                .description,
+                                                            arabicDescription:
+                                                                product
+                                                                    .arabicDescription,
+                                                          );
+                                                        }
+                                                        setState(() {});
+
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                              isInWishlist
+                                                                  ? AppLocalizations.of(
+                                                                          context)!
+                                                                      .translate(
+                                                                          'remove_from_wishlist')
+                                                                  : AppLocalizations.of(
+                                                                          context)!
+                                                                      .translate(
+                                                                          'add_to_wishlist'),
+                                                            ),
+                                                            backgroundColor:
+                                                                Colors.green,
+                                                          ),
+                                                        );
+                                                      } catch (e) {
+                                                        ScaffoldMessenger.of(
+                                                                context)
+                                                            .showSnackBar(
+                                                          SnackBar(
+                                                            content: Text(
+                                                                e.toString()),
+                                                            backgroundColor:
+                                                                Colors.red,
+                                                          ),
+                                                        );
+                                                      }
+                                                    },
+                                                    child: Container(
+                                                      width: 30,
+                                                      height: 30,
+                                                      decoration: BoxDecoration(
+                                                        color: Colors.grey[300],
+                                                        shape: BoxShape.circle,
+                                                        boxShadow: [
+                                                          BoxShadow(
+                                                            color: Colors.black
+                                                                .withOpacity(
+                                                                    0.1),
+                                                            blurRadius: 4,
+                                                            offset:
+                                                                const Offset(
+                                                                    2, 2),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                      child: Center(
+                                                        child: Icon(
+                                                          isInWishlist
+                                                              ? Icons.favorite
+                                                              : Icons
+                                                                  .favorite_border,
+                                                          color: isInWishlist
+                                                              ? Colors.red
+                                                              : Colors.grey,
+                                                          size: 18,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
                                               );
                                             },
                                           ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Text(
+                                      ],
+                                    ),
+                                    const SizedBox(height: 14),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 4.0),
+                                            child: Text(
                                               context.isArabic
                                                   ? product.arabicName
                                                   : product.name,
                                               style: MyTextTheme.body.copyWith(
+                                                fontSize: 20,
                                                 fontWeight: FontWeight.bold,
                                               ),
-                                              maxLines: 1,
+                                              maxLines: 2,
                                               overflow: TextOverflow.ellipsis,
+                                              textAlign: TextAlign.center,
                                             ),
-                                            const SizedBox(height: 4),
-                                            Text(
-                                              AppLocalizations.of(context)!
-                                                  .translate('rating')
-                                                  .replaceFirst(
-                                                      '%s',
-                                                      product.rating
-                                                          .toString()),
-                                              style: TextStyle(
-                                                color: Colors.grey[600],
-                                                fontSize: 14,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Positioned(
-                                    top: 8,
-                                    right: 8,
-                                    child: Container(
-                                      height: 28,
-                                      width: 28,
-                                      decoration: BoxDecoration(
-                                        color: Colors.white,
-                                        shape: BoxShape.circle,
-                                        boxShadow: [
-                                          BoxShadow(
-                                            color:
-                                                Colors.black.withOpacity(0.1),
-                                            spreadRadius: 1,
-                                            blurRadius: 1,
-                                            offset: const Offset(0, 1),
                                           ),
-                                        ],
-                                      ),
-                                      child: StatefulBuilder(
-                                        builder: (BuildContext context,
-                                            StateSetter setState) {
-                                          return FutureBuilder<bool>(
-                                            future:
-                                                wishListServices.isInWishList(
-                                                    product.id.toString()),
-                                            builder: (context, snapshot) {
-                                              final isInWishlist =
-                                                  snapshot.data ?? false;
-                                              return IconButton(
-                                                constraints:
-                                                    const BoxConstraints(
-                                                  minWidth: 36,
-                                                  minHeight: 36,
-                                                ),
-                                                padding: EdgeInsets.zero,
-                                                icon: Icon(
-                                                  isInWishlist
-                                                      ? Icons.favorite
-                                                      : Icons.favorite_border,
-                                                  color: isInWishlist
-                                                      ? Colors.red
-                                                      : Colors.grey,
-                                                  size: 18,
-                                                ),
-                                                onPressed: () async {
-                                                  try {
-                                                    if (isInWishlist) {
-                                                      await wishListServices
-                                                          .removeFromWishList(
-                                                              product.id
-                                                                  .toString());
-                                                    } else {
-                                                      await wishListServices
-                                                          .addToWishList(
-                                                        productId: product.id
-                                                            .toString(),
-                                                        productName:
-                                                            product.name,
-                                                        productarabicName:
-                                                            product.arabicName,
-                                                        description:
-                                                            product.description,
-                                                        arabicDescription: product
-                                                            .arabicDescription,
-                                                      );
-                                                    }
-
-                                                    setState(() {});
-
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content: Text(
-                                                          isInWishlist
-                                                              ? AppLocalizations
-                                                                      .of(
-                                                                          context)!
-                                                                  .translate(
-                                                                      'remove_from_wishlist')
-                                                              : AppLocalizations
-                                                                      .of(
-                                                                          context)!
-                                                                  .translate(
-                                                                      'add_to_wishlist'),
-                                                        ),
-                                                        backgroundColor:
-                                                            Colors.green,
-                                                      ),
-                                                    );
-                                                  } catch (e) {
-                                                    ScaffoldMessenger.of(
-                                                            context)
-                                                        .showSnackBar(
-                                                      SnackBar(
-                                                        content:
-                                                            Text(e.toString()),
-                                                        backgroundColor:
-                                                            Colors.red,
-                                                      ),
-                                                    );
-                                                  }
-                                                },
-                                              );
-                                            },
-                                          );
-                                        },
-                                      ),
+                                        ),
+                                      ],
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(height: 4),
+                                  ],
+                                ),
                               ),
                             ),
                           );

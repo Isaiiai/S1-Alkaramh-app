@@ -1,5 +1,6 @@
 import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
+import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/screens/auth_screen/forgot_password_screen.dart';
@@ -20,6 +21,7 @@ class SignInScreen extends StatelessWidget {
     UserAuthBloc userAuthBloc = BlocProvider.of<UserAuthBloc>(context);
 
     return Scaffold(
+      backgroundColor: AppColors.primaryBackGroundColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
@@ -170,9 +172,30 @@ class SignInScreen extends StatelessWidget {
                       }
                       return ElevatedButton(
                         onPressed: () {
+                          if (_emailController.text.isEmpty ||
+                              _passwordController.text.isEmpty) {
+                            ErrorDialogbox().showErrorDialog(
+                                context,
+                                AppLocalizations.of(context)!
+                                    .translate('fill_all_fields'));
+                            return;
+                          }
+
+                          final emailRegex =
+                              RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+                          if (!emailRegex
+                              .hasMatch(_emailController.text.trim())) {
+                            ErrorDialogbox().showErrorDialog(
+                                context,
+                                AppLocalizations.of(context)!
+                                    .translate('invalid_email'));
+                            return;
+                          }
+
                           userAuthBloc.add(SignInEvent(
-                              email: _emailController.text,
-                              password: _passwordController.text));
+                              email: _emailController.text.trim(),
+                              password: _passwordController.text.trim()));
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.green,
@@ -246,7 +269,7 @@ class SignInScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   ElevatedButton.icon(
                     onPressed: () {
-                       userAuthBloc.add(SignupAppleEvent());
+                      userAuthBloc.add(SignupAppleEvent());
                     },
                     icon: Row(
                       children: [

@@ -73,7 +73,7 @@ class HomeScreenWidget {
 
   buildSelectByCatagoryCircle(String productImage, String title) {
     return Container(
-      height: 140, 
+      height: 140,
       child: Column(
         children: [
           Container(
@@ -137,7 +137,6 @@ class HomeScreenWidget {
     required String productarabicName,
     required String description,
     required String arabicDescription,
-    required double starRating,
     required VoidCallback? onTap,
     required BuildContext context,
   }) {
@@ -148,15 +147,8 @@ class HomeScreenWidget {
         height: 190,
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.grey[200],
+          color: Colors.white,
           borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 2,
-              blurRadius: 5,
-            ),
-          ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(4.0),
@@ -169,8 +161,15 @@ class HomeScreenWidget {
                     width: 190,
                     height: 150,
                     decoration: BoxDecoration(
-                      color: Colors.grey[350],
+                     
                       borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 1,
+                          blurRadius: 3,
+                        ),
+                      ],
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -304,20 +303,6 @@ class HomeScreenWidget {
                 ],
               ),
               const SizedBox(height: 4),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    AppLocalizations.of(context)!
-                        .translate('rating')
-                        .replaceFirst('%s', starRating.toString()),
-                    style: TextStyle(
-                      color: Colors.grey[600],
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
             ],
           ),
         ),

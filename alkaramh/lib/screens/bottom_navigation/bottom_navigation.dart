@@ -1,3 +1,4 @@
+import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/screens/cart_screen/cart_screen.dart';
 import 'package:alkaramh/screens/home_screen/home_screen.dart';
@@ -42,6 +43,7 @@ class _BottomNavScreenState extends State<BottomNavScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: _screens[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,

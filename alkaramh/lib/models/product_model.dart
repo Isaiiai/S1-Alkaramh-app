@@ -11,7 +11,7 @@ class Product {
   final String arabicDescription;
   final String? imageUrl;
   final bool isActive;
-  final double rating;
+
 
   Product({
     required this.id,
@@ -22,7 +22,6 @@ class Product {
     this.imageUrl,
     required this.categoryId,
     required this.isActive,
-    required this.rating,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -35,7 +34,6 @@ class Product {
       imageUrl: json['imageUrl'] ?? '',
       categoryId: json['category_id'],
        isActive: json['isActive'] ?? false, 
-      rating: json['rating'],
     );
   }
 
@@ -49,7 +47,6 @@ class Product {
       'imageUrl': imageUrl,
       'category_id': categoryId,
       'isActive': isActive,
-      'rating': rating,
     };
   }
 

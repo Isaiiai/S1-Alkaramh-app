@@ -1,15 +1,36 @@
 import 'package:alkaramh/app_localizations.dart';
+import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
+import 'package:alkaramh/services/auth_services.dart';
 import 'package:flutter/material.dart';
 
-class NotificationScreen extends StatelessWidget {
+class NotificationScreen extends StatefulWidget {
   const NotificationScreen({Key? key}) : super(key: key);
+
+  @override
+  State<NotificationScreen> createState() => _NotificationScreenState();
+}
+
+class _NotificationScreenState extends State<NotificationScreen> {
+  bool isNotification = false;
+  @override
+  void initState() {
+    super.initState();
+    _checkNotificationStatus();
+  }
+
+  Future<void> _checkNotificationStatus() async {
+    final status = await AuthServices().isNotificationEnabled();
+    setState(() {
+      isNotification = status;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF8F7EC),
+      backgroundColor: AppColors.primaryBackGroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -18,7 +39,6 @@ class NotificationScreen extends StatelessWidget {
               // Header
               Row(
                 children: [
-                  
                   const Spacer(),
                   Container(
                     child: Text(
@@ -31,7 +51,6 @@ class NotificationScreen extends StatelessWidget {
                     ),
                   ),
                   const Spacer(),
-                
                 ],
               ),
 
@@ -104,11 +123,21 @@ class NotificationScreen extends StatelessWidget {
                     SizedBox(
                       width: 186,
                       child: ElevatedButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          final authServices = AuthServices();
+                          final result =
+                              await authServices.updateNotificationStatus(
+                                  isNotification ? false : true);
+
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(AppLocalizations.of(context)!
-                                  .translate('this_is_under_development')),
+                              content: Text(isNotification
+                                  ? AppLocalizations.of(context)!
+                                      .translate('disable_notification')
+                                  : AppLocalizations.of(context)!.translate(
+                                      'notifications_enabled')),
+                              backgroundColor:
+                                  isNotification ? Colors.green : Colors.green,
                             ),
                           );
                         },
@@ -121,7 +150,11 @@ class NotificationScreen extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          AppLocalizations.of(context)!.translate('enable_notification'),
+                          isNotification
+                              ? AppLocalizations.of(context)!
+                                  .translate('disable_notification')
+                              : AppLocalizations.of(context)!
+                                  .translate('enable_notification'),
                           style: MyTextTheme.body.copyWith(
                             fontSize: 16,
                             color: Colors.white,
@@ -133,7 +166,6 @@ class NotificationScreen extends StatelessWidget {
 
                     const SizedBox(height: 10),
 
-                    // Remind Later Button
                     TextButton(
                       onPressed: () {},
                       child: Text(

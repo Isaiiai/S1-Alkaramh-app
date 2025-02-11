@@ -107,6 +107,10 @@
     "order_placed_successfully": "Order placed successfully",
     "cart_on_delivery": "Cart on Delivery",
     "pay_with": "Pay with",
-    "place_order" : "Place Order"
+    "place_order" : "Place Order",
+    "fill_all_fields": "Please fill all fields",
+    "notifications_enabled": "Notifications enabled",
+    "failed_to_enable_notifications": "Failed to enable notifications",
+    "disable_notification": "Disable Notification"
   }
   

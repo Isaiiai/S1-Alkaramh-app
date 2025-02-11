@@ -5,6 +5,7 @@ import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/screens/auth_screen/forgot_password_screen.dart';
 import 'package:alkaramh/screens/bottom_navigation/bottom_navigation.dart';
 import 'package:alkaramh/services/google_services.dart';
+import 'package:alkaramh/widget/snakbar_all/snakbar_all.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -242,6 +243,26 @@ class SignUpScreen extends StatelessWidget {
                               ),
                             ),
                           );
+                          return;
+                        }
+                        if (nameController.text.isEmpty ||
+                            passwordController.text.isEmpty ||
+                            emailController.text.isEmpty) {
+                          ErrorDialogbox().showErrorDialog(
+                              context,
+                              AppLocalizations.of(context)!
+                                  .translate('fill_all_fields'));
+                          return;
+                        }
+
+                        final emailRegex =
+                            RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+
+                        if (!emailRegex.hasMatch(emailController.text.trim())) {
+                          ErrorDialogbox().showErrorDialog(
+                              context,
+                              AppLocalizations.of(context)!
+                                  .translate('invalid_email'));
                           return;
                         }
                         _userAuthBloc.add(

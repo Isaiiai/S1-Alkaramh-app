@@ -43,7 +43,10 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back , color: Colors.white,),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: Colors.white,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -51,14 +54,13 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
         child: Column(
           children: [
-            // Payment Method Section
             Container(
               width: double.infinity,
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(10),
               ),
-              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+            
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -70,47 +72,39 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.blue),
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    child: Column(
-                      children: [
-                        buildPaymentOption(
-                          context,
-                          'card_on_delivery',
-                          Icons.credit_card,
-                          AppLocalizations.of(context)!.translate('card_on_delivery'),
-                        ),
-                        buildPaymentOption(
-                          context,
-                          'cash_on_delivery',
-                          Icons.money,
-                          AppLocalizations.of(context)!.translate('cash_on_delivery'),
-                        ),
-                        buildPaymentOption(
-                          context,
-                          'farhan_on_delivery',
-                          Icons.payment,
-                          'Farhan on delivery',
-                        ),
-                      ],
-                    ),
+                  Column(
+                    children: [
+                      buildPaymentOption(
+                        context,
+                        'card_on_delivery',
+                        Icons.credit_card,
+                        AppLocalizations.of(context)!
+                            .translate('card_on_delivery'),
+                      ),
+                      buildPaymentOption(
+                        context,
+                        'cash_on_delivery',
+                        Icons.money,
+                        AppLocalizations.of(context)!
+                            .translate('cash_on_delivery'),
+                      ),
+                      buildPaymentOption(
+                        context,
+                        'farhan_on_delivery',
+                        Icons.payment,
+                        'Farhan on delivery',
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 20),
-
-            
             Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                border: Border.all(color: Colors.blue),
-                borderRadius: BorderRadius.circular(10),
                 
+                borderRadius: BorderRadius.circular(10),
               ),
               padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
@@ -184,29 +178,43 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
     );
   }
 
-  
   Widget buildPaymentOption(
       BuildContext context, String value, IconData icon, String title) {
-    return Container(
-      decoration: BoxDecoration(
-        border: Border(
-          bottom: value == 'farhan_on_delivery'
-              ? BorderSide.none
-              : BorderSide(color: Colors.blue.withOpacity(0.5)),
+    final isSelected = selectedPaymentMethod == value;
+
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          selectedPaymentMethod = value;
+        });
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          
+          color: isSelected ? Colors.green.withOpacity(0.1) : Colors.white,
         ),
-      ),
-      child: ListTile(
-        leading: Icon(icon, color: Colors.black),
-        title: Text(title),
-        trailing: Radio(
-          value: value,
-          groupValue: selectedPaymentMethod,
-          activeColor: AppColors.primaryColor,
-          onChanged: (newValue) {
-            setState(() {
-              selectedPaymentMethod = newValue.toString();
-            });
-          },
+        child: Container(
+          margin: const EdgeInsets.all(4),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8),
+            border: Border.all(
+              color: isSelected ? Colors.green : Colors.transparent,
+              width: 2,
+            ),
+          ),
+          child: ListTile(
+            leading: Icon(
+              icon,
+              color: isSelected ? Colors.green : Colors.black,
+            ),
+            title: Text(
+              title,
+              style: TextStyle(
+                color: isSelected ? Colors.green : Colors.black,
+                fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
+              ),
+            ),
+          ),
         ),
       ),
     );

@@ -67,6 +67,7 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
     OrderBloc orderBloc = BlocProvider.of<OrderBloc>(context);
 
     return Scaffold(
+      backgroundColor: AppColors.primaryBackGroundColor,
       body: SafeArea(
         child: Column(
           children: [
@@ -90,7 +91,7 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                       ),
                     ),
                   ),
-                  SvgPicture.asset(shareIcon, width: 15, height: 15),
+                
                 ],
               ),
             ),

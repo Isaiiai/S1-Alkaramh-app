@@ -1,5 +1,6 @@
 import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/bloc/language_handler_bloc/language_bloc.dart';
+import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/screens/auth_screen/signin_screen.dart';
@@ -45,7 +46,9 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
+      backgroundColor: AppColors.primaryBackGroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),

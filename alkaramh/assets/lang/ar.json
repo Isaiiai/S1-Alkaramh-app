@@ -106,5 +106,9 @@
     "order_placed_successfully": "تم تقديم الطلب بنجاح",
     "cart_on_delivery": "عربة التسوق عند الاستلام",
     "pay_with": "ادفع بواسطة" ,
-    "place_order": "أمر مكان"
+    "place_order": "أمر مكان",
+    "fill_all_fields": "يرجى ملء جميع الحقول",
+    "notifications_enabled": "الإشعارات ممكنة",
+    "failed_to_enable_notifications": "فشل في تمكين الإشعارات",
+    "disable_notification": "تعطيل الإشعار"
 }

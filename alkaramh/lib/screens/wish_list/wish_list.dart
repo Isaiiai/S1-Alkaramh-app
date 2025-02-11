@@ -27,6 +27,7 @@ class _WishListState extends State<WishList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primaryBackGroundColor,
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.translate('wishlist'),

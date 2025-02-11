@@ -89,6 +89,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     OrderBloc orderBloc = BlocProvider.of<OrderBloc>(context);
 
     return Scaffold(
+      backgroundColor: AppColors.primaryBackGroundColor,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,

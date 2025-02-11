@@ -1,4 +1,5 @@
 import 'package:alkaramh/app_localizations.dart';
+import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/models/order_model.dart';
@@ -45,6 +46,7 @@ class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primaryBackGroundColor,
       appBar: AppBar(
         title: Text(AppLocalizations.of(context)!.translate('orders')),
       ),

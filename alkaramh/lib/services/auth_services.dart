@@ -32,6 +32,7 @@ class AuthServices {
               .set({
             'name': name,
             'email': email,
+            'isNotificationEnabled': false,
             'createdAt': FieldValue.serverTimestamp(),
           });
           return AuthResult(success: true);
@@ -45,6 +46,57 @@ class AuthServices {
       return AuthResult(success: false);
     } on FirebaseAuthException catch (e) {
       return AuthResult(success: false, errorMessage: e.message);
+    }
+  }
+
+  Future<bool> updateNotificationStatus(bool enabled) async {
+    try {
+      final userId = getCurrentUserId();
+      if (userId != null) {
+        await _firestore.collection('users').doc(userId).update({
+          'isNotificationEnabled': enabled,
+        });
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print('Error updating notification status: $e');
+      return false;
+    }
+  }
+
+  Future<bool> isNotificationEnabled() async {
+    try {
+      final userId = getCurrentUserId();
+      if (userId != null) {
+        final userDoc = await _firestore.collection('users').doc(userId).get();
+        return userDoc.data()?['isNotificationEnabled'] ?? false;
+      }
+      return false;
+    } catch (e) {
+      print('Error checking notification status: $e');
+      return false;
+    }
+  }
+
+  Future<void> createUserDocumentForGoogleSignIn(User user) async {
+    try {
+      // Check if user document already exists
+      final userDoc = await _firestore.collection('users').doc(user.uid).get();
+
+      if (!userDoc.exists) {
+        // Create new user document if it doesn't exist
+        await _firestore.collection('users').doc(user.uid).set({
+          'name': user.displayName ?? '',
+          'email': user.email ?? '',
+          'isNotificationEnabled': false,
+          'createdAt': FieldValue.serverTimestamp(),
+          'signInMethod': 'google'
+        });
+      }
+    } catch (e) {
+      print('Error creating user document: $e');
+      throw e;
     }
   }
 

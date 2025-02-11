@@ -1,6 +1,7 @@
 import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/bloc/language_handler_bloc/language_bloc.dart';
 import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
+import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/screens/auth_screen/main_screen.dart';
 import 'package:alkaramh/screens/order_screen/order_details_get_screen.dart';
@@ -70,7 +71,7 @@ class _AccountScreenState extends State<AccountScreen> {
     UserAuthBloc userAuthBloc = BlocProvider.of<UserAuthBloc>(context);
 
     return Scaffold(
-      backgroundColor: Color(0xFFF8F7EC),
+      backgroundColor: AppColors.primaryBackGroundColor,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -84,7 +85,7 @@ class _AccountScreenState extends State<AccountScreen> {
                 Container(
                   padding:
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-                  color: Color(0xFFF8F7EC),
+                  
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -175,10 +176,7 @@ class _AccountScreenState extends State<AccountScreen> {
               ),
             ),
             const SizedBox(height: 8),
-
-            // Menu Items
-            Container(
-              color: Color(0xFFF8F7EC),
+            SizedBox(
               child: Column(
                 children: [
                   _buildListTile(

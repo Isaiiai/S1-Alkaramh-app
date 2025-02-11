@@ -36,12 +36,13 @@ class _CartScreenState extends State<CartScreen> {
   void initState() {
     super.initState();
     context.read<CartBloc>().add(FetchCartItems());
+    selectedItems.clear();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.primaryBackGroundColor,
       body: SafeArea(
         child: BlocBuilder<CartBloc, CartState>(
           builder: (context, state) {
@@ -56,16 +57,6 @@ class _CartScreenState extends State<CartScreen> {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(16),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
                     child: Column(
                       children: [
                         Row(
@@ -80,24 +71,6 @@ class _CartScreenState extends State<CartScreen> {
                                 ),
                               ),
                             ),
-                            SvgPicture.asset(shareIcon, width: 15, height: 15),
-                          ],
-                        ),
-                        const SizedBox(height: 16),
-                        Row(
-                          children: [
-                            Icon(Icons.location_on_outlined,
-                                color: Colors.grey[600]),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: Text(
-                                AppLocalizations.of(context)!
-                                    .translate('your_location'),
-                                style: MyTextTheme.body
-                                    .copyWith(color: Colors.grey[700]),
-                              ),
-                            ),
-                            Icon(Icons.chevron_right, color: Colors.grey[400]),
                           ],
                         ),
                       ],
@@ -108,10 +81,12 @@ class _CartScreenState extends State<CartScreen> {
                     child: Row(
                       children: [
                         Checkbox(
+                          
                           value: cartItems.isNotEmpty &&
                               selectedItems.values.every((v) => v),
                           onChanged: (value) {
                             setState(() {
+                             
                               for (int i = 0; i < cartItems.length; i++) {
                                 selectedItems[i] = value ?? false;
                               }
@@ -276,18 +251,6 @@ class _CartScreenState extends State<CartScreen> {
                                                                 .toString(),
                                                       ),
                                                     );
-
-                                                ScaffoldMessenger.of(context)
-                                                    .showSnackBar(
-                                                  SnackBar(
-                                                    content: Text(
-                                                      AppLocalizations.of(
-                                                              context)!
-                                                          .translate(
-                                                              'item_added_to_cart'),
-                                                    ),
-                                                  ),
-                                                );
                                               },
                                             ),
                                           ],
@@ -380,22 +343,6 @@ class _CartScreenState extends State<CartScreen> {
                         ],
                       ),
                       const SizedBox(height: 16),
-                      Row(
-                        children: [
-                          Icon(Icons.location_on_outlined,
-                              color: Colors.grey[600]),
-                          const SizedBox(width: 8),
-                          Expanded(
-                            child: Text(
-                              AppLocalizations.of(context)!
-                                  .translate('your_location'),
-                              style: MyTextTheme.body
-                                  .copyWith(color: Colors.grey[700]),
-                            ),
-                          ),
-                          Icon(Icons.chevron_right, color: Colors.grey[400]),
-                        ],
-                      ),
                     ],
                   ),
                 ),

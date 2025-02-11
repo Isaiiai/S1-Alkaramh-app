@@ -1,3 +1,4 @@
+import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/screens/auth_screen/main_screen.dart';
 import 'package:alkaramh/screens/auth_screen/signup_screen.dart';
 import 'package:alkaramh/screens/bottom_navigation/bottom_navigation.dart';
@@ -41,6 +42,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.primaryBackGroundColor,
       body: SafeArea(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
