@@ -139,7 +139,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
-
               // Search Results
               Expanded(
                 child: filteredProducts.isEmpty
@@ -454,6 +453,8 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // In the _buildSeeMoreProducts method, replace the existing category ListView.builder with:
+
               SizedBox(
                 height: 50,
                 child: ListView.builder(
@@ -471,8 +472,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             horizontal: 12, vertical: 8),
                         margin: const EdgeInsets.symmetric(horizontal: 4),
                         decoration: BoxDecoration(
-                          color: isSelected ? Colors.green : Colors.grey[300],
-                          borderRadius: BorderRadius.circular(20),
+                          border: Border(
+                            bottom: BorderSide(
+                              color: isSelected
+                                  ? AppColors.primaryColor
+                                  : Colors.transparent,
+                              width: 2.0,
+                            ),
+                          ),
                         ),
                         child: Center(
                           child: Text(
@@ -480,7 +487,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? category.categoryarabicName
                                 : category.categoryName,
                             style: MyTextTheme.body.copyWith(
-                              color: isSelected ? Colors.white : Colors.black,
+                              color: isSelected ? AppColors.primaryColor : Colors.black,
+                              fontWeight: isSelected
+                                  ? FontWeight.bold
+                                  : FontWeight.normal,
                             ),
                           ),
                         ),
@@ -521,8 +531,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: 200,
                               margin: const EdgeInsets.all(8),
                               decoration: BoxDecoration(
-                                color: Colors.white,
-                                
                                 borderRadius: BorderRadius.circular(12),
                               ),
                               child: Padding(
@@ -538,14 +546,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           decoration: BoxDecoration(
                                             borderRadius:
                                                 BorderRadius.circular(12),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey
-                                                    .withOpacity(0.5),
-                                                spreadRadius: 1,
-                                                blurRadius: 3,
-                                              ),
-                                            ],
+                                            color: Colors.grey.withOpacity(0.4),
                                           ),
                                           child: Padding(
                                             padding: const EdgeInsets.all(16.0),

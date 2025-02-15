@@ -110,5 +110,6 @@
     "fill_all_fields": "يرجى ملء جميع الحقول",
     "notifications_enabled": "الإشعارات ممكنة",
     "failed_to_enable_notifications": "فشل في تمكين الإشعارات",
-    "disable_notification": "تعطيل الإشعار"
+    "disable_notification": "تعطيل الإشعار",
+    "info": "معلومات"
 }

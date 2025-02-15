@@ -143,8 +143,8 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                           keyboardType: TextInputType.phone,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return AppLocalizations.of(context)!
-                                  .translate('please_enter');
+                                return AppLocalizations.of(context)!
+                                    .translate('please_enter');
                             }
                             return null;
                           },

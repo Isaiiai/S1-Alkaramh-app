@@ -1,3 +1,5 @@
+import 'package:alkaramh/app_localizations.dart';
+import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -85,7 +87,7 @@ class _ErrorDialogContentState extends State<ErrorDialogContent>
                   Container(
                     width: double.infinity,
                     decoration: const BoxDecoration(
-                      color: Colors.red,
+                      color: AppColors.primaryColor,
                       borderRadius: BorderRadius.vertical(
                         top: Radius.circular(20),
                       ),
@@ -96,9 +98,9 @@ class _ErrorDialogContentState extends State<ErrorDialogContent>
                         const Icon(Icons.person, size: 80, color: Colors.white),
                         const SizedBox(height: 10),
                         Text(
-                          'Sorry! Error occurred',
-                          style: MyTextTheme.body.copyWith(color: Colors.white),
-                        ),
+                          AppLocalizations.of(context)!
+                              .translate('info'),
+                        )
                       ],
                     ),
                   ),

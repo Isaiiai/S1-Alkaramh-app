@@ -147,7 +147,6 @@ class HomeScreenWidget {
         height: 190,
         margin: const EdgeInsets.all(8),
         decoration: BoxDecoration(
-          color: Colors.white,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Padding(
@@ -161,15 +160,8 @@ class HomeScreenWidget {
                     width: 190,
                     height: 150,
                     decoration: BoxDecoration(
-                     
+                      color: Colors.grey.withOpacity(0.3),
                       borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 1,
-                          blurRadius: 3,
-                        ),
-                      ],
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -285,7 +277,7 @@ class HomeScreenWidget {
               ),
               const SizedBox(height: 14),
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),

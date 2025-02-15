@@ -30,7 +30,8 @@ class SignInScreen extends StatelessWidget {
               bloc: userAuthBloc,
               listener: (context, state) {
                 if (state is UserRegisterFailure) {
-                  ErrorDialogbox().showErrorDialog(context, state.message);
+                  ErrorDialogbox().showErrorDialog(context, AppLocalizations.of(context)!
+                                  .translate('something_went_wrong'));
                 } else if (state is UserRegisterSuccess) {
                   Navigator.pushAndRemoveUntil(
                     context,
@@ -39,7 +40,8 @@ class SignInScreen extends StatelessWidget {
                         false, // Remove all previous routes from the stack
                   );
                 } else if (state is GoogleSignInFailure) {
-                  ErrorDialogbox().showErrorDialog(context, state.message);
+                  ErrorDialogbox().showErrorDialog(context,  AppLocalizations.of(context)!
+                                  .translate('something_went_wrong'));
                 } else if (state is GoogleSignInSuccess) {
                   Navigator.pushAndRemoveUntil(
                     context,

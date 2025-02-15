@@ -111,6 +111,7 @@
     "fill_all_fields": "Please fill all fields",
     "notifications_enabled": "Notifications enabled",
     "failed_to_enable_notifications": "Failed to enable notifications",
-    "disable_notification": "Disable Notification"
+    "disable_notification": "Disable Notification",
+    "info": "Info"
   }
   
