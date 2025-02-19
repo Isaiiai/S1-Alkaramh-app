@@ -65,7 +65,7 @@ class _CartScreenState extends State<CartScreen> {
                               child: Text(
                                 AppLocalizations.of(context)!.translate('cart'),
                                 textAlign: TextAlign.center,
-                                style: MyTextTheme.body.copyWith(
+                                style: MyTextTheme.body(context).copyWith(
                                   fontSize: 22,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -81,12 +81,10 @@ class _CartScreenState extends State<CartScreen> {
                     child: Row(
                       children: [
                         Checkbox(
-                          
                           value: cartItems.isNotEmpty &&
                               selectedItems.values.every((v) => v),
                           onChanged: (value) {
                             setState(() {
-                             
                               for (int i = 0; i < cartItems.length; i++) {
                                 selectedItems[i] = value ?? false;
                               }
@@ -131,8 +129,8 @@ class _CartScreenState extends State<CartScreen> {
                                 },
                               ),
                               Container(
-                                width: 80,
-                                height: 80,
+                                width: 50,
+                                height: 50,
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(8),
                                   image: const DecorationImage(
@@ -147,37 +145,32 @@ class _CartScreenState extends State<CartScreen> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            context.isArabic
-                                                ? item['productarabicName']
-                                                : item['productName'],
-                                            style: MyTextTheme.body.copyWith(
-                                              fontSize: 16,
+                                            context.isArabic ? item['productarabicName'] : item['productName'],
+                                            style: MyTextTheme.body(context).copyWith(
+
                                               fontWeight: FontWeight.w500,
                                             ),
                                           ),
                                         ),
                                         IconButton(
-                                          icon: const Icon(Icons.delete_outline,
-                                              color: Colors.red),
+                                          icon: const Icon(Icons.delete_outline, color: Colors.red),
                                           onPressed: () {
                                             context.read<CartBloc>().add(
-                                                  RemoveFromCartEvent(
-                                                      itemId: item['id']),
-                                                );
+                                              RemoveFromCartEvent(itemId: item['id']),
+                                            );
                                           },
                                         ),
                                       ],
                                     ),
                                     Text(
                                       item['variantName'],
-                                      style: MyTextTheme.body.copyWith(
+                                      style: MyTextTheme.body(context).copyWith(
                                         color: Colors.grey[600],
-                                        fontSize: 14,
+
                                       ),
                                     ),
                                     const SizedBox(height: 8),
@@ -187,8 +180,8 @@ class _CartScreenState extends State<CartScreen> {
                                       children: [
                                         Text(
                                           '${AppLocalizations.of(context)!.translate('qar')} ${item['variantPrice']}',
-                                          style: MyTextTheme.body.copyWith(
-                                            fontSize: 14,
+                                          style: MyTextTheme.body(context).copyWith(
+
                                             fontWeight: FontWeight.w600,
                                             color: AppColors.primaryColor,
                                           ),
@@ -229,7 +222,7 @@ class _CartScreenState extends State<CartScreen> {
                                             ),
                                             Text(
                                               item['quantity'],
-                                              style: MyTextTheme.body.copyWith(
+                                              style: MyTextTheme.body(context).copyWith(
                                                 fontSize: 14,
                                                 fontWeight: FontWeight.bold,
                                               ),
@@ -303,7 +296,7 @@ class _CartScreenState extends State<CartScreen> {
                       ),
                       child: Text(
                         '${AppLocalizations.of(context)!.translate('checkout')} (${selectedItems.values.where((v) => v).length} ${AppLocalizations.of(context)!.translate('items')})',
-                        style: MyTextTheme.body.copyWith(color: Colors.white),
+                        style: MyTextTheme.body(context).copyWith(color: Colors.white),
                       ),
                     ),
                   ),
@@ -333,7 +326,7 @@ class _CartScreenState extends State<CartScreen> {
                             child: Text(
                               AppLocalizations.of(context)!.translate('cart'),
                               textAlign: TextAlign.center,
-                              style: MyTextTheme.body.copyWith(
+                              style: MyTextTheme.body(context).copyWith(
                                 fontSize: 22,
                                 fontWeight: FontWeight.w600,
                               ),
@@ -360,7 +353,7 @@ class _CartScreenState extends State<CartScreen> {
                         Text(
                           AppLocalizations.of(context)!
                               .translate('cart_is_empty'),
-                          style: MyTextTheme.body.copyWith(
+                          style: MyTextTheme.body(context).copyWith(
                             fontSize: 18,
                             color: Colors.grey[600],
                           ),
@@ -379,7 +372,7 @@ class _CartScreenState extends State<CartScreen> {
                     ),
                     child: Text(
                       AppLocalizations.of(context)!.translate('checkout'),
-                      style: MyTextTheme.body.copyWith(color: Colors.white),
+                      style: MyTextTheme.body(context).copyWith(color: Colors.white),
                     ),
                   ),
                 ),

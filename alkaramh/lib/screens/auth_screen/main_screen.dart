@@ -71,7 +71,7 @@ class _MainScreenState extends State<MainScreen> {
                   AppLocalizations.of(context)!
                       .translate('lets_buy_the_products'),
                   textAlign: TextAlign.center,
-                  style: MyTextTheme.headline.copyWith(fontSize: 22),
+                  style: MyTextTheme.headline(context).copyWith(fontSize: 22),
                 ),
                 const SizedBox(height: 16),
                 // Subtitle
@@ -79,7 +79,7 @@ class _MainScreenState extends State<MainScreen> {
                   AppLocalizations.of(context)!
                       .translate('explore_our_app_to_see'),
                   textAlign: TextAlign.center,
-                  style: MyTextTheme.subheading
+                  style: MyTextTheme.subheading(context)
                       .copyWith(color: Colors.grey, fontSize: 16),
                 ),
                 const SizedBox(height: 50),
@@ -102,7 +102,7 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   child: Text(
                     AppLocalizations.of(context)!.translate('sign_in'),
-                    style: MyTextTheme.headline
+                    style: MyTextTheme.headline(context)
                         .copyWith(color: Colors.green, fontSize: 20),
                   ),
                 ),
@@ -125,7 +125,7 @@ class _MainScreenState extends State<MainScreen> {
                   ),
                   child: Text(
                     AppLocalizations.of(context)!.translate('register'),
-                    style: MyTextTheme.headline
+                    style: MyTextTheme.headline(context)
                         .copyWith(color: Colors.white, fontSize: 20),
                   ),
                 ),
@@ -153,7 +153,7 @@ class _MainScreenState extends State<MainScreen> {
                             'en'
                         ? "Switch to Arabic"
                         : "التبديل إلى الإنجليزية", style: MyTextTheme.headline
-                        .copyWith(color: Colors.green, fontSize: 20),
+                    (context).copyWith(color: Colors.green, fontSize: 20),
                   ),
                 )
               ],

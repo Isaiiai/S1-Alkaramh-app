@@ -104,7 +104,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   const SizedBox(height: 60),
                   Text(
                     AppLocalizations.of(context)!.translate('forgot_password'),
-                    style: MyTextTheme.headline.copyWith(
+                    style: MyTextTheme.headline(context).copyWith(
                       fontSize: 24,
                       fontWeight: FontWeight.w600,
                     ),
@@ -112,7 +112,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   const SizedBox(height: 16),
                   Text(
                     AppLocalizations.of(context)!.translate('forgot_password_message'),
-                    style: MyTextTheme.body.copyWith(
+                    style: MyTextTheme.body(context).copyWith(
                       fontSize: 17,
                       fontWeight: FontWeight.w400,
                     ),
@@ -123,7 +123,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                     keyboardType: TextInputType.emailAddress,
                     decoration: InputDecoration(
                       hintText: AppLocalizations.of(context)!.translate('enter_your_email'),
-                      hintStyle: MyTextTheme.normal.copyWith(
+                      hintStyle: MyTextTheme.normal(context).copyWith(
                         color: Colors.grey,
                         fontSize: 18,
                       ),
@@ -164,7 +164,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                           ? const CircularProgressIndicator(color: Colors.white)
                           : Text(
                               AppLocalizations.of(context)!.translate('reset_password'),
-                              style: MyTextTheme.body.copyWith(
+                              style: MyTextTheme.body(context).copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w400,
                                 fontSize: 20,

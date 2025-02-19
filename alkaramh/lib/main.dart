@@ -6,6 +6,7 @@ import 'package:alkaramh/bloc/product_varient/product_varient_bloc.dart';
 import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
 import 'package:alkaramh/screens/splash_screen/splash_screen.dart';
 import 'package:alkaramh/bloc/home_bloc/bloc/home_fetch_bloc.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,36 +37,40 @@ class MyApp extends StatelessWidget {
       ],
       child: BlocBuilder<LanguageBloc, LanguageState>(
         builder: (context, languageState) {
-          return MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Alkaramh',
-            theme: ThemeData(
-              colorScheme: ColorScheme.fromSeed(
-                seedColor: const Color.fromARGB(255, 0, 79, 41),
+          return DevicePreview(
+            enabled: true,
+            builder: (context) => MaterialApp(
+              useInheritedMediaQuery: true,
+              debugShowCheckedModeBanner: false,
+              title: 'Alkaramh',
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: const Color.fromARGB(255, 0, 79, 41),
+                ),
+                useMaterial3: true,
               ),
-              useMaterial3: true,
-            ),
-            locale: languageState.locale,
-            supportedLocales: const [
-              Locale('en', 'US'),
-              Locale('ar', 'AE'),
-            ],
-            localizationsDelegates: const [
-              AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
-            ],
-            localeResolutionCallback: (locale, supportedLocales) {
-              if (locale == null) return supportedLocales.first;
-              for (var supportedLocale in supportedLocales) {
-                if (supportedLocale.languageCode == locale.languageCode) {
-                  return supportedLocale;
+              locale: languageState.locale,
+              supportedLocales: const [
+                Locale('en', 'US'),
+                Locale('ar', 'AE'),
+              ],
+              localizationsDelegates: const [
+                AppLocalizations.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+                GlobalCupertinoLocalizations.delegate,
+              ],
+              localeResolutionCallback: (locale, supportedLocales) {
+                if (locale == null) return supportedLocales.first;
+                for (var supportedLocale in supportedLocales) {
+                  if (supportedLocale.languageCode == locale.languageCode) {
+                    return supportedLocale;
+                  }
                 }
-              }
-              return supportedLocales.first;
-            },
-            home: const SplashScreen(),
+                return supportedLocales.first;
+              },
+              home: const SplashScreen(),
+            ),
           );
         },
       ),

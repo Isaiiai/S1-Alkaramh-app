@@ -46,6 +46,7 @@ dependencies:
   flutter_svg: ^1.0.0
   shared_preferences: ^2.2.2
   sign_in_with_apple: ^6.1.4
+  device_preview: ^1.2.0
  
   
   

@@ -108,7 +108,7 @@ class _ErrorDialogContentState extends State<ErrorDialogContent>
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(widget.message,
-                        textAlign: TextAlign.center, style: MyTextTheme.normal),
+                        textAlign: TextAlign.center, style: MyTextTheme.normal(context)),
                   ),
                   // Retry Button
                   Padding(
@@ -132,7 +132,7 @@ class _ErrorDialogContentState extends State<ErrorDialogContent>
                       },
                       child: Text(
                         "Retry",
-                        style: MyTextTheme.normal.copyWith(color: Colors.white),
+                        style: MyTextTheme.normal(context).copyWith(color: Colors.white),
                       ),
                     ),
                   ),

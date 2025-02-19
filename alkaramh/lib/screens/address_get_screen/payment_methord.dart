@@ -36,7 +36,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         backgroundColor: Colors.blue,
         title: Text(
           AppLocalizations.of(context)!.translate('checkout'),
-          style: MyTextTheme.body.copyWith(
+          style: MyTextTheme.body(context).copyWith(
             fontSize: 22,
             fontWeight: FontWeight.w600,
             color: Colors.white,
@@ -66,7 +66,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.translate('pay_with'),
-                    style: MyTextTheme.body.copyWith(
+                    style: MyTextTheme.body(context).copyWith(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -112,7 +112,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                 children: [
                   Text(
                     AppLocalizations.of(context)!.translate('price_details'),
-                    style: MyTextTheme.body.copyWith(
+                    style: MyTextTheme.body(context).copyWith(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
                     ),
@@ -166,7 +166,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                             AppLocalizations.of(context)!
                                 .translate('place_order'),
                             style:
-                                MyTextTheme.body.copyWith(color: Colors.white),
+                                MyTextTheme.body(context).copyWith(color: Colors.white),
                           ),
                   );
                 },
@@ -228,13 +228,13 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
         children: [
           Text(
             AppLocalizations.of(context)!.translate(label),
-            style: MyTextTheme.body.copyWith(
+            style: MyTextTheme.body(context).copyWith(
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
             ),
           ),
           Text(
             'QAR $amount',
-            style: MyTextTheme.body.copyWith(
+            style: MyTextTheme.body(context).copyWith(
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
             ),
           ),

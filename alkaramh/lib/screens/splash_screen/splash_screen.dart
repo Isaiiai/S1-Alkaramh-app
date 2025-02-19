@@ -23,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   Future<void> checkAuthState() async {
-   await Future.delayed(const Duration(seconds: 3));
+
     bool isLoggedIn = await GoogleServices.isUserLoggedIn();
 
     if (isLoggedIn) {

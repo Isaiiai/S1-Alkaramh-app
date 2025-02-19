@@ -87,7 +87,7 @@ class SignUpScreen extends StatelessWidget {
                     Text(
                       AppLocalizations.of(context)!
                           .translate('create_new_account'),
-                      style: MyTextTheme.headline.copyWith(
+                      style: MyTextTheme.headline(context).copyWith(
                         fontSize: 36,
                         fontWeight: FontWeight.w600,
                       ),
@@ -98,7 +98,7 @@ class SignUpScreen extends StatelessWidget {
                         Text(
                           AppLocalizations.of(context)!
                               .translate('signup_to_shopping'),
-                          style: MyTextTheme.normal.copyWith(
+                          style: MyTextTheme.normal(context).copyWith(
                             fontSize: 18,
                           ),
                         ),
@@ -116,7 +116,7 @@ class SignUpScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!
                             .translate('enter_name'),
-                        hintStyle: MyTextTheme.normal.copyWith(
+                        hintStyle: MyTextTheme.normal(context).copyWith(
                           color: Colors.grey,
                           fontSize: 18,
                         ),
@@ -131,7 +131,7 @@ class SignUpScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!
                             .translate('enter_email'),
-                        hintStyle: MyTextTheme.normal.copyWith(
+                        hintStyle: MyTextTheme.normal(context).copyWith(
                           color: Colors.grey,
                           fontSize: 18,
                         ),
@@ -147,7 +147,7 @@ class SignUpScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!
                             .translate('enter_password'),
-                        hintStyle: MyTextTheme.normal.copyWith(
+                        hintStyle: MyTextTheme.normal(context).copyWith(
                           color: Colors.grey,
                           fontSize: 18,
                         ),
@@ -175,7 +175,7 @@ class SignUpScreen extends StatelessWidget {
                       decoration: InputDecoration(
                         hintText: AppLocalizations.of(context)!
                             .translate('confirm_password'),
-                        hintStyle: MyTextTheme.normal.copyWith(
+                        hintStyle: MyTextTheme.normal(context).copyWith(
                           color: Colors.grey,
                           fontSize: 18,
                         ),
@@ -212,7 +212,7 @@ class SignUpScreen extends StatelessWidget {
                         child: Text(
                           AppLocalizations.of(context)!
                               .translate('forgot_password'),
-                          style: MyTextTheme.normal.copyWith(
+                          style: MyTextTheme.normal(context).copyWith(
                             fontSize: 18,
                             decoration: TextDecoration.underline,
                             decorationColor: Colors.black,
@@ -283,7 +283,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
                       child: Text(
                         AppLocalizations.of(context)!.translate('sign_in'),
-                        style: MyTextTheme.normal.copyWith(
+                        style: MyTextTheme.normal(context).copyWith(
                           color: Colors.white,
                           fontSize: 20,
                         ),
@@ -297,7 +297,7 @@ class SignUpScreen extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Text(
                             "OR",
-                            style: MyTextTheme.normal.copyWith(
+                            style: MyTextTheme.normal(context).copyWith(
                               color: Colors.grey,
                               fontWeight: FontWeight.w400,
                               fontSize: 16,
@@ -319,7 +319,7 @@ class SignUpScreen extends StatelessWidget {
                       label: Text(
                         AppLocalizations.of(context)!
                             .translate('continue_with_google'),
-                        style: MyTextTheme.normal.copyWith(
+                        style: MyTextTheme.normal(context).copyWith(
                           color: Colors.black,
                           fontSize: 18,
                           fontWeight: FontWeight.w600,
@@ -347,7 +347,7 @@ class SignUpScreen extends StatelessWidget {
                       label: Text(
                         AppLocalizations.of(context)!
                             .translate('continue_with_apple'),
-                        style: MyTextTheme.normal.copyWith(
+                        style: MyTextTheme.normal(context).copyWith(
                           color: Colors.black,
                           fontSize: 18,
                           fontWeight: FontWeight.w600,

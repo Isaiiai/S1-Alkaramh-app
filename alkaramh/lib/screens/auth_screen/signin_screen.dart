@@ -80,21 +80,21 @@ class SignInScreen extends StatelessWidget {
 
                   Text(
                     AppLocalizations.of(context)!.translate('lets_sign_in_you'),
-                    style: MyTextTheme.headline.copyWith(
+                    style: MyTextTheme.headline(context).copyWith(
                       fontSize: 40,
                     ),
                   ),
                   const SizedBox(height: 8),
                   Text(
                     AppLocalizations.of(context)!.translate('welcome_back'),
-                    style: MyTextTheme.normal.copyWith(
+                    style: MyTextTheme.normal(context).copyWith(
                       fontSize: 30,
                     ),
                   ),
                   Text(
                     AppLocalizations.of(context)!
                         .translate('you_ve_been_missed'),
-                    style: MyTextTheme.normal.copyWith(
+                    style: MyTextTheme.normal(context).copyWith(
                       fontSize: 30,
                     ),
                   ),
@@ -104,7 +104,7 @@ class SignInScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       hintText: AppLocalizations.of(context)!
                           .translate('enter_your_email_or_phone'),
-                      hintStyle: MyTextTheme.normal.copyWith(
+                      hintStyle: MyTextTheme.normal(context).copyWith(
                         color: Colors.grey,
                         fontSize: 18,
                       ),
@@ -120,7 +120,7 @@ class SignInScreen extends StatelessWidget {
                     decoration: InputDecoration(
                       hintText: AppLocalizations.of(context)!
                           .translate('enter_your_password'),
-                      hintStyle: MyTextTheme.normal.copyWith(
+                      hintStyle: MyTextTheme.normal(context).copyWith(
                         color: Colors.grey,
                         fontSize: 18,
                       ),
@@ -156,7 +156,7 @@ class SignInScreen extends StatelessWidget {
                       child: Text(
                         AppLocalizations.of(context)!
                             .translate('forgot_password'),
-                        style: MyTextTheme.normal.copyWith(
+                        style: MyTextTheme.normal(context).copyWith(
                             fontSize: 18,
                             decoration: TextDecoration.underline,
                             decorationColor: Colors.black),
@@ -209,7 +209,7 @@ class SignInScreen extends StatelessWidget {
                         ),
                         child: Text(
                             AppLocalizations.of(context)!.translate('sign_in'),
-                            style: MyTextTheme.normal.copyWith(
+                            style: MyTextTheme.normal(context).copyWith(
                               color: Colors.white,
                               fontSize: 20,
                             )),
@@ -225,7 +225,7 @@ class SignInScreen extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
                           "OR",
-                          style: MyTextTheme.normal.copyWith(
+                          style: MyTextTheme.normal(context).copyWith(
                               color: Colors.grey,
                               fontWeight: FontWeight.w400,
                               fontSize: 16),
@@ -252,7 +252,7 @@ class SignInScreen extends StatelessWidget {
                     label: Text(
                       AppLocalizations.of(context)!
                           .translate('continue_with_google'),
-                      style: MyTextTheme.normal.copyWith(
+                      style: MyTextTheme.normal(context).copyWith(
                         color: Colors.black,
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -285,7 +285,7 @@ class SignInScreen extends StatelessWidget {
                     label: Text(
                       AppLocalizations.of(context)!
                           .translate('continue_with_apple'),
-                      style: MyTextTheme.normal.copyWith(
+                      style: MyTextTheme.normal(context).copyWith(
                         color: Colors.black,
                         fontSize: 18,
                         fontWeight: FontWeight.w600,
@@ -315,14 +315,14 @@ class SignInScreen extends StatelessWidget {
                         TextSpan(
                           text: AppLocalizations.of(context)!
                               .translate('dont_have_an_account'),
-                          style: MyTextTheme.normal.copyWith(
+                          style: MyTextTheme.normal(context).copyWith(
                             fontSize: 18,
                           ),
                           children: [
                             TextSpan(
                               text: AppLocalizations.of(context)!
                                   .translate('register'),
-                              style: MyTextTheme.headline.copyWith(
+                              style: MyTextTheme.headline(context).copyWith(
                                 color: Colors.green,
                                 fontSize: 18,
                               ),

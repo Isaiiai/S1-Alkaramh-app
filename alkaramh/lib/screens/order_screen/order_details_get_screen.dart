@@ -84,18 +84,18 @@ class _OrderScreenState extends State<OrderScreen> {
           children: [
             Text(
               "${AppLocalizations.of(context)!.translate('order_placed')}: ${order.createdAt != null ? dateFormat.format(order.createdAt!.toDate()) : AppLocalizations.of(context)!.translate('unknown')}",
-              style: MyTextTheme.body
+              style: MyTextTheme.body(context)
                   .copyWith(fontSize: 12, color: Colors.grey[600]),
             ),
             Text(
               "${AppLocalizations.of(context)!.translate('total')}: ${AppLocalizations.of(context)!.translate('qar')} ${order.totalAmount}",
-              style: MyTextTheme.body
+              style: MyTextTheme.body(context)
                   .copyWith(fontSize: 12, color: Colors.grey[600]),
             ),
             const SizedBox(height: 10),
             Text(
               "${AppLocalizations.of(context)!.translate('ship_to')}: ${order.address.name.toUpperCase()}",
-              style: MyTextTheme.body
+              style: MyTextTheme.body(context)
                   .copyWith(fontSize: 12, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 4),
@@ -117,18 +117,18 @@ class _OrderScreenState extends State<OrderScreen> {
                       context.isArabic
                           ? order.cartItems.first["productarabicName"]
                           : order.cartItems.first["productName"],
-                      style: MyTextTheme.body
+                      style: MyTextTheme.body(context)
                           .copyWith(fontSize: 14, fontWeight: FontWeight.bold),
                     ),
                     Text(
                       "${AppLocalizations.of(context)!.translate('qar')} ${order.cartItems.first["variantPrice"] ?? '0'}",
-                      style: MyTextTheme.body
+                      style: MyTextTheme.body(context)
                           .copyWith(fontSize: 14, color: Colors.green),
                     ),
                     Text(
                       AppLocalizations.of(context)!
                           .translate(order.status.toLowerCase()),
-                      style: MyTextTheme.body
+                      style: MyTextTheme.body(context)
                           .copyWith(fontSize: 12, color: Colors.orange),
                     ),
                   ],

@@ -14,7 +14,7 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   bool isNotification = false;
-  @override
+
   void initState() {
     super.initState();
     _checkNotificationStatus();
@@ -34,29 +34,29 @@ class _NotificationScreenState extends State<NotificationScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // Header
-              Row(
-                children: [
-                  const Spacer(),
-                  Container(
-                    child: Text(
-                      AppLocalizations.of(context)!.translate('notifications'),
-                      style: MyTextTheme.body.copyWith(
-                        color: Colors.black,
-                        fontSize: 22,
-                        fontWeight: FontWeight.w600,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                // Header
+                Row(
+                  children: [
+                    const Spacer(),
+                    Container(
+                      child: Text(
+                        AppLocalizations.of(context)!.translate('notifications'),
+                        style: MyTextTheme.body(context).copyWith(
+                          color: Colors.black,
+                          fontSize: 22,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ),
-                  ),
-                  const Spacer(),
-                ],
-              ),
+                    const Spacer(),
+                  ],
+                ),
 
-              // Main Content
-              Expanded(
-                child: Column(
+                // Main Content
+                Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Bell Icon with glow
@@ -94,9 +94,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                     // Title
                     Text(
-                      AppLocalizations.of(context)!
-                          .translate('dont_miss_a_beat'),
-                      style: MyTextTheme.body.copyWith(
+                      AppLocalizations.of(context)!.translate('dont_miss_a_beat'),
+                      style: MyTextTheme.body(context).copyWith(
                         fontSize: 34,
                         fontWeight: FontWeight.w700,
                         color: Colors.black,
@@ -110,7 +109,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       AppLocalizations.of(context)!.translate(
                           'get_notification_about_due_date_discounts_and_deals'),
                       textAlign: TextAlign.center,
-                      style: MyTextTheme.body.copyWith(
+                      style: MyTextTheme.body(context).copyWith(
                         color: Colors.grey,
                         fontWeight: FontWeight.w500,
                         fontSize: 14,
@@ -125,19 +124,15 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       child: ElevatedButton(
                         onPressed: () async {
                           final authServices = AuthServices();
-                          final result =
-                              await authServices.updateNotificationStatus(
-                                  isNotification ? false : true);
+                          final result = await authServices.updateNotificationStatus(
+                              isNotification ? false : true);
 
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(isNotification
-                                  ? AppLocalizations.of(context)!
-                                      .translate('disable_notification')
-                                  : AppLocalizations.of(context)!.translate(
-                                      'notifications_enabled')),
-                              backgroundColor:
-                                  isNotification ? Colors.green : Colors.green,
+                                  ? AppLocalizations.of(context)!.translate('disable_notification')
+                                  : AppLocalizations.of(context)!.translate('notifications_enabled')),
+                              backgroundColor: isNotification ? Colors.green : Colors.green,
                             ),
                           );
                         },
@@ -151,11 +146,9 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ),
                         child: Text(
                           isNotification
-                              ? AppLocalizations.of(context)!
-                                  .translate('disable_notification')
-                              : AppLocalizations.of(context)!
-                                  .translate('enable_notification'),
-                          style: MyTextTheme.body.copyWith(
+                              ? AppLocalizations.of(context)!.translate('disable_notification')
+                              : AppLocalizations.of(context)!.translate('enable_notification'),
+                          style: MyTextTheme.body(context).copyWith(
                             fontSize: 16,
                             color: Colors.white,
                             fontWeight: FontWeight.w500,
@@ -169,9 +162,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     TextButton(
                       onPressed: () {},
                       child: Text(
-                        AppLocalizations.of(context)!
-                            .translate('remaind_me_later'),
-                        style: MyTextTheme.body.copyWith(
+                        AppLocalizations.of(context)!.translate('remaind_me_later'),
+                        style: MyTextTheme.body(context).copyWith(
                           color: Colors.grey,
                           fontSize: 15,
                           fontWeight: FontWeight.w400,
@@ -180,8 +172,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
