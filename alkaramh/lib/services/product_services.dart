@@ -12,7 +12,6 @@ class ProductsFetchService {
       return querySnapshot.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;
         data['document_id'] = doc.id;
-
         return Product.fromJson(data);
       }).toList();
     } catch (e) {
@@ -27,6 +26,7 @@ class ProductsFetchService {
           await _firestore.collection('Products').doc(productId).get();
 
       final data = documentSnapshot.data() as Map<String, dynamic>;
+
       data['document_id'] = documentSnapshot.id;
 
       return Product(
@@ -47,10 +47,10 @@ class ProductsFetchService {
 
   Future<List<ProductVariant>> fetchProductVariants(String productId) async {
     try {
-      final int productIdInt = int.parse(productId);
+      final String productIdString = productId.toString();
       final QuerySnapshot querySnapshot = await _firestore
           .collection('PRODUCT_VARIANT')
-          .where('product_id', isEqualTo: productIdInt)
+          .where('product_id', isEqualTo: productIdString)
           .get();
       return querySnapshot.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;

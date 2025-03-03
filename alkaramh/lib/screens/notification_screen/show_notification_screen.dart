@@ -3,6 +3,7 @@ import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/services/auth_services.dart';
+import 'package:alkaramh/widget/snakbar_all/snakbar_all.dart';
 import 'package:flutter/material.dart';
 
 class NotificationScreen extends StatefulWidget {
@@ -43,7 +44,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     const Spacer(),
                     Container(
                       child: Text(
-                        AppLocalizations.of(context)!.translate('notifications'),
+                        AppLocalizations.of(context)!
+                            .translate('notifications'),
                         style: MyTextTheme.body(context).copyWith(
                           color: Colors.black,
                           fontSize: 22,
@@ -94,7 +96,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                     // Title
                     Text(
-                      AppLocalizations.of(context)!.translate('dont_miss_a_beat'),
+                      AppLocalizations.of(context)!
+                          .translate('dont_miss_a_beat'),
                       style: MyTextTheme.body(context).copyWith(
                         fontSize: 34,
                         fontWeight: FontWeight.w700,
@@ -123,22 +126,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
                       width: 186,
                       child: ElevatedButton(
                         onPressed: () async {
-                          final authServices = AuthServices();
-                          final result = await authServices.updateNotificationStatus(
-                              isNotification ? false : true);
-
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(isNotification
-                                  ? AppLocalizations.of(context)!.translate('disable_notification')
-                                  : AppLocalizations.of(context)!.translate('notifications_enabled')),
-                              backgroundColor: isNotification ? Colors.green : Colors.green,
-                            ),
-                          );
+                          ErrorDialogbox().showErrorDialog(
+                              context, "This is Under Implementation");
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xFF193219),
-                          foregroundColor: Colors.black,
+                          backgroundColor: Colors.grey,
+                          foregroundColor: Colors.grey,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30),
@@ -146,8 +139,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         ),
                         child: Text(
                           isNotification
-                              ? AppLocalizations.of(context)!.translate('disable_notification')
-                              : AppLocalizations.of(context)!.translate('enable_notification'),
+                              ? AppLocalizations.of(context)!
+                                  .translate('disable_notification')
+                              : AppLocalizations.of(context)!
+                                  .translate('enable_notification'),
                           style: MyTextTheme.body(context).copyWith(
                             fontSize: 16,
                             color: Colors.white,
@@ -162,7 +157,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     TextButton(
                       onPressed: () {},
                       child: Text(
-                        AppLocalizations.of(context)!.translate('remaind_me_later'),
+                        AppLocalizations.of(context)!
+                            .translate('remaind_me_later'),
                         style: MyTextTheme.body(context).copyWith(
                           color: Colors.grey,
                           fontSize: 15,

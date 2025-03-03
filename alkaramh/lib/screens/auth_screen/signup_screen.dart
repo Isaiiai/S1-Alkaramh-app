@@ -196,31 +196,9 @@ class SignUpScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 20),
-                    Align(
-                      alignment: Alignment.center,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const ForgotPasswordScreen(),
-                            ),
-                          );
-                        },
-                        child: Text(
-                          AppLocalizations.of(context)!
-                              .translate('forgot_password'),
-                          style: MyTextTheme.normal(context).copyWith(
-                            fontSize: 18,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.black,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
+                    const SizedBox(height: 40),
+
+
                     ElevatedButton(
                       onPressed: () {
                         if (passwordController.text.length < 6) {
@@ -259,6 +237,7 @@ class SignUpScreen extends StatelessWidget {
                             RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
                         if (!emailRegex.hasMatch(emailController.text.trim())) {
+                          print('Invalid email${emailController}');
                           ErrorDialogbox().showErrorDialog(
                               context,
                               AppLocalizations.of(context)!

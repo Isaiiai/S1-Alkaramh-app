@@ -18,7 +18,7 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  UserAuthBloc userAuthBloc = UserAuthBloc();
+   UserAuthBloc userAuthBloc = UserAuthBloc();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? user = FirebaseAuth.instance.currentUser;
 

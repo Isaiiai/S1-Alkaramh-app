@@ -4,7 +4,6 @@ import 'package:alkaramh/bloc/order/order_bloc.dart';
 import 'package:alkaramh/bloc/product_varient/product_varient_bloc.dart';
 import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
-import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/models/product_model.dart';
 import 'package:alkaramh/bloc/product_fetch/product_fetch_bloc.dart';
 import 'package:alkaramh/screens/address_get_screen/address_get_screen.dart';

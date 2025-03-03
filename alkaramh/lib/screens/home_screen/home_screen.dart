@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Stack(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 10.0, left: 8.0, right: 8.0),
+            padding: const EdgeInsets.only(top: 22.0, left: 8.0, right: 8.0),
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -374,7 +374,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           Positioned(
-            top: 0,
+            top: 20,
             left: 8,
             right: 8,
             child: Container(

@@ -70,7 +70,6 @@ class UserAuthBloc extends Bloc<UserAuthEvent, UserAuthState> {
         event.email,
         event.password,
       );
-
       if (result.success) {
         emit(UserRegisterSuccess());
       } else {

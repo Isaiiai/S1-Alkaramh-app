@@ -48,4 +48,8 @@ final class CartItemErrorState extends CartState {
 
 final class QuantityUpdateLoadingState extends CartState {}
 
+//? cart items increasing state
 
+final class CartItemIncreasLoadingState extends CartState {}
+
+final class CartItemIncreaseErrorState extends CartState {}
