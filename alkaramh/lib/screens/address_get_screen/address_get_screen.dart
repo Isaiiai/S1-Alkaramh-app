@@ -85,7 +85,7 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                     child: Text(
                       AppLocalizations.of(context)!.translate('address'),
                       textAlign: TextAlign.center,
-                      style: MyTextTheme.body.copyWith(
+                      style: MyTextTheme.body(context).copyWith(
                         fontSize: 22,
                         fontWeight: FontWeight.w600,
                       ),
@@ -110,8 +110,8 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                           decoration: InputDecoration(
                             labelText: AppLocalizations.of(context)!
                                 .translate('full_name'),
-                            labelStyle: MyTextTheme.normal,
-                            hintStyle: MyTextTheme.body,
+                            labelStyle: MyTextTheme.normal(context),
+                            hintStyle: MyTextTheme.body(context),
                             border: const OutlineInputBorder(),
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16,
@@ -132,8 +132,8 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                           decoration: InputDecoration(
                             labelText: AppLocalizations.of(context)!
                                 .translate('phone_number'),
-                            labelStyle: MyTextTheme.normal,
-                            hintStyle: MyTextTheme.body,
+                            labelStyle: MyTextTheme.normal(context),
+                            hintStyle: MyTextTheme.body(context),
                             border: const OutlineInputBorder(),
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16,
@@ -156,8 +156,8 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                           decoration: InputDecoration(
                             labelText: AppLocalizations.of(context)!
                                 .translate('address'),
-                            labelStyle: MyTextTheme.normal,
-                            hintStyle: MyTextTheme.body,
+                            labelStyle: MyTextTheme.normal(context),
+                            hintStyle: MyTextTheme.body(context),
                             border: const OutlineInputBorder(),
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16,
@@ -178,8 +178,8 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                           decoration: InputDecoration(
                             labelText: AppLocalizations.of(context)!
                                 .translate('district'),
-                            labelStyle: MyTextTheme.normal,
-                            hintStyle: MyTextTheme.body,
+                            labelStyle: MyTextTheme.normal(context),
+                            hintStyle: MyTextTheme.body(context),
                             border: const OutlineInputBorder(),
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16,
@@ -200,8 +200,8 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                           decoration: InputDecoration(
                             labelText: AppLocalizations.of(context)!
                                 .translate('landmark'),
-                            labelStyle: MyTextTheme.normal,
-                            hintStyle: MyTextTheme.body,
+                            labelStyle: MyTextTheme.normal(context),
+                            hintStyle: MyTextTheme.body(context),
                             border: const OutlineInputBorder(),
                             contentPadding: const EdgeInsets.symmetric(
                               horizontal: 16,
@@ -243,7 +243,7 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                         backgroundColor: Colors.green,
                         content: Text(
                           AppLocalizations.of(context)!.translate('success'),
-                          style: MyTextTheme.body.copyWith(
+                          style: MyTextTheme.body(context).copyWith(
                             color: Colors.white,
                           ),
                         ),
@@ -287,7 +287,7 @@ class _AddressGetScreenState extends State<AddressGetScreen> {
                     ),
                     child: Text(
                       AppLocalizations.of(context)!.translate('submit'),
-                      style: MyTextTheme.headline.copyWith(
+                      style: MyTextTheme.headline(context).copyWith(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                         color: Colors.white,

@@ -1,0 +1,20 @@
+{
+  "buildFiles": [
+    "/home/afsar/development/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/afsar/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/afsar/Documents/GitHub/S1-Alkaramh-app/alkaramh/android/app/.cxx/Debug/7661c1z2/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/afsar/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/afsar/Documents/GitHub/S1-Alkaramh-app/alkaramh/android/app/.cxx/Debug/7661c1z2/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {}
+}

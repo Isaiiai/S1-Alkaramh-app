@@ -63,9 +63,10 @@ class DefaultFirebaseOptions {
     messagingSenderId: '18460469919',
     projectId: 'alkaramh-847d4',
     storageBucket: 'alkaramh-847d4.firebasestorage.app',
-    androidClientId: '18460469919-03qlhbfg2aidd5i62g3e4o8didcqqmrh.apps.googleusercontent.com',
-    iosClientId: '18460469919-f6p5qp0eo4atccqqguch649svrfpfmeu.apps.googleusercontent.com',
+    androidClientId:
+        '18460469919-03qlhbfg2aidd5i62g3e4o8didcqqmrh.apps.googleusercontent.com',
+    iosClientId:
+        '18460469919-f6p5qp0eo4atccqqguch649svrfpfmeu.apps.googleusercontent.com',
     iosBundleId: 'com.example.alkaramh',
   );
-
 }

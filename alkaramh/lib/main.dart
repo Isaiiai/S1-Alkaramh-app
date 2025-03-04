@@ -28,7 +28,6 @@ class MyApp extends StatelessWidget {
         BlocProvider<LanguageBloc>(create: (context) => LanguageBloc()),
         BlocProvider<HomeFetchBloc>(create: (context) => HomeFetchBloc()),
         BlocProvider<UserAuthBloc>(create: (context) => UserAuthBloc()),
-        BlocProvider<ProductFetchBloc>(create: (context) => ProductFetchBloc()),
         BlocProvider<OrderBloc>(create: (context) => OrderBloc()),
         BlocProvider<ProductVarientBloc>(
             create: (context) => ProductVarientBloc()),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class CartScreenWidget {
   //empty cart
-  buildEmptyCartWidget() {
+  buildEmptyCartWidget(context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -20,7 +20,7 @@ class CartScreenWidget {
         ),
         Text(
           "Your Cart is Empty",
-          style: MyTextTheme.headline.copyWith(
+          style: MyTextTheme.headline(context).copyWith(
             fontSize: 18,
             fontWeight: FontWeight.w500,
           ),
@@ -32,7 +32,7 @@ class CartScreenWidget {
   //cartItem
 
   Widget buildCartItemWidget(String productImage, String productName,
-      String productPrice, int productQuantity) {
+      String productPrice, int productQuantity , context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
       margin: const EdgeInsets.only(bottom: 12),
@@ -75,7 +75,7 @@ class CartScreenWidget {
               children: [
                 Text(
                   productName,
-                  style: MyTextTheme.body.copyWith(
+                  style: MyTextTheme.body(context).copyWith(
                     fontSize: 16,
                     fontWeight: FontWeight.w500,
                   ),
@@ -83,7 +83,7 @@ class CartScreenWidget {
                 const SizedBox(height: 8),
                 Text(
                   "QAR $productPrice",
-                  style: MyTextTheme.body.copyWith(
+                  style: MyTextTheme.body(context).copyWith(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
                     color: Colors.grey[600],
@@ -106,7 +106,7 @@ class CartScreenWidget {
               ),
               Text(
                 productQuantity.toString(),
-                style: MyTextTheme.body.copyWith(
+                style: MyTextTheme.body(context).copyWith(
 
                   fontSize: 16,
                   fontWeight: FontWeight.w500,

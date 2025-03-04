@@ -37,6 +37,7 @@ class ProductFetchBloc extends Bloc<ProductFetchEvent, ProductFetchState> {
     try {
       final product =
           await ProductsFetchService().fetchProductDetails(event.productId);
+      print('Product: ${product.categoryId}');
       emit(ProductFetchLoadedState(products: [product]));
     } catch (e) {
       emit(ProductFetchErrorState(message: e.toString()));

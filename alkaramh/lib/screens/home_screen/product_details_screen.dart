@@ -4,7 +4,6 @@ import 'package:alkaramh/bloc/order/order_bloc.dart';
 import 'package:alkaramh/bloc/product_varient/product_varient_bloc.dart';
 import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
-import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/models/product_model.dart';
 import 'package:alkaramh/bloc/product_fetch/product_fetch_bloc.dart';
 import 'package:alkaramh/screens/address_get_screen/address_get_screen.dart';
@@ -47,7 +46,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       children: [
         Text(
           AppLocalizations.of(context)!.translate('select_quantity'),
-          style: MyTextTheme.body
+          style: MyTextTheme.body(context)
               .copyWith(fontSize: 16, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 8),
@@ -70,7 +69,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     });
                   },
                   selectedColor: Colors.green.shade100,
-                  labelStyle: MyTextTheme.body.copyWith(
+                  labelStyle: MyTextTheme.body(context).copyWith(
                     color: isSelected ? Colors.green.shade900 : Colors.black,
                     fontWeight:
                         isSelected ? FontWeight.bold : FontWeight.normal,
@@ -99,7 +98,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
         title: Text(
           AppLocalizations.of(context)!.translate('product_details'),
-          style: MyTextTheme.body.copyWith(color: Colors.black),
+          style: MyTextTheme.body(context).copyWith(color: Colors.black),
         ),
         centerTitle: true,
       ),
@@ -184,7 +183,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                             context.isArabic
                                                 ? product.arabicName
                                                 : product.name,
-                                            style: MyTextTheme.body.copyWith(
+                                            style: MyTextTheme.body(context).copyWith(
                                               fontSize: 20,
                                               fontWeight: FontWeight.bold,
                                             ),
@@ -200,7 +199,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                         context.isArabic
                                             ? product.arabicDescription
                                             : product.description,
-                                        style: MyTextTheme.body.copyWith(
+                                        style: MyTextTheme.body(context).copyWith(
                                             fontSize: 14,
                                             color: Colors.grey[700]),
                                       ),
@@ -251,7 +250,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   content: Text(
                                     AppLocalizations.of(context)!
                                         .translate('success'),
-                                    style: MyTextTheme.body.copyWith(
+                                    style: MyTextTheme.body(context).copyWith(
                                       color: Colors.white,
                                     ),
                                   ),
@@ -303,7 +302,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               child: Text(
                                 AppLocalizations.of(context)!
                                     .translate('add_to_cart'),
-                                style: MyTextTheme.body
+                                style: MyTextTheme.body(context)
                                     .copyWith(color: AppColors.primaryColor),
                               ),
                             );
@@ -352,7 +351,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           child: Text(
                             AppLocalizations.of(context)!.translate('buy_now'),
                             style:
-                                MyTextTheme.body.copyWith(color: Colors.white),
+                                MyTextTheme.body(context).copyWith(color: Colors.white),
                           ),
                         ),
                       ),

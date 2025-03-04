@@ -18,7 +18,7 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  UserAuthBloc userAuthBloc = UserAuthBloc();
+   UserAuthBloc userAuthBloc = UserAuthBloc();
   final FirebaseAuth _auth = FirebaseAuth.instance;
   User? user = FirebaseAuth.instance.currentUser;
 
@@ -38,7 +38,7 @@ class _AccountScreenState extends State<AccountScreen> {
       leading: Icon(icon, color: iconColor ?? Colors.grey[600], size: 22),
       title: Text(
         title,
-        style: MyTextTheme.body.copyWith(
+        style: MyTextTheme.body(context).copyWith(
           color: textColor ?? Colors.black87,
           fontSize: 18,
           fontWeight: FontWeight.w400,
@@ -92,7 +92,7 @@ class _AccountScreenState extends State<AccountScreen> {
                       Center(
                         child: Text(
                           AppLocalizations.of(context)!.translate('account'),
-                          style: MyTextTheme.body.copyWith(
+                          style: MyTextTheme.body(context).copyWith(
                             color: Colors.black,
                             fontSize: 22,
                             fontWeight: FontWeight.w600,
@@ -163,7 +163,7 @@ class _AccountScreenState extends State<AccountScreen> {
                         children: [
                           Text(
                             user!.displayName ?? 'User',
-                            style: MyTextTheme.body.copyWith(
+                            style: MyTextTheme.body(context).copyWith(
                               fontSize: 20,
                               fontWeight: FontWeight.w500,
                             ),

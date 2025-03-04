@@ -95,11 +95,15 @@ class _ErrorDialogContentState extends State<ErrorDialogContent>
                     padding: const EdgeInsets.symmetric(vertical: 20),
                     child: Column(
                       children: [
-                        const Icon(Icons.person, size: 80, color: Colors.white),
+                        const Icon(Icons.info, size: 80, color: Colors.white),
                         const SizedBox(height: 10),
                         Text(
-                          AppLocalizations.of(context)!
-                              .translate('info'),
+                          AppLocalizations.of(context)!.translate('info'),
+                          style: MyTextTheme.body(context).copyWith(
+                            color: Colors.white,
+                            fontSize: 22,
+                            fontWeight: FontWeight.w600,
+                          ),
                         )
                       ],
                     ),
@@ -108,21 +112,22 @@ class _ErrorDialogContentState extends State<ErrorDialogContent>
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: Text(widget.message,
-                        textAlign: TextAlign.center, style: MyTextTheme.normal),
+                        textAlign: TextAlign.center,
+                        style: MyTextTheme.normal(context)),
                   ),
                   // Retry Button
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: AppColors.primaryColor,
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(20),
                         ),
                       ),
                       onPressed: () {
-                        // Default action to pop the dialog
+                      
                         if (widget.retry != null) {
                           widget.retry!();
                         } else {
@@ -132,7 +137,8 @@ class _ErrorDialogContentState extends State<ErrorDialogContent>
                       },
                       child: Text(
                         "Retry",
-                        style: MyTextTheme.normal.copyWith(color: Colors.white),
+                        style: MyTextTheme.normal(context)
+                            .copyWith(color: Colors.white),
                       ),
                     ),
                   ),

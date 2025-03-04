@@ -31,7 +31,7 @@ class _WishListState extends State<WishList> {
       appBar: AppBar(
         title: Text(
           AppLocalizations.of(context)!.translate('wishlist'),
-          style: MyTextTheme.body.copyWith(
+          style: MyTextTheme.body(context).copyWith(
             fontSize: 22,
             fontWeight: FontWeight.w600,
           ),
@@ -53,7 +53,7 @@ class _WishListState extends State<WishList> {
               return Center(
                 child: Text(
                   AppLocalizations.of(context)!.translate('empty_wishlist'),
-                  style: MyTextTheme.body,
+                  style: MyTextTheme.body(context),
                 ),
               );
             }
@@ -104,7 +104,7 @@ class _WishListState extends State<WishList> {
                                   context.isArabic
                                       ? item['productarabicName']
                                       : item['productName'],
-                                  style: MyTextTheme.body.copyWith(
+                                  style: MyTextTheme.body(context).copyWith(
                                     fontSize: 16,
                                     fontWeight: FontWeight.w500,
                                   ),
@@ -114,7 +114,7 @@ class _WishListState extends State<WishList> {
                                   context.isArabic
                                       ? item['arabicDescription']
                                       : item['description'],
-                                  style: MyTextTheme.body.copyWith(
+                                  style: MyTextTheme.body(context).copyWith(
                                     color: Colors.grey[600],
                                     fontSize: 14,
                                   ),

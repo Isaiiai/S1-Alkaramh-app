@@ -3,7 +3,7 @@ import 'package:alkaramh/services/language_helper_function.dart';
 import 'package:flutter/material.dart';
 
 class Product {
-  final int id;
+  final String  id;
   final String categoryId;
   final String name;
   final String arabicName;
@@ -68,8 +68,8 @@ class Product {
 }
 
 class ProductVariant {
-  final int id;
-  final int productid;
+  final String id;
+  final String  productid;
   final String name;
   final double price;
   final double discountedPrice;
@@ -86,8 +86,8 @@ class ProductVariant {
 
   factory ProductVariant.fromJson(Map<String, dynamic> json) {
     return ProductVariant(
-      id: int.parse(json['id']?.toString() ?? '0'),
-      productid: int.parse(json['productid']?.toString() ?? '0'),
+      id: json['id'].toString(),
+      productid: json['productid'].toString(),
       name: json['name']?.toString() ?? '',
       price: double.parse(json['price']?.toString() ?? '0.0'),
       discountedPrice: double.parse(json['discounted_price']?.toString() ?? '0.0'),

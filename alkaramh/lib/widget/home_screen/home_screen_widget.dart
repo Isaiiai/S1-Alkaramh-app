@@ -1,12 +1,9 @@
-import 'dart:ffi';
-
 import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
-import 'package:alkaramh/screens/home_screen/product_details_screen.dart';
 import 'package:alkaramh/services/wish_list_services.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreenWidget {
+class HomeScreenWidget{
   buildOfferCart(int offer, String offerProductImage, context) {
     return Container(
       padding: EdgeInsets.all(16),
@@ -24,15 +21,14 @@ class HomeScreenWidget {
                   AppLocalizations.of(context)!
                       .translate('special_offer')
                       .replaceFirst('%s', offer.toString()),
-                  style: MyTextTheme.body.copyWith(
+                  style: MyTextTheme.body(context).copyWith(
                     fontSize: 22,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
-                    print("Offer Page Clicked");
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
@@ -50,7 +46,7 @@ class HomeScreenWidget {
                   ),
                   child: Text(
                     AppLocalizations.of(context)!.translate('shop_now'),
-                    style: MyTextTheme.body.copyWith(
+                    style: MyTextTheme.body(context).copyWith(
                         fontWeight: FontWeight.w300,
                         fontSize: 14,
                         color: Colors.white),
@@ -71,41 +67,53 @@ class HomeScreenWidget {
     );
   }
 
-  buildSelectByCatagoryCircle(String productImage, String title) {
+  buildSelectByCatagoryCircle(String productImage, String title , context) {
     return Container(
       height: 140,
       child: Column(
         children: [
           Container(
-            width: 80,
-            height: 80,
+            width: 70,
+            height: 70,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(50),
               border: Border.all(color: Colors.grey[300]!),
             ),
             child: Center(
-              child: Image.network(
-                productImage,
-                fit: BoxFit.fill,
-                errorBuilder: (context, error, stackTrace) {
-                  return Image.network(
+              child: ClipOval(
+
+                child: Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(50),
+                    border: Border.all(color: Colors.grey[300]!),
+                  ),
+                  child: Image.network(
                     productImage,
                     fit: BoxFit.cover,
-                  );
-                },
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) return child;
-                  return Center(
-                    child: CircularProgressIndicator(
-                      value: loadingProgress.expectedTotalBytes != null
-                          ? loadingProgress.cumulativeBytesLoaded /
-                              loadingProgress.expectedTotalBytes!
-                          : null,
-                      strokeWidth: 2.0,
-                    ),
-                  );
-                },
+                    errorBuilder: (context, error, stackTrace) {
+                      return Image.network(
+                        productImage,
+                        fit: BoxFit.cover,
+                      );
+                    },
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) return child;
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                          strokeWidth: 2.0,
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
             ),
           ),
@@ -115,7 +123,7 @@ class HomeScreenWidget {
               width: 80, // Match width with image container
               child: Text(
                 title,
-                style: MyTextTheme.headline.copyWith(
+                style: MyTextTheme.headline(context).copyWith(
                   fontSize: 16,
                   fontWeight: FontWeight.w400,
                 ),
@@ -283,7 +291,7 @@ class HomeScreenWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 4.0),
                     child: Text(
                       productName,
-                      style: MyTextTheme.body.copyWith(
+                      style: MyTextTheme.body(context).copyWith(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                         color: Colors.grey[800],

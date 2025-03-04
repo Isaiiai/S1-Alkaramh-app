@@ -14,12 +14,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
     on<UpdateQuantityEvent>(_onUpdateQuantity);
     on<ClearCartEvent>(_onClearCart);
   }
-
   Future<void> _onFetchCartItems(
       FetchCartItems event, Emitter<CartState> emit) async {
+    print("Cart Initial State is Called ");
     emit(CartLoading());
     try {
       final items = await _cartServices.getCartItems();
+      print("Cart Loaded State ");
       emit(CartLoaded(cartItems: items));
     } catch (e) {
       emit(CartError(message: e.toString()));
@@ -62,7 +63,7 @@ class CartBloc extends Bloc<CartEvent, CartState> {
 
   Future<void> _onUpdateQuantity(
       UpdateQuantityEvent event, Emitter<CartState> emit) async {
-    
+    emit(CartItemIncreasLoadingState());
     try {
       await _cartServices.updateQuantity(event.itemId, event.quantity);
       final items = await _cartServices.getCartItems();
