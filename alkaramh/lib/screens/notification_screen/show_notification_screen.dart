@@ -62,6 +62,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     // Bell Icon with glow
+                    const SizedBox(height: 80),
                     Stack(
                       alignment: Alignment.center,
                       children: [
@@ -121,51 +122,6 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                     const SizedBox(height: 40),
 
-                    // Enable Button
-                    SizedBox(
-                      width: 186,
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          ErrorDialogbox().showErrorDialog(
-                              context, "This is Under Implementation");
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.grey,
-                          foregroundColor: Colors.grey,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                        ),
-                        child: Text(
-                          isNotification
-                              ? AppLocalizations.of(context)!
-                                  .translate('disable_notification')
-                              : AppLocalizations.of(context)!
-                                  .translate('enable_notification'),
-                          style: MyTextTheme.body(context).copyWith(
-                            fontSize: 16,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 10),
-
-                    TextButton(
-                      onPressed: () {},
-                      child: Text(
-                        AppLocalizations.of(context)!
-                            .translate('remaind_me_later'),
-                        style: MyTextTheme.body(context).copyWith(
-                          color: Colors.grey,
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               ],
