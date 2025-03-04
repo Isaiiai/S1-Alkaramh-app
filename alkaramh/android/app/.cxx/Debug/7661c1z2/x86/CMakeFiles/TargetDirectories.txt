@@ -1,0 +1,2 @@
+/home/afsar/Documents/GitHub/S1-Alkaramh-app/alkaramh/android/app/.cxx/Debug/7661c1z2/x86/CMakeFiles/edit_cache.dir
+/home/afsar/Documents/GitHub/S1-Alkaramh-app/alkaramh/android/app/.cxx/Debug/7661c1z2/x86/CMakeFiles/rebuild_cache.dir
