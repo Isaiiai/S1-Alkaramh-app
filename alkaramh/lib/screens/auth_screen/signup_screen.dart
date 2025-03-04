@@ -11,17 +11,39 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    UserAuthBloc _userAuthBloc = UserAuthBloc();
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
-    TextEditingController confirmPasswordController = TextEditingController();
-    TextEditingController nameController = TextEditingController();
+  _SignUpScreenState createState() => _SignUpScreenState();
+}
 
+class _SignUpScreenState extends State<SignUpScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmPasswordController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  late UserAuthBloc _userAuthBloc;
+  bool _obscurePassword = true;
+  bool _obscureConfirmPassword = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _userAuthBloc = UserAuthBloc();
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    nameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
         child: BlocConsumer<UserAuthBloc, UserAuthState>(
@@ -34,8 +56,8 @@ class SignUpScreen extends StatelessWidget {
                     state is UserRegisterFailure
                         ? state.message
                         : state is GoogleSignInFailure
-                            ? state.message
-                            : "An error occurred",
+                        ? state.message
+                        : "An error occurred",
                   ),
                 ),
               );
@@ -64,20 +86,17 @@ class SignUpScreen extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                        color: Colors.green
-                            .withOpacity(0.1), // Light green background color
-                        borderRadius:
-                            BorderRadius.circular(20), // Rounded corners
+                        color: Colors.green.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(20),
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                         child: IconButton(
                           icon: const Icon(
                             Icons.arrow_back,
-                            color: Colors.green, // Green arrow color
+                            color: Colors.green,
                           ),
                           onPressed: () {
-                            // Handle back navigation
                             Navigator.pop(context);
                           },
                         ),
@@ -85,8 +104,7 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 20),
                     Text(
-                      AppLocalizations.of(context)!
-                          .translate('create_new_account'),
+                      AppLocalizations.of(context)!.translate('create_new_account'),
                       style: MyTextTheme.headline(context).copyWith(
                         fontSize: 36,
                         fontWeight: FontWeight.w600,
@@ -96,8 +114,7 @@ class SignUpScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          AppLocalizations.of(context)!
-                              .translate('signup_to_shopping'),
+                          AppLocalizations.of(context)!.translate('signup_to_shopping'),
                           style: MyTextTheme.normal(context).copyWith(
                             fontSize: 18,
                           ),
@@ -114,8 +131,7 @@ class SignUpScreen extends StatelessWidget {
                     TextField(
                       controller: nameController,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!
-                            .translate('enter_name'),
+                        hintText: AppLocalizations.of(context)!.translate('enter_name'),
                         hintStyle: MyTextTheme.normal(context).copyWith(
                           color: Colors.grey,
                           fontSize: 18,
@@ -129,8 +145,7 @@ class SignUpScreen extends StatelessWidget {
                     TextField(
                       controller: emailController,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!
-                            .translate('enter_email'),
+                        hintText: AppLocalizations.of(context)!.translate('enter_email'),
                         hintStyle: MyTextTheme.normal(context).copyWith(
                           color: Colors.grey,
                           fontSize: 18,
@@ -142,11 +157,10 @@ class SignUpScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 18),
                     TextField(
-                      obscureText: true,
+                      obscureText: _obscurePassword,
                       controller: passwordController,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!
-                            .translate('enter_password'),
+                        hintText: AppLocalizations.of(context)!.translate('enter_password'),
                         hintStyle: MyTextTheme.normal(context).copyWith(
                           color: Colors.grey,
                           fontSize: 18,
@@ -154,27 +168,24 @@ class SignUpScreen extends StatelessWidget {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: SizedBox(
-                            width: 18.0,
-                            height: 18.0,
-                            child: SvgPicture.asset(
-                              lockSvgIcon,
-                              width: 18,
-                              height: 18,
-                            ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscurePassword ? Icons.visibility : Icons.visibility_off,
                           ),
+                          onPressed: () {
+                            setState(() {
+                              _obscurePassword = !_obscurePassword;
+                            });
+                          },
                         ),
                       ),
                     ),
                     const SizedBox(height: 18),
                     TextField(
-                      obscureText: true,
+                      obscureText: _obscureConfirmPassword,
                       controller: confirmPasswordController,
                       decoration: InputDecoration(
-                        hintText: AppLocalizations.of(context)!
-                            .translate('confirm_password'),
+                        hintText: AppLocalizations.of(context)!.translate('confirm_password'),
                         hintStyle: MyTextTheme.normal(context).copyWith(
                           color: Colors.grey,
                           fontSize: 18,
@@ -182,23 +193,19 @@ class SignUpScreen extends StatelessWidget {
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
                         ),
-                        suffixIcon: Padding(
-                          padding: const EdgeInsets.all(16.0),
-                          child: SizedBox(
-                            width: 18.0,
-                            height: 18.0,
-                            child: SvgPicture.asset(
-                              lockSvgIcon,
-                              width: 18,
-                              height: 18,
-                            ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscureConfirmPassword ? Icons.visibility : Icons.visibility_off,
                           ),
+                          onPressed: () {
+                            setState(() {
+                              _obscureConfirmPassword = !_obscureConfirmPassword;
+                            });
+                          },
                         ),
                       ),
                     ),
                     const SizedBox(height: 40),
-
-
                     ElevatedButton(
                       onPressed: () {
                         if (passwordController.text.length < 6) {
@@ -216,8 +223,7 @@ class SignUpScreen extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
                               content: Text(
-                                AppLocalizations.of(context)!
-                                    .translate('password_does_not_match'),
+                                AppLocalizations.of(context)!.translate('password_does_not_match'),
                               ),
                             ),
                           );
@@ -228,20 +234,18 @@ class SignUpScreen extends StatelessWidget {
                             emailController.text.isEmpty) {
                           ErrorDialogbox().showErrorDialog(
                               context,
-                              AppLocalizations.of(context)!
-                                  .translate('fill_all_fields'));
+                              AppLocalizations.of(context)!.translate('fill_all_fields'));
                           return;
                         }
 
                         final emailRegex =
-                            RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+                        RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
 
                         if (!emailRegex.hasMatch(emailController.text.trim())) {
                           print('Invalid email${emailController}');
                           ErrorDialogbox().showErrorDialog(
                               context,
-                              AppLocalizations.of(context)!
-                                  .translate('invalid_email'));
+                              AppLocalizations.of(context)!.translate('invalid_email'));
                           return;
                         }
                         _userAuthBloc.add(
@@ -292,12 +296,11 @@ class SignUpScreen extends StatelessWidget {
                         _userAuthBloc.add(SignupGoogleEvent());
                       },
                       icon: Image.asset(
-                        googleSignInImage, // Replace with your asset path
+                        googleSignInImage,
                         height: 24,
                       ),
                       label: Text(
-                        AppLocalizations.of(context)!
-                            .translate('continue_with_google'),
+                        AppLocalizations.of(context)!.translate('continue_with_google'),
                         style: MyTextTheme.normal(context).copyWith(
                           color: Colors.black,
                           fontSize: 18,
@@ -320,12 +323,11 @@ class SignUpScreen extends StatelessWidget {
                         _userAuthBloc.add(SignupAppleEvent());
                       },
                       icon: Image.asset(
-                        appleSignInImage, // Replace with your asset path
+                        appleSignInImage,
                         height: 24,
                       ),
                       label: Text(
-                        AppLocalizations.of(context)!
-                            .translate('continue_with_apple'),
+                        AppLocalizations.of(context)!.translate('continue_with_apple'),
                         style: MyTextTheme.normal(context).copyWith(
                           color: Colors.black,
                           fontSize: 18,
