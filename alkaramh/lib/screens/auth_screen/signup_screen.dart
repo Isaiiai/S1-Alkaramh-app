@@ -2,14 +2,11 @@ import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/bloc/user_auth/user_auth_bloc.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/constants/image_deceleration.dart';
-import 'package:alkaramh/screens/auth_screen/forgot_password_screen.dart';
 import 'package:alkaramh/screens/bottom_navigation/bottom_navigation.dart';
-import 'package:alkaramh/services/google_services.dart';
 import 'package:alkaramh/widget/snakbar_all/snakbar_all.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});

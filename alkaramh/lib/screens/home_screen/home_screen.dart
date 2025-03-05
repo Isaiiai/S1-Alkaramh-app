@@ -78,7 +78,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   List<Product> _getFilteredProducts(List<Product> products) {
     if (_searchQuery.isEmpty) {
-      return products;
+      return [];
     }
     return products
         .where((product) =>
@@ -144,14 +144,21 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: filteredProducts.isEmpty
                     ? Center(
                         child: Text(AppLocalizations.of(context)!
-                            .translate('no_products_found')))
+                            .translate('search_to_show_results')))
                     : ListView.builder(
                         itemCount: filteredProducts.length,
                         itemBuilder: (context, index) {
                           final product = filteredProducts[index];
                           return ListTile(
-                            leading: Image.network(
-                                product.imageUrl ?? brownweetImage),
+                            leading: ClipOval(
+
+                              child: SizedBox(
+                                height: 40,
+                                width: 40,
+                                child: Image.network(
+                                    product.imageUrl!),
+                              ),
+                            ),
                             title: Text(product.name),
                             onTap: () {
                               Navigator.push(
@@ -355,7 +362,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ProductDetailsScreen(
                                         productId: product.id.toString(),
                                       ),
-                                    ),
+                                      ),
                                   );
                                 },
                               );
@@ -378,7 +385,7 @@ class _HomeScreenState extends State<HomeScreen> {
             left: 8,
             right: 8,
             child: Container(
-              color: Colors.white,
+
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
                 children: [

@@ -3,13 +3,10 @@ import 'package:alkaramh/bloc/cart/cart_bloc.dart';
 import 'package:alkaramh/bloc/order/order_bloc.dart';
 import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
-import 'package:alkaramh/constants/image_deceleration.dart';
 import 'package:alkaramh/models/order_model.dart';
 import 'package:alkaramh/screens/address_get_screen/payment_methord.dart';
-import 'package:alkaramh/screens/splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddressGetScreen extends StatefulWidget {
