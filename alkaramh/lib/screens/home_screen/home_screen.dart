@@ -378,7 +378,7 @@ class _HomeScreenState extends State<HomeScreen> {
             left: 8,
             right: 8,
             child: Container(
-              color: Colors.white,
+
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Row(
                 children: [

@@ -36,8 +36,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
     productFetchBloc.add(ProductDetailsFetchEvent(productId: widget.productId));
-    productVarientBloc
-        .add(ProductVariantFetchEvent(productId: widget.productId));
+    productVarientBloc.add(ProductVariantFetchEvent(productId: widget.productId));
   }
 
   Widget _buildVariantSelector(List<ProductVariant> variants) {
@@ -71,8 +70,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   selectedColor: Colors.green.shade100,
                   labelStyle: MyTextTheme.body(context).copyWith(
                     color: isSelected ? Colors.green.shade900 : Colors.black,
-                    fontWeight:
-                        isSelected ? FontWeight.bold : FontWeight.normal,
+                    fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                   ),
                 ),
               );
@@ -172,12 +170,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                     ],
                                   ),
                                   child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Text(
                                             context.isArabic
@@ -188,12 +184,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
+                                          if (selectedVariant != null)
+                                            Text(
+                                              "QAR ${selectedVariant!.price}",
+                                              style: MyTextTheme.body(context).copyWith(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.green,
+                                              ),
+                                            ),
                                         ],
                                       ),
                                       const SizedBox(height: 16),
                                       if (state.productVarient.isNotEmpty)
-                                        _buildVariantSelector(
-                                            state.productVarient),
+                                        _buildVariantSelector(state.productVarient),
                                       const SizedBox(height: 16),
                                       Text(
                                         context.isArabic
@@ -285,8 +289,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   arabicDiscription: product.arabicDescription,
                                   variantId: selectedVariant!.id.toString(),
                                   variantName: selectedVariant!.name,
-                                  variantPrice:
-                                      selectedVariant!.price.toString(),
+                                  variantPrice: selectedVariant!.price.toString(),
                                   quantity: "1",
                                   productImageUrl: product.imageUrl ?? '',
                                 ));
@@ -294,14 +297,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  side:
-                                      BorderSide(color: AppColors.primaryColor),
+                                  side: BorderSide(color: AppColors.primaryColor),
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
                               child: Text(
-                                AppLocalizations.of(context)!
-                                    .translate('add_to_cart'),
+                                AppLocalizations.of(context)!.translate('add_to_cart'),
                                 style: MyTextTheme.body(context)
                                     .copyWith(color: AppColors.primaryColor),
                               ),
@@ -315,32 +316,28 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           onPressed: selectedVariant == null
                               ? null
                               : () {
-                                  final orderProduct = {
-                                    'productName': product.name,
-                                    'productarabicName': product.arabicName,
-                                    'productImageUrl': product.imageUrl,
-                                    'categoryId': product.categoryId,
-                                    'description': product.description,
-                                    'arabicDescription':
-                                        product.arabicDescription,
-                                    'variantId': selectedVariant!.id.toString(),
-                                    'variantName': selectedVariant!.name,
-                                    'variantPrice':
-                                        selectedVariant!.price.toString(),
-                                    'quantity': "1",
-                                  };
-                                  orderBloc.selectedProducts = [orderProduct];
-                                  orderBloc.totalAmount =
-                                      selectedVariant!.price.toString();
+                            final orderProduct = {
+                              'productName': product.name,
+                              'productarabicName': product.arabicName,
+                              'productImageUrl': product.imageUrl,
+                              'categoryId': product.categoryId,
+                              'description': product.description,
+                              'arabicDescription': product.arabicDescription,
+                              'variantId': selectedVariant!.id.toString(),
+                              'variantName': selectedVariant!.name,
+                              'variantPrice': selectedVariant!.price.toString(),
+                              'quantity': "1",
+                            };
+                            orderBloc.selectedProducts = [orderProduct];
+                            orderBloc.totalAmount = selectedVariant!.price.toString();
 
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          const AddressGetScreen(),
-                                    ),
-                                  );
-                                },
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const AddressGetScreen(),
+                              ),
+                            );
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primaryColor,
                             disabledBackgroundColor: Colors.grey,
@@ -350,8 +347,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                           ),
                           child: Text(
                             AppLocalizations.of(context)!.translate('buy_now'),
-                            style:
-                                MyTextTheme.body(context).copyWith(color: Colors.white),
+                            style: MyTextTheme.body(context).copyWith(color: Colors.white),
                           ),
                         ),
                       ),
