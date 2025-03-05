@@ -1,9 +1,9 @@
 import 'package:alkaramh/app_localizations.dart';
 import 'package:alkaramh/bloc/cart/cart_bloc.dart';
 import 'package:alkaramh/bloc/order/order_bloc.dart';
-import 'package:alkaramh/config/color/colors_file.dart';
 import 'package:alkaramh/config/text/my_text_theme.dart';
 import 'package:alkaramh/models/order_model.dart';
+import 'package:alkaramh/screens/address_get_screen/order_success_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +28,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
   @override
   Widget build(BuildContext context) {
     final orderBloc = context.read<OrderBloc>();
-    final double totalWithDelivery = double.parse(widget.totalAmount);
+    final double totalWithDelivery = double.parse(widget.totalAmount) + 50;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -119,7 +119,7 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
                   ),
                   const SizedBox(height: 10),
                   buildPriceRow('Basket Total', widget.totalAmount),
-                  buildPriceRow('Delivery Fee', 'Free Delivery'),
+                  buildPriceRow('Delivery Fee', '50'),
                   const Divider(),
                   buildPriceRow('Total amount', totalWithDelivery.toString(),
                       isBold: true),
@@ -132,12 +132,10 @@ class _PaymentMethodScreenState extends State<PaymentMethodScreen> {
               child: BlocConsumer<OrderBloc, OrderState>(
                 listener: (context, state) {
                   if (state is OrderSuccessState) {
-                    Navigator.of(context).popUntil((route) => route.isFirst);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(AppLocalizations.of(context)!
-                            .translate('order_placed_successfully')),
-                        backgroundColor: Colors.green,
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => OrderSuccessScreen(),
                       ),
                     );
                   }

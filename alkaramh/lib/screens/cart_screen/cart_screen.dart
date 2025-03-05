@@ -20,7 +20,7 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   Map<int, bool> selectedItems = {};
   List<Map<String, dynamic>> selectedCartItem = [];
-  double totalAmount = 0;
+  double totalAmount = 50;
   final CartBloc _cartbloc = CartBloc();
   bool isCartEmpty = false;
 
@@ -155,11 +155,35 @@ class _CartScreenState extends State<CartScreen> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(
-                                        context.isArabic ? item['productarabicName'] : item['productName'],
-                                          style: MyTextTheme.body(context)
-                                              .copyWith(
-                                                  fontWeight: FontWeight.w500),
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            SizedBox(
+                                              width: 140,
+                                              child: Text(
+                                                context.isArabic
+                                                    ? item['productarabicName']
+                                                    : item['productName'],
+                                                style: MyTextTheme.body(context)
+                                                    .copyWith(
+                                                        fontSize: 18,
+                                                        fontWeight:
+                                                            FontWeight.w700),
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            IconButton(
+                                              icon: const Icon(
+                                                  Icons.delete_outline,
+                                                  color: Colors.red),
+                                              onPressed: () {
+                                                _cartbloc.add(
+                                                    RemoveFromCartEvent(
+                                                        itemId: item['id']));
+                                              },
+                                            ),
+                                          ],
                                         ),
                                         Text(
                                           item['variantName'],
@@ -174,7 +198,7 @@ class _CartScreenState extends State<CartScreen> {
                                           children: [
                                             // Product Price
                                             Text(
-                                              '${AppLocalizations.of(context)!.translate('qar')} ${item['variantPrice']}',
+                                              '${AppLocalizations.of(context)!.translate('qar')} ${(double.parse(item['variantPrice']) * int.parse(item['quantity'])).toStringAsFixed(2)}',
                                               style: MyTextTheme.body(context)
                                                   .copyWith(
                                                 fontWeight: FontWeight.w600,
@@ -265,6 +289,22 @@ class _CartScreenState extends State<CartScreen> {
               child: ElevatedButton(
                 onPressed: totalAmount > 0
                     ? () async {
+                        if (totalAmount == 50) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              backgroundColor: Colors.green,
+                              content: Text(
+                                context.isArabic
+                                    ? 'الرجاء تحديد العناصر للخروج'
+                                    : 'Please select Items to checkout',
+                                style: MyTextTheme.body(context).copyWith(
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ),
+                          );
+                          return;
+                        }
                         final orderBloc = context.read<OrderBloc>();
                         for (int index = 0;
                             index <= selectedItems.length;
